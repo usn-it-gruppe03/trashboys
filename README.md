@@ -1,4 +1,5 @@
-# trashboys
-Web application - Renovation service for the municipality of Bø. 
+# MyTrash
+**Web application for the public renovation service in the municipality of Bø, Norway.**
 
-Project description: 
+## Project description
+Information coming.
