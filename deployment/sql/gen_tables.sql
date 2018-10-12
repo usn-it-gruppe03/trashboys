@@ -7,7 +7,7 @@ USE soppel3;
 DROP TABLE IF EXISTS route;
 CREATE TABLE route (
     
-    route_id            TINYINT         UNSIGNED NOT NULL AUTO_INCREMENT,
+    routeID            TINYINT         UNSIGNED NOT NULL AUTO_INCREMENT,
     weekday             VARCHAR(10)     NOT NULL,
     dayname             VARCHAR(10),
     
@@ -22,10 +22,10 @@ DROP TABLE IF EXISTS street;
 CREATE TABLE street (
     
     name                VARCHAR(60)     NOT NULL,
-    route_id            TINYINT         UNSIGNED NOT NULL,
+    routeID            TINYINT         UNSIGNED NOT NULL,
     
     CONSTRAINT street_PK PRIMARY KEY (name),
-    CONSTRAINT street_route_id_FK FOREIGN KEY (route_id)
+    CONSTRAINT street_routeID_FK FOREIGN KEY (routeID)
         REFERENCES route (id)
     
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -48,13 +48,13 @@ DROP TABLE IF EXISTS collection;
 CREATE TABLE collection (
     
     category            VARCHAR(60),
-    route_id            TINYINT         UNSIGNED NOT NULL,
+    routeID            TINYINT         UNSIGNED NOT NULL,
     collection_date     DATE            DEFAULT '2018-10-11',
     
-    CONSTRAINT collection_PK PRIMARY KEY (category , route_id , collection_date),
+    CONSTRAINT collection_PK PRIMARY KEY (category , routeID , collection_date),
     CONSTRAINT collection_waste_category_FK FOREIGN KEY (category)
         REFERENCES waste (category),
-    CONSTRAINT collection_route_id_FK FOREIGN KEY (route_id)
+    CONSTRAINT collection_routeID_FK FOREIGN KEY (routeID)
         REFERENCES route (id)
     
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -68,7 +68,7 @@ CREATE TABLE collection (
 DROP TABLE IF EXISTS user_type;
 CREATE TABLE user_type (
     
-    user_type_id        TINYINT(1)      NOT NULL CHECK (id IN (0 , 1)),
+    typeID        TINYINT(1)      NOT NULL CHECK (id IN (0 , 1)),
     description         VARCHAR(10)     NOT NULL,
     
     CONSTRAINT user_type_PK PRIMARY KEY (id)
@@ -90,7 +90,7 @@ CREATE TABLE person (
     u_type              TINYINT(1)      NOT NULL DEFAULT 0,
     
     CONSTRAINT person_PK PRIMARY KEY (u_email),
-    CONSTRAINT person_user_type_id_FK FOREIGN KEY (u_type)
+    CONSTRAINT person_typeID_FK FOREIGN KEY (u_type)
         REFERENCES user_type (id)
     
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -101,7 +101,7 @@ CREATE TABLE person (
 DROP TABLE IF EXISTS product;
 CREATE TABLE product (
     
-    product_id          TINYINT(1)      NOT NULL AUTO_INCREMENT,
+    productID          TINYINT(1)      NOT NULL AUTO_INCREMENT,
     description         VARCHAR(30)     NOT NULL,
     price               DECIMAL(8,2)    NOT NULL,
     
@@ -115,7 +115,7 @@ CREATE TABLE product (
 DROP TABLE IF EXISTS supply;
 CREATE TABLE supply (
     
-    supply_id           SMALLINT        NOT NULL AUTO_INCREMENT,
+    supplyID           SMALLINT        NOT NULL AUTO_INCREMENT,
     order_date          TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
     customer            VARCHAR(60),
     
@@ -133,15 +133,15 @@ CREATE TABLE supply (
 DROP TABLE IF EXISTS order_line;
 CREATE TABLE order_line (
     
-    supply_id           SMALLINT        NOT NULL,
-    product_id          TINYINT(1)      NOT NULL,
+    supplyID           SMALLINT        NOT NULL,
+    productID          TINYINT(1)      NOT NULL,
     quantity            TINYINT(2)      NOT NULL,
     price               DECIMAL(8,2),
     
-    CONSTRAINT order_line_PK PRIMARY KEY (supply_id , product_id),
-    CONSTRAINT order_line_product_id_FK FOREIGN KEY (product_id)
+    CONSTRAINT order_line_PK PRIMARY KEY (supplyID , productID),
+    CONSTRAINT order_line_productID_FK FOREIGN KEY (productID)
         REFERENCES product (id),
-    CONSTRAINT order_line_supply_id_FK FOREIGN KEY (supply_id)
+    CONSTRAINT order_line_supplyID_FK FOREIGN KEY (supplyID)
         REFERENCES supply (id)
     
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -152,12 +152,12 @@ CREATE TABLE order_line (
 DROP TABLE IF EXISTS price_log;
 CREATE TABLE price_log (
     
-    product_id          TINYINT(1)      NOT NULL,
+    productID          TINYINT(1)      NOT NULL,
     updated             TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
     price               DECIMAL(8,2),
     
-    CONSTRAINT price_log_PK PRIMARY KEY (product_id , updated),
-    CONSTRAINT price_log_product_id_FK FOREIGN KEY (product_id)
+    CONSTRAINT price_log_PK PRIMARY KEY (productID , updated),
+    CONSTRAINT price_log_productID_FK FOREIGN KEY (productID)
         REFERENCES product (id)
     
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
