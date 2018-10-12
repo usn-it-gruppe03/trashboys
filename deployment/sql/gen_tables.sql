@@ -7,7 +7,7 @@ USE soppel3;
 DROP TABLE IF EXISTS route;
 CREATE TABLE route (
     
-    id                  TINYINT         UNSIGNED NOT NULL AUTO_INCREMENT,
+    route_id            TINYINT         UNSIGNED NOT NULL AUTO_INCREMENT,
     weekday             VARCHAR(10)     NOT NULL,
     dayname             VARCHAR(10),
     
@@ -68,7 +68,7 @@ CREATE TABLE collection (
 DROP TABLE IF EXISTS user_type;
 CREATE TABLE user_type (
     
-    id                  TINYINT(1)      NOT NULL CHECK (id IN (0 , 1)),
+    user_type_id        TINYINT(1)      NOT NULL CHECK (id IN (0 , 1)),
     description         VARCHAR(10)     NOT NULL,
     
     CONSTRAINT user_type_PK PRIMARY KEY (id)
@@ -101,7 +101,7 @@ CREATE TABLE person (
 DROP TABLE IF EXISTS product;
 CREATE TABLE product (
     
-    id                  TINYINT(1)      NOT NULL AUTO_INCREMENT,
+    product_id          TINYINT(1)      NOT NULL AUTO_INCREMENT,
     description         VARCHAR(30)     NOT NULL,
     price               DECIMAL(8,2)    NOT NULL,
     
@@ -115,7 +115,7 @@ CREATE TABLE product (
 DROP TABLE IF EXISTS supply;
 CREATE TABLE supply (
     
-    id                  SMALLINT        NOT NULL AUTO_INCREMENT,
+    supply_id           SMALLINT        NOT NULL AUTO_INCREMENT,
     order_date          TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
     customer            VARCHAR(60),
     
