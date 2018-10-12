@@ -17,6 +17,6 @@ CREATE EVENT update_collection_time
 			AND C.routeID = R.routeID;
 		
 	    
-	END
+	END::
 
 DELIMITER ;
