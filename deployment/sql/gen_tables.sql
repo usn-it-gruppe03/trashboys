@@ -7,7 +7,7 @@ USE soppel3;
 DROP TABLE IF EXISTS route;
 CREATE TABLE route (
     
-    routeID            TINYINT         UNSIGNED NOT NULL AUTO_INCREMENT,
+    routeID             TINYINT         UNSIGNED NOT NULL AUTO_INCREMENT,
     weekday             VARCHAR(10)     NOT NULL,
     dayname             VARCHAR(10),
     
@@ -22,7 +22,7 @@ DROP TABLE IF EXISTS street;
 CREATE TABLE street (
     
     name                VARCHAR(60)     NOT NULL,
-    routeID            TINYINT         UNSIGNED NOT NULL,
+    routeID             TINYINT         UNSIGNED NOT NULL,
     
     CONSTRAINT street_PK PRIMARY KEY (name),
     CONSTRAINT street_routeID_FK FOREIGN KEY (routeID)
@@ -48,7 +48,7 @@ DROP TABLE IF EXISTS collection;
 CREATE TABLE collection (
     
     category            VARCHAR(60),
-    routeID            TINYINT         UNSIGNED NOT NULL,
+    routeID             TINYINT         UNSIGNED NOT NULL,
     collection_date     DATE            DEFAULT '2018-10-11',
     
     CONSTRAINT collection_PK PRIMARY KEY (category , routeID , collection_date),
@@ -68,7 +68,7 @@ CREATE TABLE collection (
 DROP TABLE IF EXISTS user_type;
 CREATE TABLE user_type (
     
-    typeID        TINYINT(1)      NOT NULL CHECK (id IN (0 , 1)),
+    typeID              TINYINT(1)      NOT NULL CHECK (id IN (0 , 1)),
     description         VARCHAR(10)     NOT NULL,
     
     CONSTRAINT user_type_PK PRIMARY KEY (id)
@@ -101,7 +101,7 @@ CREATE TABLE person (
 DROP TABLE IF EXISTS product;
 CREATE TABLE product (
     
-    productID          TINYINT(1)      NOT NULL AUTO_INCREMENT,
+    productID           TINYINT(1)      NOT NULL AUTO_INCREMENT,
     description         VARCHAR(30)     NOT NULL,
     price               DECIMAL(8,2)    NOT NULL,
     
@@ -115,7 +115,7 @@ CREATE TABLE product (
 DROP TABLE IF EXISTS supply;
 CREATE TABLE supply (
     
-    supplyID           SMALLINT        NOT NULL AUTO_INCREMENT,
+    supplyID            SMALLINT        NOT NULL AUTO_INCREMENT,
     order_date          TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
     customer            VARCHAR(60),
     
@@ -133,8 +133,8 @@ CREATE TABLE supply (
 DROP TABLE IF EXISTS order_line;
 CREATE TABLE order_line (
     
-    supplyID           SMALLINT        NOT NULL,
-    productID          TINYINT(1)      NOT NULL,
+    supplyID            SMALLINT        NOT NULL,
+    productID           TINYINT(1)      NOT NULL,
     quantity            TINYINT(2)      NOT NULL,
     price               DECIMAL(8,2),
     
@@ -152,7 +152,7 @@ CREATE TABLE order_line (
 DROP TABLE IF EXISTS price_log;
 CREATE TABLE price_log (
     
-    productID          TINYINT(1)      NOT NULL,
+    productID           TINYINT(1)      NOT NULL,
     updated             TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
     price               DECIMAL(8,2),
     
