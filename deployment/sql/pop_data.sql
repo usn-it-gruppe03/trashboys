@@ -1,4 +1,4 @@
-USE søppel03;
+USE soppel3;
 
 INSERT INTO route (routeID, weekday, dayname) VALUES
 (1, 'Mandag', 'MONDAY'),
