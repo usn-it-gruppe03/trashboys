@@ -11,7 +11,7 @@ DROP TABLE IF EXISTS route;
 CREATE TABLE route (
     routeID TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
     weekday VARCHAR(10) NOT NULL,
-    dayname VARCHAR(10),
+    dayname VARCHAR(10) NOT NULL,
     PRIMARY KEY (routeID)
 );
 
