@@ -91,32 +91,32 @@ INSERT INTO waste (category) VALUES
 -- ************************************************************
 
 
-INSERT INTO collection (category, routeID) VALUES
-('Våtorganisk avfall', 1),
-('Våtorganisk avfall', 2),
-('Våtorganisk avfall', 3),
-('Våtorganisk avfall', 4),
-('Våtorganisk avfall', 5),
-('Restavfall', 1),
-('Restavfall', 2),
-('Restavfall', 3),
-('Restavfall', 4),
-('Restavfall', 5),
-('Papp/Papir/Drikkekartong', 1),
-('Papp/Papir/Drikkekartong', 2),
-('Papp/Papir/Drikkekartong', 3),
-('Papp/Papir/Drikkekartong', 4),
-('Papp/Papir/Drikkekartong', 5),
-('Plastemballasje', 1),
-('Plastemballasje', 2),
-('Plastemballasje', 3),
-('Plastemballasje', 4),
-('Plastemballasje', 5),
-('Farlig avfall og små elektronikk', 1),
-('Farlig avfall og små elektronikk', 2),
-('Farlig avfall og små elektronikk', 3),
-('Farlig avfall og små elektronikk', 4),
-('Farlig avfall og små elektronikk', 5);
+INSERT INTO collection (category, routeID, collection_date) VALUES
+('Våtorganisk avfall', 1, '2018.10.15'),
+('Våtorganisk avfall', 2, '2018.10.16'),
+('Våtorganisk avfall', 3, '2018.10.17'),
+('Våtorganisk avfall', 4, '2018.10.18'),
+('Våtorganisk avfall', 5, '2018.10.19'),
+('Restavfall', 1, '2018.10.15'),
+('Restavfall', 2, '2018.10.16'),
+('Restavfall', 3, '2018.10.17'),
+('Restavfall', 4, '2018.10.18'),
+('Restavfall', 5, '2018.10.19'),
+('Papp/Papir/Drikkekartong', 1, '2018.10.15'),
+('Papp/Papir/Drikkekartong', 2, '2018.10.16'),
+('Papp/Papir/Drikkekartong', 3, '2018.10.17'),
+('Papp/Papir/Drikkekartong', 4, '2018.10.18'),
+('Papp/Papir/Drikkekartong', 5, '2018.10.19'),
+('Plastemballasje', 1, '2018.10.15'),
+('Plastemballasje', 2, '2018.10.16'),
+('Plastemballasje', 3, '2018.10.17'),
+('Plastemballasje', 4, '2018.10.18'),
+('Plastemballasje', 5, '2018.10.19'),
+('Farlig avfall og små elektronikk', 1, '2018.10.15'),
+('Farlig avfall og små elektronikk', 2, '2018.10.16'),
+('Farlig avfall og små elektronikk', 3, '2018.10.17'),
+('Farlig avfall og små elektronikk', 4, '2018.10.18'),
+('Farlig avfall og små elektronikk', 5, '2018.10.19');
 
 -- ************************************************************
 
