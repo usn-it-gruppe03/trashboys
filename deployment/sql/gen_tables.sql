@@ -11,7 +11,7 @@ CREATE TABLE route (
     weekday             VARCHAR(10)     NOT NULL,
     dayname             VARCHAR(10),
     
-    CONSTRAINT route_PK PRIMARY KEY (id)
+    CONSTRAINT route_PK PRIMARY KEY (routeID)
     
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -26,7 +26,7 @@ CREATE TABLE street (
     
     CONSTRAINT street_PK PRIMARY KEY (name),
     CONSTRAINT street_routeID_FK FOREIGN KEY (routeID)
-        REFERENCES route (id)
+        REFERENCES route (routeID)
     
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -55,7 +55,7 @@ CREATE TABLE collection (
     CONSTRAINT collection_waste_category_FK FOREIGN KEY (category)
         REFERENCES waste (category),
     CONSTRAINT collection_routeID_FK FOREIGN KEY (routeID)
-        REFERENCES route (id)
+        REFERENCES route (routeID)
     
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -71,7 +71,7 @@ CREATE TABLE user_type (
     typeID              TINYINT(1)      NOT NULL CHECK (id IN (0 , 1)),
     description         VARCHAR(10)     NOT NULL,
     
-    CONSTRAINT user_type_PK PRIMARY KEY (id)
+    CONSTRAINT user_type_PK PRIMARY KEY (typeID)
     
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -91,7 +91,7 @@ CREATE TABLE person (
     
     CONSTRAINT person_PK PRIMARY KEY (u_email),
     CONSTRAINT person_typeID_FK FOREIGN KEY (u_type)
-        REFERENCES user_type (id)
+        REFERENCES user_type (typeID)
     
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -105,7 +105,7 @@ CREATE TABLE product (
     description         VARCHAR(30)     NOT NULL,
     price               DECIMAL(8,2)    NOT NULL,
     
-    CONSTRAINT product_PK PRIMARY KEY (id)
+    CONSTRAINT product_PK PRIMARY KEY (productID)
     
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -119,7 +119,7 @@ CREATE TABLE supply (
     order_date          TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
     customer            VARCHAR(60),
     
-    CONSTRAINT supply_PK PRIMARY KEY (id),
+    CONSTRAINT supply_PK PRIMARY KEY (supplyID),
     CONSTRAINT supply_person_u_email_FK FOREIGN KEY (customer)
         REFERENCES person (u_email)
     
@@ -140,9 +140,9 @@ CREATE TABLE order_line (
     
     CONSTRAINT order_line_PK PRIMARY KEY (supplyID , productID),
     CONSTRAINT order_line_productID_FK FOREIGN KEY (productID)
-        REFERENCES product (id),
+        REFERENCES product (productID),
     CONSTRAINT order_line_supplyID_FK FOREIGN KEY (supplyID)
-        REFERENCES supply (id)
+        REFERENCES supply (supplyID)
     
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -158,6 +158,6 @@ CREATE TABLE price_log (
     
     CONSTRAINT price_log_PK PRIMARY KEY (productID , updated),
     CONSTRAINT price_log_productID_FK FOREIGN KEY (productID)
-        REFERENCES product (id)
+        REFERENCES product (productID)
     
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
