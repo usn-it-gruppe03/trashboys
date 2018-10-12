@@ -75,7 +75,7 @@ CREATE TABLE person (
 DROP TABLE IF EXISTS product;
 CREATE TABLE product (
     productID TINYINT(1) NOT NULL AUTO_INCREMENT,
-    description VARCHAR(30),
+    description VARCHAR(30) NOT NULL,
     price DECIMAL(8 , 2 ) NOT NULL,
     PRIMARY KEY (productID)
 );
