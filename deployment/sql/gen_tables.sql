@@ -68,7 +68,7 @@ CREATE TABLE collection (
 DROP TABLE IF EXISTS user_type;
 CREATE TABLE user_type (
     
-    typeID              TINYINT(1)      NOT NULL CHECK (id IN (0 , 1)),
+    typeID              TINYINT(1)      NOT NULL CHECK (typeID IN (0 , 1)),
     description         VARCHAR(10)     NOT NULL,
     
     CONSTRAINT user_type_PK PRIMARY KEY (typeID)
