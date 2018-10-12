@@ -1,6 +1,9 @@
 -- Use DB:
 USE soppel3;
 
+-- Set foreign key checks:
+SET FOREIGN_KEY_CHECKS = 0;
+
 -- Oppretter første "cluster" med tabeller.
 -- Disse tabellene håndterer kun rutene.
 
@@ -161,3 +164,6 @@ CREATE TABLE price_log (
         REFERENCES product (productID)
     
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- Set foreign key checks:
+SET FOREIGN_KEY_CHECKS = 1;
