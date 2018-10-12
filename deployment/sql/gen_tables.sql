@@ -65,7 +65,7 @@ CREATE TABLE person (
     f_name VARCHAR(45) NOT NULL,
     s_name VARCHAR(45) NOT NULL,
     street_name VARCHAR(45) NOT NULL,
-    street_number SMALLINT(3),
+    street_number SMALLINT(3) NOT NULL,
     u_type TINYINT(1) NOT NULL DEFAULT 0,
     PRIMARY KEY (u_email),
     FOREIGN KEY (u_type)
