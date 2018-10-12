@@ -112,7 +112,7 @@ DROP TABLE IF EXISTS price_log;
 CREATE TABLE price_log (
     productID TINYINT(1) NOT NULL,
     updated TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    price DECIMAL(8 , 2 ),
+    price DECIMAL(8 , 2 ) NOT NULL,
     PRIMARY KEY (productID , updated),
     FOREIGN KEY (productID)
         REFERENCES product (productID)
