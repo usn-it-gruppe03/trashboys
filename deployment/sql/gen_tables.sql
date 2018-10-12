@@ -1,9 +1,5 @@
--- Init. vars for default characters:
-SET @charset:='utf8mb4';
-SET @collate:=CONCAT(@charset, '_unicode_ci');
-
-
-
+-- Use DB:
+USE soppel3;
 
 -- Oppretter første "cluster" med tabeller.
 -- Disse tabellene håndterer kun rutene.
@@ -17,7 +13,7 @@ CREATE TABLE route (
     
     CONSTRAINT route_PK PRIMARY KEY (id)
     
-) ENGINE = InnoDB DEFAULT CHARACTER SET @charset COLLATE @collate;
+) ENGINE = InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 
 
@@ -32,7 +28,7 @@ CREATE TABLE street (
     CONSTRAINT street_route_id_FK FOREIGN KEY (route_id)
         REFERENCES route (id)
     
-) ENGINE = InnoDB DEFAULT CHARACTER SET @charset COLLATE @collate;
+) ENGINE = InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 
 
@@ -44,7 +40,7 @@ CREATE TABLE waste (
     
     CONSTRAINT waste_PK PRIMARY KEY (category)
     
-) ENGINE = InnoDB DEFAULT CHARACTER SET @charset COLLATE @collate;
+) ENGINE = InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 
 
@@ -61,7 +57,7 @@ CREATE TABLE collection (
     CONSTRAINT collection_route_id_FK FOREIGN KEY (route_id)
         REFERENCES route (id)
     
-) ENGINE = InnoDB DEFAULT CHARACTER SET @charset COLLATE @collate;
+) ENGINE = InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 
 
@@ -77,7 +73,7 @@ CREATE TABLE user_type (
     
     CONSTRAINT user_type_PK PRIMARY KEY (id)
     
-) ENGINE = InnoDB DEFAULT CHARACTER SET @charset COLLATE @collate;
+) ENGINE = InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 
 
@@ -97,7 +93,7 @@ CREATE TABLE person (
     CONSTRAINT person_user_type_id_FK FOREIGN KEY (u_type)
         REFERENCES user_type (id)
     
-) ENGINE = InnoDB DEFAULT CHARACTER SET @charset COLLATE @collate;
+) ENGINE = InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 
 
@@ -111,7 +107,7 @@ CREATE TABLE product (
     
     CONSTRAINT product_PK PRIMARY KEY (id)
     
-) ENGINE = InnoDB DEFAULT CHARACTER SET @charset COLLATE @collate;
+) ENGINE = InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 
 
@@ -127,7 +123,7 @@ CREATE TABLE supply (
     CONSTRAINT supply_person_u_email_FK FOREIGN KEY (customer)
         REFERENCES person (u_email)
     
-) ENGINE = InnoDB DEFAULT CHARACTER SET @charset COLLATE @collate;
+) ENGINE = InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 
 
@@ -148,7 +144,7 @@ CREATE TABLE order_line (
     CONSTRAINT order_line_supply_id_FK FOREIGN KEY (supply_id)
         REFERENCES supply (id)
     
-) ENGINE = InnoDB DEFAULT CHARACTER SET @charset COLLATE @collate;
+) ENGINE = InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 
 
@@ -164,4 +160,4 @@ CREATE TABLE price_log (
     CONSTRAINT price_log_product_id_FK FOREIGN KEY (product_id)
         REFERENCES product (id)
     
-) ENGINE = InnoDB DEFAULT CHARACTER SET @charset COLLATE @collate;
+) ENGINE = InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
