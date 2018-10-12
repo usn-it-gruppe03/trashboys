@@ -24,10 +24,10 @@ CREATE TABLE route (
 DROP TABLE IF EXISTS street;
 CREATE TABLE street (
     
-    name                VARCHAR(60)     NOT NULL,
+    street_name         VARCHAR(60)     NOT NULL,
     routeID             TINYINT         UNSIGNED NOT NULL,
     
-    CONSTRAINT street_PK PRIMARY KEY (name),
+    CONSTRAINT street_PK PRIMARY KEY (street_name),
     CONSTRAINT street_routeID_FK FOREIGN KEY (routeID)
         REFERENCES route (routeID)
     
