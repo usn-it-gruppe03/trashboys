@@ -68,7 +68,7 @@ AND P.productID = O.productID
 
 UNION ALL
 
-SELECT '', '', 'SUM:', supply_sum(2);
+SELECT 'TOTALSUM:', '', '', supply_sum(2);
 
 
 
