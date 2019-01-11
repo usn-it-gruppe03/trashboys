@@ -1,6 +1,9 @@
 -- ************************************************* -- 
 				-- FUNCTION 1 -- 
 -- ************************************************* -- 
+
+-- Dette er en liten test.
+
 -- Displays customer/users full name. 
 -- Low complexity function.
 
