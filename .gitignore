@@ -1,3 +1,4 @@
 # Ignore all PHP Storm IDEA files:
 .idea/*.*
 .DS_Store
+.key
