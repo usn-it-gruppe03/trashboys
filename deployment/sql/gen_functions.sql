@@ -1,37 +1,4 @@
 -- ************************************************* -- 
-				-- FUNCTION 1 -- 
--- ************************************************* -- 
-
--- Dette er en liten test.
-
--- Displays customer/users full name. 
--- Low complexity function.
-
-USE soppel3;
-DELIMITER ::
-DROP FUNCTION IF EXISTS full_name::
-CREATE FUNCTION full_name(
-	p_fname 	VARCHAR(50),
-    p_sname 	VARCHAR(50)
-
-)
-RETURNS VARCHAR(100)
-deterministic
-
-BEGIN
-	RETURN CONCAT(p_fname, ' ', p_sname);
-END ::
-DELIMITER ;
-
-
--- CALLS FUNCTION full_name()
-USE soppel3;
-SELECT u_email, full_name(f_name, s_name) AS FullName FROM person;
-
-
-
-
--- ************************************************* -- 
 				-- FUNCTION 2 -- 
 -- ************************************************* -- 
 -- Adds up all rows in order_line that has a certain supplyID
@@ -57,19 +24,6 @@ BEGIN
 	
 END ::
 DELIMITER ;
-
-
--- CALLS FUNCTION FulltNavn()
-USE soppel3;
-
-SELECT supplyID, P.description, quantity, O.price 
-FROM order_line AS O, product AS P
-WHERE supplyID = 2
-AND P.productID = O.productID
-
-UNION ALL
-
-SELECT 'TOTALSUM:', '', '', supply_sum(2);
 
 
 
