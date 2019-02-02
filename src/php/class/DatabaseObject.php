@@ -7,9 +7,11 @@
  *
  * Every extending object shall, in their constructor,
  * initialize the following default values for object attributes:
- *      Integers:    -1
- *      Floats:      -1
+ *      Integers:    0
+ *      Floats:      0
  *      Strings:     '' (string length: 0)
+ * The reason for this is to enable an easy way of distinguishing
+ * between object states e.g. UNDEFINED, NEW, and EXISTING.
  */
 abstract class DatabaseObject {
 
