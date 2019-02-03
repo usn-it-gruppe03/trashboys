@@ -5,7 +5,7 @@
 -- Hver mandag (f.eks 2018-10-8) vil den sette neste dato automatisk
 -- Så hver uke oppdaterer den automatisk neste hentedato.
 
-USE soppel3;
+USE bk;
 DELIMITER ::
 CREATE EVENT update_collection_time 
 	ON SCHEDULE EVERY 1 DAY STARTS '2018-10-12 23:58:00' 

@@ -4,7 +4,7 @@
 -- Adds up all rows in order_line that has a certain supplyID
 -- Used to sum up entire "orders".
 
-USE soppel3;
+USE bk;
 DELIMITER ::
 DROP FUNCTION IF EXISTS supply_sum::
 CREATE FUNCTION supply_sum(

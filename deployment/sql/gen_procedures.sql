@@ -7,7 +7,7 @@
 -- Lagret prosedyre for å sette inn 1 rad i minst 1 tabell i databasen.
 -- Oppretter ny bruker. 
 
-USE soppel3;
+USE bk;
 DELIMITER ::
 DROP PROCEDURE IF EXISTS new_user::
 CREATE PROCEDURE new_user(
