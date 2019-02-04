@@ -163,6 +163,7 @@ CREATE TABLE `User` (
     `password` varchar(128) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'SHA512 hashed password.',
     `subscription` int(1) NOT NULL DEFAULT '0' COMMENT 'Whether a user subscribes to notifications or not.',
     `address_FK` int(11) NOT NULL COMMENT 'Foreign key pointing to a specific address in the Address table.',
+    `user_type` int(1) NOT NULL DEFAULT 2 
 
     PRIMARY KEY (`ID`),
     UNIQUE KEY `email_UNIQUE` (`email`),
