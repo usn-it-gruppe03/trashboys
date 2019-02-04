@@ -1,0 +1,122 @@
+@import
+  "../functions/functions",
+  "../variables/variables";
+
+
+
+
+// ** Text alignment **
+.text-center {
+  text-align: center;
+}
+.text-left {
+  text-align: left;
+}
+.text-right{
+  text-align: right;
+}
+.text-justify{
+  text-align: justify;
+  text-justify: inter-character;
+}
+
+
+
+
+// ** Text color **
+.text-green{
+  color: get('green', $colors);
+}
+.text-dark-green{
+  color: get('dark-green', $colors);
+}
+.text-light-green{
+  color: get('light-green', $colors);
+}
+.text-clay{
+  color: get('clay', $colors);
+}
+.text-dark-clay{
+  color: get('dark-clay', $colors);
+}
+.text-gray{
+  color: get('gray', $colors);
+}
+.text-dark-gray{
+  color: get('dark-gray', $colors);
+}
+.text-light-gray{
+  color: get('light-gray', $colors);
+}
+.text-skye-blue{
+  color: get('sky-blue', $colors);
+}
+.text-darker{
+  color: get('darker', $colors);
+}
+.text-lighter{
+  color: get('lighter', $colors);
+}
+.text-dark{
+  color: get('dark', $colors);
+}
+
+
+
+
+// ** Width **
+$i:0;
+@while $i <= 100{
+  .w-#{$i}{ width: #{unquote('#{$i}%')}; }
+  $i: $i + 10;
+}
+
+
+
+
+// ** Height **
+$i:0;
+@while $i <= 100{
+  .h-#{$i}{ width: #{unquote('#{$i}vh')}; }
+  $i: $i + 10;
+}
+
+
+
+
+// ** Margin **
+@for $i from 0 through 10 {
+  .m-#{$i}{ margin: #{unquote('#{$i}rem')}; }
+  .mt-#{$i}{ margin-top: #{unquote('#{$i}rem')}; }
+  .ml-#{$i}{ margin-left: #{unquote('#{$i}rem')}; }
+  .mr-#{$i}{ margin-right: #{unquote('#{$i}rem')}; }
+  .mb-#{$i}{ margin-bottom: #{unquote('#{$i}rem')}; }
+  .mx-#{$i}{
+    margin-left: #{unquote('#{$i}rem')};
+    margin-right: #{unquote('#{$i}rem')};
+  }
+  .my-#{$i}{
+    margin-top: #{unquote('#{$i}rem')};
+    margin-bottom: #{unquote('#{$i}rem')};
+  }
+}
+
+
+
+
+// ** Padding **
+@for $i from 0 through 10 {
+  .p-#{$i}{ padding: #{unquote('#{$i}rem')}; }
+  .pt-#{$i}{ padding-top: #{unquote('#{$i}rem')}; }
+  .pl-#{$i}{ padding-left: #{unquote('#{$i}rem')}; }
+  .pr-#{$i}{ padding-right: #{unquote('#{$i}rem')}; }
+  .pb-#{$i}{ padding-bottom: #{unquote('#{$i}rem')}; }
+  .px-#{$i}{
+    padding-left: #{unquote('#{$i}rem')};
+    padding-right: #{unquote('#{$i}rem')};
+  }
+  .py-#{$i}{
+    padding-top: #{unquote('#{$i}rem')};
+    padding-bottom: #{unquote('#{$i}rem')};
+  }
+}

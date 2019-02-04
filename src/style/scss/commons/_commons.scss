@@ -1,0 +1,119 @@
+// Import mixins for browser compatibility:
+@import
+  "../functions/functions",
+  "../variables/variables",
+  "../mixins/mixins";
+
+
+// ** BASIC FLEX ATTRIBUTES **
+
+%flex{
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+}
+
+%flex-row{
+  @extend %flex;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+}
+
+%flex-column{
+  @extend %flex;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+}
+
+%flex-row-left-top{
+  @extend %flex-row;
+  // Horizontal align:
+  @include justify-content(flex-start);
+  // Vertical align:
+  @include align-content(flex-start);
+}
+
+%flex-row-left-center{
+  @extend %flex-row;
+  // Horizontal align:
+  @include justify-content(flex-start);
+  // Vertical align:
+  @include align-content(center);
+}
+
+%flex-row-left-bottom{
+  @extend %flex-row;
+  // Horizontal align:
+  @include justify-content(flex-start);
+  // Vertical align:
+  @include align-content(flex-end);
+}
+
+%flex-row-center-top{
+  @extend %flex-row;
+  // Horizontal align:
+  @include justify-content(center);
+  // Vertical align:
+  @include align-content(flex-start);
+}
+
+%flex-row-center-center{
+  @extend %flex-row;
+  // Horizontal align:
+  @include justify-content(center);
+  // Vertical align:
+  @include align-content(center);
+}
+
+%flex-row-center-bottom{
+  @extend %flex-row;
+  // Horizontal align:
+  @include justify-content(center);
+  // Vertical align:
+  @include align-content(flex-end);
+}
+
+%flex-row-right-top{
+  @extend %flex-row;
+  // Horizontal align:
+  @include justify-content(flex-end);
+  // Vertical align:
+  @include align-content(flex-start);
+}
+
+%flex-row-right-center{
+  @extend %flex-row;
+  // Horizontal align:
+  @include justify-content(flex-end);
+  // Vertical align:
+  @include align-content(center);
+}
+
+%flex-row-right-bottom{
+  @extend %flex-row;
+  // Horizontal align:
+  @include justify-content(flex-end);
+  // Vertical align:
+  @include align-content(flex-end);
+}
+
+
+
+
+// ** FONT SMOOTHING **
+%font-smoothing{
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: 'liga';
+}
+
+
+
+
+// ** Component **
+%component{
+  @include box-sizing(get('component.box-sizing'));
+}

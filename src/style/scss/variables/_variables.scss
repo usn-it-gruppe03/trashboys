@@ -1,0 +1,352 @@
+// Import.
+@import "../functions/functions";
+
+
+
+
+// The index size.
+$idx: 10px;
+
+
+
+
+// Colors.
+$colors: (
+
+  'green': #31C573,
+  'dark-green': #2FB46A,
+  'light-green': #07ED94,
+
+  'clay': #7198A6,
+  'dark-clay': #618390,
+  'light-clay': rgba(70, 96, 105, 0.61),
+
+  'gray': #F1F1F1,
+  'dark-gray': #667E87,
+  'light-gray': #F5F5F5,
+
+  'sky-blue': #F1FAFF,
+
+  'darker': rgba(0,0,0,0.5),
+  'lighter': rgba(255,255,255,0.6),
+
+  'dark': #333
+
+);
+
+
+
+
+// Map of variables.
+$main: (
+
+
+  // ** Root **
+  'root': (
+    'scroll-behavior': smooth,
+    'family': '"Quicksand", sans-serif',
+    'size': $idx,
+    'weight': 400,
+    'style': none,
+    'transform': none,
+    'line-height': 1,
+    'letter-spacing': 0,
+    'text-align': left,
+    'color': get('dark-gray', $colors),
+    'resolution': (
+      'desktop':      1199px,
+      'desktop-sm':   991px,
+      'tablet':       768px,
+      'mobile':       575px
+    )
+  ),
+
+
+  // ** Font **
+  'font': (
+
+    // Heading 1.
+    'h1': (
+      'family': '"Quicksand", sans-serif',
+      'size': '',
+      'weight': '',
+      'style': '',
+      'transform': '',
+      'line-height': '',
+      'letter-spacing': '',
+      'text-align': '',
+      'color': get('dark', $colors)
+    ),
+
+    // Heading 2.
+    'h2': (
+      'family': '"Quicksand", sans-serif',
+      'size': '',
+      'weight': '',
+      'style': '',
+      'transform': '',
+      'line-height': '',
+      'letter-spacing': '',
+      'text-align': '',
+      'color': ''
+    ),
+
+    // Heading 3.
+    'h3': (
+      'family': '"Quicksand", sans-serif',
+      'size': '',
+      'weight': '',
+      'style': '',
+      'transform': '',
+      'line-height': '',
+      'letter-spacing': '',
+      'text-align': '',
+      'color': ''
+    ),
+
+    // Heading 4.
+    'h4': (
+      'family': '"Quicksand", sans-serif',
+      'size': '',
+      'weight': '',
+      'style': '',
+      'transform': '',
+      'line-height': '',
+      'letter-spacing': '',
+      'text-align': '',
+      'color': ''
+    ),
+
+    // Heading 5.
+    'h5': (
+      'family': '"Quicksand", sans-serif',
+      'size': '',
+      'weight': '',
+      'style': '',
+      'transform': '',
+      'line-height': '',
+      'letter-spacing': '',
+      'text-align': '',
+      'color': ''
+    ),
+
+    // Heading 6.
+    'h6': (
+      'family': '"Quicksand", sans-serif',
+      'size': '',
+      'weight': '',
+      'style': '',
+      'transform': '',
+      'line-height': '',
+      'letter-spacing': '',
+      'text-align': '',
+      'color': ''
+    ),
+
+    // Paragraph.
+    'p': (
+      'family': '"Quicksand", sans-serif',
+      'size': '',
+      'weight': '',
+      'style': '',
+      'transform': '',
+      'line-height': '',
+      'letter-spacing': '',
+      'text-align': '',
+      'color': ''
+    ),
+
+    // Small.
+    'small': (
+      'family': '"Quicksand", sans-serif',
+      'size': '',
+      'weight': '',
+      'style': '',
+      'transform': '',
+      'line-height': '',
+      'letter-spacing': '',
+      'text-align': '',
+      'color': ''
+    ),
+
+    // Tiny.
+    'tiny': (
+      'family': '"Quicksand", sans-serif',
+      'size': '',
+      'weight': '',
+      'style': '',
+      'transform': '',
+      'line-height': '',
+      'letter-spacing': '',
+      'text-align': '',
+      'color': ''
+    ),
+
+  ),
+
+
+  // ** Body **
+  'body': (
+    'width': 100%,
+    'height': 100vh,
+    'position': relative,
+    'z-index': 1
+  ),
+
+
+  // ** Header **
+  'header': (
+    'width': 100%,
+    'height': 6rem,
+    'position': (
+      'relative': relative,
+      'fixed': fixed
+    ),
+    'top': 0,
+    'left': 0,
+    'z-index': 5
+  ),
+
+
+  // ** Main **
+  'main': (
+    'width': 100%,
+    'position': relative,
+    'z-index': 2
+  ),
+
+
+  // ** Section **
+  'section': (
+    'width': 100%,
+    'padding': (
+      'top': 1rem,
+      'left': 0,
+      'right': 0,
+      'bottom': 1rem
+    ),
+    'position': relative,
+    'z-index': 3
+  ),
+
+
+  // ** Row **
+  'row': (
+    'width': 100%,
+    'position': relative
+  ),
+
+
+  // ** Column **
+  'col': (
+    'flex-grow': 1
+  ),
+
+
+  // ** Footer **
+  'footer': (
+    'width': 100%,
+    'position': relative,
+    'z-index': 4
+  ),
+
+
+  // ** Generic content **
+  'content': (
+    'margin': (
+      'top': 1rem,
+      'left': 1rem,
+      'right': 1rem,
+      'bottom': 1rem
+    )
+  ),
+
+
+  // ** Custom components **
+  'component': (
+
+    'box-sizing': border-box,
+
+    /* Drop shadow for all components */
+    'drop-shadow': (
+      'white': 0 0 10px rgba(0,57,81,0.15),
+      'green': 0 0 10px rgba(0,191,85,0.5),
+      'clay': 0 0 10px rgba(0,57,81,0.25),
+    ),
+
+    /* 3D box shadow for all components */
+    'box-shadow': (
+      'white': 0 0.25rem 0 get('light-gray', $colors),
+      'green': 0 0.25rem 0 get('dark-green', $colors),
+      'clay': 0 0.25rem 0 get('dark-clay', $colors),
+    ),
+
+    /* Border radius for all components */
+    'border-radius': 0.3rem,
+
+    /* Card */
+    'card': (
+      'padding': (
+        'top': 4rem,
+        'left': 2rem,
+        'right': 2rem,
+        'bottom': 4rem
+      ),
+      'text-align': center,
+      'background-color': (
+        'green': get('green', $colors),
+        'white': white,
+      ),
+      'color': (
+        'green': white,
+        'white': get('dark-gray', $colors),
+      )
+    ),
+
+    /* Button */
+    'button': (
+      'display': inline-block,
+      'box-sizing': border-box,
+      'background-color': (
+        'white': white,
+        'green': get('green', $colors),
+        'clay': get('clay', $colors)
+      ),
+      'color': (
+        'white': get('dark-gray', $colors),
+        'green': white,
+        'clay': white
+      ),
+      'font-weight': 700,
+      'text-align': center,
+      'padding': (
+        'top': 0.75rem,
+        'left': 1rem,
+        'right': 1rem,
+        'bottom': 0.75rem,
+      ),
+      'border': 0,
+    ),
+
+    /* Input */
+    'input': (
+      'display': inline-block,
+      'box-sizing': border-box,
+      'background-color': white,
+      'width': 100%,
+      'color': get('dark-clay', $colors),
+      'placeholder': get('light-clay', $colors),
+      'font-weight': 700,
+      'text-align': center,
+      'padding': (
+        'top': 0.75rem,
+        'left': 1rem,
+        'right': 1rem,
+        'bottom': 0.75rem,
+      ),
+      'border': 0,
+    ),
+
+  ),
+
+);

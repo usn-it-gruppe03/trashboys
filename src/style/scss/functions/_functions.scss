@@ -1,0 +1,153 @@
+// === Function: String explode === :
+@function str_explode($string, $delimiter: '.'){
+
+  // Check data types:
+  @if (type_of($string) != 'string') and (type_of($string) != 'string'){
+
+    // Wrong data type:
+    @debug '#### ERROR: ILLEGAL DATA TYPE(s) ####';
+    @debug 'Function: str_explode()';
+    @debug 'Expected: f(<string>, <string>)';
+    @debug 'Found: f(<#{type_of($string)}>, <#{type_of($delimiter)}>)';
+    @error 'Illegal data type(s)! Read debug comments above.';
+
+  }
+
+
+  // Function variables:
+
+  // Init. empty array:
+  $return: ();
+  // Init. empty var for words:
+  $word: '';
+  // Init. empty var for current character:
+  $curr_char: '';
+
+
+  // For loop all characters:
+  @for $i from 1 through str_length($string){
+
+    // Gets the current character:
+    $curr_char: str_slice($string,$i,$i);
+
+    // Concatenate characters into words:
+    $word: $word + $curr_char;
+
+    // Check if current character is a delimiter or last in line:
+    @if ($curr_char == $delimiter) or ($i == str_length($string)){
+
+      // Compensate for length with delimiter:
+      $delimiter_compensation: str_length($delimiter);
+      @if($i == str_length($string)){ $delimiter_compensation: 0; }
+
+      // Append words to return map:
+      $return: append($return, str_slice($word, 1, str_length($word) - $delimiter_compensation));
+
+      // Reset word:
+      $word: '';
+
+    }
+
+  }
+
+
+  // Return the word map:
+  @return $return;
+
+}
+
+
+
+
+// === Function: Deep Map Check === :
+@function map_key_exist($map, $key_map){
+
+  // Check data types:
+  @if (type_of($map) != 'map') and (type_of($key_map) != 'map'){
+
+    // Wrong data type:
+    @debug '#### ERROR: ILLEGAL DATA TYPE(s) ####';
+    @debug 'Function: map_check()';
+    @debug 'Expected: f(<map>, <map>)';
+    @debug 'Found: f(<#{type_of($map)}>, <#{type_of($key_map)}>)';
+    @error 'Illegal data type(s)! Read debug comments above.';
+
+  }
+
+  // Loop through each key in key map:
+  @each $key in $key_map{
+
+    // If key does not exist:
+    @if not map_has_key($map, $key){
+
+      // End function, return false:
+      @return false;
+
+      // If key exists:
+    } @else {
+
+      // Go to next map level:
+      $map: map_get($map, $key);
+
+    }
+
+  }
+
+  // All ok, return true:
+  @return true;
+
+}
+
+
+
+
+// === Function: Get map value === :
+@function get($map_path, $map: $main){
+
+  // PS: Use overloading parameters in the end.
+
+  // Check data types:
+  @if (type_of($map) != 'map') and (type_of($map_path) != 'string'){
+
+    // Wrong data type:
+    @debug '#### ERROR: ILLEGAL DATA TYPE(s) ####';
+    @debug 'Function: get()';
+    @debug 'Expected: f(<string>, <map>)';
+    @debug 'Found: f(<#{type_of($map_path)}>, <#{type_of($map)}>)';
+    @error 'Illegal data type(s)! Read debug comments above.';
+
+  }
+
+
+  // Parse string to map:
+  $key_map: str_explode($map_path);
+
+
+  // Check if path leads to a value:
+  @if (map_key_exist($map,$key_map)){
+
+    // Loop through each key in key map:
+    @each $key in $key_map{
+      $map: map_get($map, $key);
+    }
+
+    // All ok, return map value:
+    @return $map;
+
+    // Path leads nowhere:
+  } @else {
+
+    // Broken path, return false:
+    @return false;
+
+  }
+
+}
+
+
+
+
+// === Function: Convert to string: ===
+@function to_string($param){
+  @return inspect($param);
+}

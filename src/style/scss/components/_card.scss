@@ -1,0 +1,34 @@
+@import
+  "../functions/functions",
+  "../variables/variables",
+  "../mixins/mixins",
+  "../commons/commons";
+
+%card {
+  @extend %component;
+  padding:
+    get('component.card.padding.top')
+    get('component.card.padding.right')
+    get('component.card.padding.bottom')
+    get('component.card.padding.left');
+  h1,h2,h3,h4,h5,h6,p,small {
+    text-align: get('component.card.text-align');
+  }
+  border-radius: get('component.border-radius');
+}
+
+.card {
+  @extend %card;
+}
+
+.card-green {
+  @include drop-shadow(get('component.drop-shadow.green'));
+  color: get('component.card.color.green');
+  background-color: get('component.card.background-color.green');
+}
+
+.card-white{
+  @include drop-shadow(get('component.drop-shadow.white'));
+  color: get('component.card.color.white');
+  background-color: get('component.card.background-color.white');
+}

@@ -1,0 +1,70 @@
+@import
+  "../functions/functions",
+  "../variables/variables",
+  "../mixins/mixins",
+  "../commons/commons";
+
+%body {
+  @extend %flex-column;
+  @include all-width(get('body.width'));
+  background-color: get('sky-blue', $colors);
+  min-height: get('body.width');
+  overflow-x: hidden;
+  overflow-y: scroll;
+  position: get('body.position');
+  z-index: get('body.z-index');
+}
+
+%header {
+  @extend %flex-row-center-center;
+  @include flex-wrap(wrap);
+  width: get('header.width');
+  height: get('header.height');
+  max-height: get('header.height');
+  position: get('header.position.relative');
+  top: get('header.top');
+  left: get('header.left');
+  z-index: get('header.z-index');
+}
+
+%main {
+  @extend %flex-row-left-top;
+  @include flex-wrap(wrap);
+  @include flex-grow(1);
+  @include all-width(get('main.width'));
+  position: get('main.position');
+  z-index: get('main.z-index');
+}
+
+%section {
+  @extend %flex-row-center-top;
+  @include flex-wrap(wrap);
+  @include all-width(get('section.width'));
+  padding:
+    get('section.padding.top')
+    get('section.padding.right')
+    get('section.padding.bottom')
+    get('section.padding.left');
+  position: get('section.position');
+  z-index: get('section.z-index');
+}
+
+%footer {
+  @extend %flex-column;
+  @include all-height(get('footer.width'));
+  z-index: get('footer.z-index');
+}
+
+:root{
+  @extend %font-smoothing;
+  size: $idx;
+  font-family: #{get('root.family')};
+  color: get('dark-gray', $colors);
+  box-sizing: border-box;
+}
+
+body{@extend %body}
+header{@extend %header}
+main{@extend %main}
+section{@extend %section}
+footer{@extend %footer}

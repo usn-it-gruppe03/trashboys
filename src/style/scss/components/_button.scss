@@ -1,0 +1,50 @@
+@import
+  "../functions/functions",
+  "../variables/variables",
+  "../mixins/mixins",
+  "../commons/commons";
+
+
+
+
+// ** Button **
+%btn{
+  @extend %component;
+  display: get('component.button.display');
+  @include box-sizing(get('component.button.box-sizing'));
+  padding:
+    get('component.button.padding.top')
+    get('component.button.padding.right')
+    get('component.button.padding.bottom')
+    get('component.button.padding.left');
+  border: get('component.button.border');
+  font-weight: get('component.button.font-weight');
+  border-radius: get('component.border-radius');
+  text-align: get('component.button.text-align');
+  cursor: pointer;
+}
+
+.btn {
+  @extend %btn;
+}
+
+.btn-white {
+  background-color: get('component.button.background-color.white');
+  color: get('component.button.color.white');
+  @include drop-shadow(get('component.drop-shadow.white'));
+  @include box-shadow(get('component.box-shadow.white'));
+}
+
+.btn-green {
+  background-color: get('component.button.background-color.green');
+  color: get('component.button.color.green');
+  @include drop-shadow(get('component.drop-shadow.green'));
+  @include box-shadow(get('component.box-shadow.green'));
+}
+
+.btn-clay {
+  background-color: get('component.button.background-color.clay');
+  color: get('component.button.color.clay');
+  @include drop-shadow(get('component.drop-shadow.clay'));
+  @include box-shadow(get('component.box-shadow.clay'));
+}

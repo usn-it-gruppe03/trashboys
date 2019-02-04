@@ -1,0 +1,91 @@
+// ** Flex properties **
+@mixin flex-direction($param){
+  -webkit-flex-direction: $param;
+  flex-direction: $param;
+}
+
+@mixin justify-content($param){
+  -webkit-justify-content: $param;
+  justify-content: $param;
+}
+
+@mixin align-content($param){
+  -webkit-align-content: $param;
+  align-content: $param;
+}
+
+@mixin align-items($param){
+  -webkit-align-items: $param;
+  align-items: $param;
+}
+
+@mixin flex-grow($param){
+  -webkit-flex-grow: $param;
+  flex-grow: $param;
+}
+
+@mixin flex-wrap($param){
+  -webkit-flex-wrap: $param;
+  -ms-flex-wrap: $param;
+  flex-wrap: $param;
+}
+
+
+
+
+// ** Box shadow **
+@mixin box-shadow($property){
+  -webkit-box-shadow: $property;
+  -moz-box-shadow: $property;
+  -o-box-shadow: $property;
+  box-shadow: $property;
+}
+
+
+
+
+// ** Filter: Drop shadow **
+@mixin drop-shadow($property) {
+  -webkit-filter: drop-shadow($property);
+  filter: drop-shadow($property);
+}
+
+
+
+
+// ** Border radius **
+@mixin border-radius($property){
+  -webkit-border-radius: $property;
+  -moz-border-radius: $property;
+  border-radius: $property;
+}
+
+
+
+
+// ** All width **
+@mixin all-width($param){
+  width: $param;
+  min-width: $param;
+  max-width: $param;
+}
+
+
+
+
+// ** All height **
+@mixin all-height($param){
+  height: $param;
+  min-height: $param;
+  max-height: $param;
+}
+
+
+
+
+// ** Box sizing **
+@mixin box-sizing($param){
+  -webkit-box-sizing: $param;
+  -moz-box-sizing: $param;
+  box-sizing: $param;
+}

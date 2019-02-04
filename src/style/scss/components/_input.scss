@@ -1,0 +1,51 @@
+@import
+  "../functions/functions",
+  "../variables/variables",
+  "../mixins/mixins",
+  "../commons/commons";
+
+
+
+
+%input{
+  @extend %component;
+  display: get('component.input.display');
+  @include box-sizing(get('component.input.box-sizing'));
+  @include drop-shadow(get('component.drop-shadow.white'));
+  @include box-shadow(get('component.box-shadow.white'));
+  width: get('component.input.width');
+  padding:
+    get('component.input.padding.top')
+    get('component.input.padding.right')
+    get('component.input.padding.bottom')
+    get('component.input.padding.left');
+  border: get('component.input.border');
+  font-weight: get('component.input.font-weight');
+  border-radius: get('component.border-radius');
+  background-color: get('component.input.background-color');
+  color: get('component.input.color');
+}
+
+.input{
+  @extend %input;
+}
+.input::placeholder{
+  color: get('component.input.placeholder');
+}
+
+
+
+
+// ** Form group **
+.form-group + .form-group {
+  padding: 1rem 0 1rem 0;
+}
+
+.label{
+  display: inline-block;
+  font-weight: 700;
+  font-size: 12px;
+  margin: 0 0 5px 0;
+  box-sizing: border-box;
+  color: get('light-clay', $colors);
+}
