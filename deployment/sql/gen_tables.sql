@@ -163,12 +163,12 @@ CREATE TABLE `User` (
     `password` varchar(128) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'SHA512 hashed password.',
     `subscription` int(1) NOT NULL DEFAULT '0' COMMENT 'Whether a user subscribes to notifications or not.',
     `address_FK` int(11) NOT NULL COMMENT 'Foreign key pointing to a specific address in the Address table.',
-    `user_type` int(1) NOT NULL DEFAULT 2 
+    `user_type` int(1) DEFAULT '2',
 
     PRIMARY KEY (`ID`),
     UNIQUE KEY `email_UNIQUE` (`email`),
     KEY `FK_User_User_Type_IDX` (`address_FK`),
-    CONSTRAINT `FK_User_User_Type` FOREIGN KEY (`address_FK`) REFERENCES `user_type` (`id`),
+    CONSTRAINT `FK_User_User_Type` FOREIGN KEY (`user_type`) REFERENCES `User_Type` (`ID`),
     CONSTRAINT `CK_User_Email_Pattern` CHECK (`email` REGEXP '([a-zA-Z0-9.+]+(?:\@{1}))([a-zA-Z0-9+]+)(\.{1}[a-zA-Z0-9+]+)+')
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -218,7 +218,7 @@ DROP TABLE IF EXISTS `Waste_Collection`;
 SET character_set_client = utf8mb4 ;
 CREATE TABLE `Waste_Collection` (
 
-    `ID` int(11) NOT NULL,
+    `ID` int(11) NOT NULL AUTO_INCREMENT,
     `route_FK` int(11) NOT NULL COMMENT 'Foreign key pointing to a specific route in the Route table.',
     `waste_FK` int(11) NOT NULL COMMENT 'Foreign key pointing to a specific waste category in the Waste_Category table.',
     `date` date NOT NULL COMMENT 'The date for which the waste collection shall occur.',
@@ -227,7 +227,7 @@ CREATE TABLE `Waste_Collection` (
     KEY `FK_Waste_Collection_Waste_Category_IDX` (`waste_FK`),
     KEY `FK_Waste_Collection_Route_IDX` (`route_FK`),
     CONSTRAINT `FK_Waste_Collection_Route` FOREIGN KEY (`route_FK`) REFERENCES `route` (`id`),
-    CONSTRAINT `FK_Waste_Collection_Waste_Category` FOREIGN KEY (`waste_FK`) REFERENCES `waste_category` (`id`)
+    CONSTRAINT `FK_Waste_Collection_Waste_Category` FOREIGN KEY (`waste_FK`) REFERENCES `Waste_Category` (`ID`)
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
