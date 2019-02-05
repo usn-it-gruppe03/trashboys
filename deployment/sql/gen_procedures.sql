@@ -39,7 +39,7 @@ START TRANSACTION;
 		FROM `Address` 
         WHERE name = p_streetname AND house_number = p_streetnumber INTO @address_FK_temp;
     
-		INSERT INTO `User` (`email` , `first_name`, `last_name`, `password`, `address_FK`)  VALUES 
+		INSERT INTO `User` (`email` , `first_name`, `last_name`, `password`, `address_ID`)  VALUES 
 			(p_email, 
 			p_fname, 
             p_sname,

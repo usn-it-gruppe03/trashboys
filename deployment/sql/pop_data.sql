@@ -368,7 +368,7 @@ INSERT INTO `Waste_Category` (`ID`, `name`) VALUES
 (5,'Farleg avfall og småelektronikk');
 
 
-INSERT INTO `Waste_Collection` (`route_FK`, `waste_FK`, `date`) VALUES
+INSERT INTO `Waste_Collection` (`route_ID`, `waste_ID`, `date`) VALUES
 (1, 1, '2019.02.04'),
 (2, 1, '2019.02.05'),
 (3, 1, '2019.02.06'),

@@ -1,4 +1,4 @@
-USE soppel3;
+USE bk;
 DROP TRIGGER IF EXISTS before_price_update;
 DELIMITER ::
 CREATE TRIGGER before_price_update 
@@ -9,16 +9,9 @@ BEGIN
 
 
     INSERT INTO `Price_Log` (`product_ID`, `time`, `new_price`, `old_price`) 
-    VALUES (old.productID,CURRENT_TIMESTAMP, new.price, old.price);
+    VALUES (product_ID, CURRENT_TIMESTAMP, new_price, old_price);
     
         
 END::
 DELIMITER ;
 
-
-    
--- select * from price_log;
-
--- update product
--- set price = 23.90
--- WHERE productID = 1;
