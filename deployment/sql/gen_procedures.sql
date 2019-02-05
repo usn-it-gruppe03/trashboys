@@ -4,8 +4,7 @@
 -- ************************************************* -- 
 
 -- Prosedyre 1 - new_user.
--- Lagret prosedyre for å sette inn 1 rad i minst 1 tabell i databasen.
--- Oppretter ny bruker. 
+
 USE bk;
 DELIMITER ::
 DROP PROCEDURE IF EXISTS new_user::
@@ -59,7 +58,9 @@ COMMIT;
 END ::
 DELIMITER ;
 
--- Kaller prosedyren
+-- ************************************************* -- 
+                -- PROCEDURE 1 TEST CALL -- 
+-- ************************************************* -- 
 USE bk;
 
 SET @email='Test@test.com';
@@ -86,4 +87,117 @@ Select @svar1;
 
 -- Bekreft at bruker er lagt inn:
 -- select * from person;
+
+
+-- ************************************************* -- 
+                -- PROCEDURE 2 -- 
+-- ************************************************* -- 
+
+-- Set notification subscription
+
+
+
+
+USE bk;
+DELIMITER ::
+DROP PROCEDURE IF EXISTS set_subscription::
+CREATE PROCEDURE set_subscription(
+    IN p_user_ID INT(11),
+    IN p_subscription INT(1),
+    
+    OUT p_message VARCHAR(150)
+
+)
+
+BEGIN
+START TRANSACTION;
+    SET @userExists = 0;
+    SELECT Count(*) 
+    FROM `User` 
+    WHERE `ID` = p_user_ID INTO @userExists;
+
+    IF @userExists <> 0 
+    AND  p_subscription IN(0, 1) THEN
+
+        UPDATE `User` 
+        SET `subscription` = p_subscription
+        WHERE `ID` = p_user_ID;
+
+        SELECT CONCAT('Success!') INTO p_message;
+
+    ELSE
+        SELECT CONCAT('Error!') INTO p_message;
+    END IF;
+   
+
+COMMIT;
+END ::
+DELIMITER ;
+
+
+
+
+-- ************************************************* -- 
+                -- PROCEDURE 2 TEST CALL -- 
+-- ************************************************* -- 
+USE bk;
+
+SET @ID='1';
+SET @sub=1;
+
+
+
+CALL set_subscription(
+            @ID, 
+            @sub,
+            @svar1);
+            
+            
+Select @svar1;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
