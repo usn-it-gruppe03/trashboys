@@ -8,10 +8,9 @@ CREATE TRIGGER before_price_update
 BEGIN
 
 
-    INSERT INTO `Price_Log` (`product_ID`, `time`, `new_price`, `old_price`) 
-    VALUES (product_ID, CURRENT_TIMESTAMP, new_price, old_price);
+    INSERT INTO `Price_Log` (`product_ID`, `old_price`, `new_price`, `time`) 
+    VALUES (old.`ID`, old.price, new.price, current_timestamp());
     
         
 END::
 DELIMITER ;
-
