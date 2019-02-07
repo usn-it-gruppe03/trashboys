@@ -7,6 +7,8 @@ window.addEventListener('load', function () {
     console.log('Main event listener initiated.');
 
 
+
+
     // * Event listener states **
     let suggestionClicked = false;
 
