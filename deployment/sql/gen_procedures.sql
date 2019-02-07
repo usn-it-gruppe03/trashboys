@@ -9,7 +9,7 @@ USE bk;
 DELIMITER ::
 DROP PROCEDURE IF EXISTS new_user::
 CREATE PROCEDURE new_user(
-	IN p_email VARCHAR(60),
+    IN p_email VARCHAR(60),
     IN p_password VARCHAR(140),
     IN p_fname VARCHAR(45),
     IN p_sname VARCHAR(45),
@@ -22,38 +22,58 @@ CREATE PROCEDURE new_user(
 
 BEGIN
 START TRANSACTION;
-	SET @addressExists = 0;
+    SET @addressExists = 0;
+    SET @userExists = 0;
+
     SELECT Count(*) 
-				FROM Address 
-                WHERE name = p_streetname AND house_number = p_streetnumber INTO @addressExists;
+    FROM `User`
+    WHERE `email` = p_email INTO @userExists;
+
+    SELECT Count(*) 
+                FROM `Address` 
+                WHERE `name` = p_streetname AND `house_number` = p_streetnumber INTO @addressExists;
+
+
+    IF @userExists > 0 THEN
+            SELECT CONCAT('Bruker allerede registrert!') INTO p_message;
     
-    IF @addressExists <> 0 
-	AND		p_email <> ''
-	AND		p_password <> ''
-    AND		p_fname <> ''
-    AND 	p_sname <> '' THEN
-		SET @address_FK_temp = 0;
+    ELSEIF (@addressExists < 1) THEN
+            SELECT CONCAT('Adresse eksiterer ikke!') INTO p_message;
     
-		SELECT `ID` 
-		FROM `Address` 
-        WHERE name = p_streetname AND house_number = p_streetnumber INTO @address_FK_temp;
+    ELSEIF (p_email = '') THEN
+            SELECT CONCAT('Fyll ut epost!') INTO p_message;
+   
+    ELSEIF (p_password = '') THEN
+            SELECT CONCAT('Fyll ut passord!') INTO p_message;
     
-		INSERT INTO `User` (`email` , `first_name`, `last_name`, `password`, `address_ID`)  VALUES 
-			(p_email, 
-			p_fname, 
+    ELSEIF (p_fname = '') THEN
+            SELECT CONCAT('Fyll ut fornavn!') INTO p_message;
+   
+    ELSEIF (p_sname = '') THEN
+            SELECT CONCAT('Fyll ut etternavn!') INTO p_message;
+    
+    ELSE
+
+        SET @address_FK_temp = 0;
+        
+        SELECT `ID` 
+        FROM `Address` 
+        WHERE `name` = p_streetname AND `house_number` = p_streetnumber INTO @address_FK_temp;
+        
+        INSERT INTO `User` (`email` , `first_name`, `last_name`, `password`, `address_ID`)  VALUES 
+            (p_email, 
+            p_fname, 
             p_sname,
             SHA2(p_password, 512),
             @address_FK_temp
-			
-		);
-         
-         SELECT CONCAT('Bruker opprettet!') INTO p_message;
-            
-	ELSE
-		SELECT CONCAT('Ugyldig inndata! ') INTO p_message;
-	END IF;
+        );
+             
+        SELECT CONCAT('Bruker opprettet!') INTO p_message;
+    END IF;
+        
     
 
+    
 COMMIT;
 END ::
 DELIMITER ;
