@@ -24,6 +24,7 @@
   border-radius: get('component.border-radius');
   background-color: get('component.input.background-color');
   color: get('component.input.color');
+  overflow: hidden;
 }
 
 .input{
@@ -48,4 +49,26 @@
   margin: 0 0 5px 0;
   box-sizing: border-box;
   color: get('light-clay', $colors);
+}
+
+
+
+
+// ** Dropdown **
+#suggestions{
+  @extend %input;
+  $mx: (get('content.margin.left') + get('content.margin.right'));
+  width: calc(100% - #{$mx});
+  margin-top: get('component.suggestion.margin.top');
+  padding: 0;
+  * {
+    padding:
+      get('component.input.padding.top')
+      get('component.input.padding.right')
+      get('component.input.padding.bottom')
+      get('component.input.padding.left');
+  }
+  *:hover{
+    background-color: get('light-gray', $colors);
+  }
 }
