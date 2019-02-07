@@ -1,4 +1,8 @@
 <?php
+
+// Import relative root.
+require 'RelativeRoot.php';
+
 /**
  * DB Class.
  *
@@ -18,10 +22,10 @@ class DB {
      *
      * @return mixed
      */
-    static function mysqli(){
+    public static function mysqli(){
 
         // Read JSON file with keys.
-        $key = file_get_contents(".key");
+        $key = file_get_contents(RelativeRoot::getURL().".security/.dbkey");
 
         // Parse JSON to assoc. array.
         $login = json_decode($key, true);
@@ -47,7 +51,7 @@ class DB {
             $conn->set_charset('utf8mb4');
 
             // Select DB (returns boolean).
-            $hasDB = $conn->select_db($login['dbnm']);
+            $hasDB = $conn->select_db('bk');
 
             if ($hasDB) {
 

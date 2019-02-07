@@ -57,6 +57,7 @@ class Address extends DatabaseObject {
      */
     function fetch($id): void {
 
+        include 'DB.php';
         $mysql = DB::mysqli();
         $sql = 'SELECT * FROM `Address` WHERE `ID` = ?;';
         $stmt = $mysql->prepare($sql);
