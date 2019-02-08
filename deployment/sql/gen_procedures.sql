@@ -177,12 +177,74 @@ Select @svar1;
 
 
 
+-- ************************************************* -- 
+                -- PROCEDURE 3 DELETE USER -- 
+-- ************************************************* -- 
+
+
+USE bk;
+DELIMITER ::
+DROP PROCEDURE IF EXISTS delete_user::
+CREATE PROCEDURE delete_user(
+    IN p_email VARCHAR(60),
+    IN p_password VARCHAR(140),
+    
+    OUT p_message VARCHAR(150)
+
+)
+
+BEGIN
+START TRANSACTION;
+    SET @UserID_TEMP = 0;
+    SET @UserPW_TEMP = '';
+
+    SELECT `ID`
+    FROM `User`
+    WHERE `email` = p_email INTO @UserID_TEMP;
+
+    Select `password`
+    FROM `User`
+    WHERE @UserID_TEMP = `ID` INTO @UserPW_TEMP;
+
+    IF @UserPW_TEMP = SHA2(p_password, 512) THEN
+        DELETE FROM `User`
+        WHERE `email` = p_email;
+        SELECT CONCAT('Bruker slettet!') INTO p_message;
+    ELSE
+        SELECT CONCAT('Feil passord!') INTO p_message;
+    END IF;
+
+        
+        
 
 
 
 
+    
+
+    
+COMMIT;
+END ::
+DELIMITER ;
 
 
+-- ************************************************* -- 
+                -- PROCEDURE 1 TEST CALL -- 
+-- ************************************************* -- 
+USE bk;
+
+SET @email='Anders@test.com';
+SET @upassword = 'testpassord';
+
+
+
+CALL delete_user(
+            @email, 
+            @upassword,
+            @svar1);
+            
+            
+Select @svar1;
 
 
 
