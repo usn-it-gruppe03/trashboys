@@ -22,7 +22,7 @@ class DB {
      *
      * @return mixed
      */
-    public static function mysqli(){
+    public static function mysqli(): object {
 
         // Read JSON file with keys.
         $key = file_get_contents(RelativeRoot::getURL().".security/.dbkey");

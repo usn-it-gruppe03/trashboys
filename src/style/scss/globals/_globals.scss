@@ -1,6 +1,7 @@
 @import
   "../functions/functions",
-  "../variables/variables";
+  "../variables/variables",
+  "../commons/commons";
 
 
 
@@ -39,6 +40,9 @@
 .text-dark-clay{
   color: get('dark-clay', $colors);
 }
+.text-light-clay{
+  color: get('light-clay', $colors);
+}
 .text-gray{
   color: get('gray', $colors);
 }
@@ -67,7 +71,7 @@
 // ** Width **
 $i:0;
 @while $i <= 100{
-  .w-#{$i}{ width: #{unquote('#{$i}%')}; }
+  .w-#{$i}{ width: #{unquote('#{$i}%')} !important; }
   $i: $i + 10;
 }
 
@@ -77,7 +81,7 @@ $i:0;
 // ** Height **
 $i:0;
 @while $i <= 100{
-  .h-#{$i}{ width: #{unquote('#{$i}vh')}; }
+  .h-#{$i}{ width: #{unquote('#{$i}vh')} !important; }
   $i: $i + 10;
 }
 
@@ -86,18 +90,18 @@ $i:0;
 
 // ** Margin **
 @for $i from 0 through 10 {
-  .m-#{$i}{ margin: #{unquote('#{$i}rem')}; }
-  .mt-#{$i}{ margin-top: #{unquote('#{$i}rem')}; }
-  .ml-#{$i}{ margin-left: #{unquote('#{$i}rem')}; }
-  .mr-#{$i}{ margin-right: #{unquote('#{$i}rem')}; }
-  .mb-#{$i}{ margin-bottom: #{unquote('#{$i}rem')}; }
+  .m-#{$i}{ margin: #{unquote('#{$i}rem')} !important; }
+  .mt-#{$i}{ margin-top: #{unquote('#{$i}rem')} !important; }
+  .ml-#{$i}{ margin-left: #{unquote('#{$i}rem')} !important; }
+  .mr-#{$i}{ margin-right: #{unquote('#{$i}rem')} !important; }
+  .mb-#{$i}{ margin-bottom: #{unquote('#{$i}rem')} !important; }
   .mx-#{$i}{
-    margin-left: #{unquote('#{$i}rem')};
-    margin-right: #{unquote('#{$i}rem')};
+    margin-left: #{unquote('#{$i}rem')} !important;
+    margin-right: #{unquote('#{$i}rem')} !important;
   }
   .my-#{$i}{
-    margin-top: #{unquote('#{$i}rem')};
-    margin-bottom: #{unquote('#{$i}rem')};
+    margin-top: #{unquote('#{$i}rem')} !important;
+    margin-bottom: #{unquote('#{$i}rem')} !important;
   }
 }
 
@@ -106,17 +110,81 @@ $i:0;
 
 // ** Padding **
 @for $i from 0 through 10 {
-  .p-#{$i}{ padding: #{unquote('#{$i}rem')}; }
-  .pt-#{$i}{ padding-top: #{unquote('#{$i}rem')}; }
-  .pl-#{$i}{ padding-left: #{unquote('#{$i}rem')}; }
-  .pr-#{$i}{ padding-right: #{unquote('#{$i}rem')}; }
-  .pb-#{$i}{ padding-bottom: #{unquote('#{$i}rem')}; }
+  .p-#{$i}{ padding: #{unquote('#{$i}rem')} !important; }
+  .pt-#{$i}{ padding-top: #{unquote('#{$i}rem')} !important; }
+  .pl-#{$i}{ padding-left: #{unquote('#{$i}rem')} !important; }
+  .pr-#{$i}{ padding-right: #{unquote('#{$i}rem')} !important; }
+  .pb-#{$i}{ padding-bottom: #{unquote('#{$i}rem')} !important; }
   .px-#{$i}{
-    padding-left: #{unquote('#{$i}rem')};
-    padding-right: #{unquote('#{$i}rem')};
+    padding-left: #{unquote('#{$i}rem')} !important;
+    padding-right: #{unquote('#{$i}rem')} !important;
   }
   .py-#{$i}{
-    padding-top: #{unquote('#{$i}rem')};
-    padding-bottom: #{unquote('#{$i}rem')};
+    padding-top: #{unquote('#{$i}rem')} !important;
+    padding-bottom: #{unquote('#{$i}rem')} !important;
   }
+}
+
+
+
+
+// ** Flex attributes **
+.d-flex{
+  @extend %flex;
+}
+
+.flex-row{
+  @extend %flex-row;
+}
+
+.flex-column{
+  @extend %flex-column;
+}
+
+.flex-row-left-top{
+  @extend %flex-row-left-top;
+}
+
+.flex-row-left-center{
+  @extend %flex-row-left-center;
+}
+
+.flex-row-left-bottom{
+  @extend %flex-row-left-bottom;
+}
+
+.flex-row-center-top{
+  @extend %flex-row-center-top;
+}
+
+.flex-row-center-center{
+  @extend %flex-row-center-center;
+}
+
+.flex-row-center-bottom{
+  @extend %flex-row-center-bottom;
+}
+
+.flex-row-right-top{
+  @extend %flex-row-right-top;
+}
+
+.flex-row-right-center{
+  @extend %flex-row-right-center;
+}
+
+.flex-row-right-bottom{
+  @extend %flex-row-right-bottom;
+}
+
+.justify-between{
+  @extend %flex-justify-between;
+}
+
+.flex-row-justify-between{
+  @extend %flex-row-justify-between;
+}
+
+.flex-row-justify-between-wrap{
+  @extend %flex-row-justify-between-wrap;
 }

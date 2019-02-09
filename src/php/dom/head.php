@@ -90,7 +90,7 @@
 
 
     <!-- CSS: -->
-    <link rel="stylesheet" href="src/style/css/style.css">
+    <link rel="stylesheet" href="src/style/css/style.min.css">
 
 
     <!-- Application title: -->

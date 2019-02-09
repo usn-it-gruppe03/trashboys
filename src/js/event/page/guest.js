@@ -2,240 +2,589 @@
 import {Address} from "../../class/address.js";
 
 
+
+/**
+ * Event listener: Window (on load).
+ *
+ * @description This event listener is activated when the browser window is loaded.
+ * */
 window.addEventListener('load', function () {
 
-    console.log('Main event listener initiated.');
+    // ** Debug message **
+    console.log('Main listener initiated.');
 
+    // ** PHP File constants **
+    const PHP_SEARCH_STREET = "src/php/ajax/search_street.php?name=";
+    const PHP_SEARCH_ADDRESS = "src/php/ajax/search_address.php?name=";
 
+    
+    
+    
+    // ** HTML element constants **
+    const INPUT_STREET = document.getElementById('street');
+    const INPUT_NUMBER = document.getElementById('number');
+    const INPUT_ZIP = document.getElementById('zip');
+    const INPUT_AREA = document.getElementById('area');
+    const OPTIONS_STREET = document.getElementById('options-street');
+    const OPTIONS_NUMBER = document.getElementById('options-number');
 
+    
+    
+    
+    // ** Boolean program state **
+    let inputMouseDown = false;
+    let optionMouseDown = false;
+    let isLoading = false;
+    let addressID = 0;
+    
+    
+    
+    
+    // ** Arrays **
+    let cachedStreets = [];
+    let cachedAddresses = [];
 
-    // * Event listener states **
-    let suggestionClicked = false;
+    
+    
+    
+    // TODO: Respective event listeners as functions.
+    function streetOnInput(){
 
+        // Refresh options for every input.
+        flushOptions(OPTIONS_STREET);
 
+        // Get input value.
+        let inputValue = getInputValue(this);
 
+        // ? If number of characters in the search is 2.
+        if (inputValue.length === 2) {
 
-    // ** Constants **
-    const input = document.getElementById('address');
-    const suggestions = document.getElementById('suggestions');
-    const zip = document.getElementById('zip');
-    const area = document.getElementById('area');
+            // Reset cached array of street names.
+            cachedStreets.length = 0;
 
+            // Invoke loading function.
+            initLoading(OPTIONS_STREET, function () {
 
+                isLoading = true;
 
+                // Invoke AJAX fetch function.
+                ajaxFetch(inputValue, PHP_SEARCH_STREET, function (data) {
 
-    // TODO: Get real data from database.
-    let addresses = [];
+                    // ? If data is in JSON format.
+                    if (isJSON(data)) {
 
+                        // Parse JSON to object.
+                        let jsonObject = JSON.parse(data);
 
+                        // Loop through object.
+                        for (let i = 0; i < jsonObject.length; i++)
+                            cachedStreets.push(jsonObject[i]['name']);
 
+                        isLoading = false;
+                        flushOptions(OPTIONS_STREET);
 
-    // ** Predefine event listeners **
+                        let filteredArray = filterArray(inputValue, cachedStreets);
+                        populateOptions(OPTIONS_STREET, filteredArray);
 
-    /**
-     * Event listener (input) on input.
-     * */
-    let input_onInput = input.addEventListener('input', function () {
+                    } else setStatusDiv('Gatenavnet finnes ikke.', 'text-light-clay');
 
-        if (input.value.length === 1) {
-
-            getAddress(getData(), function (data) {
-
-                let object = JSON.parse(data);
-
-                for (let i=0; i<object.length; i++) {
-
-                    let id = object[i]['ID'];
-                    let name = object[i]['name'];
-                    let number = object[i]['house_number'];
-                    let letter = object[i]['letter'];
-                    let zip = object[i]['zip_code'];
-                    let area = object[i]['postal_location'];
-
-                    addresses.push(
-                        new Address(id,name,number,letter,zip,area)
-                    );
-
-                }
+                });
 
             });
 
+        // ? If number of characters in the search is more than 2.
+        } else if (inputValue.length > 2) {
+
+            let filteredArray = filterArray(inputValue, cachedStreets);
+            if (filteredArray.length > 0)
+                populateOptions(OPTIONS_STREET, filteredArray);
+            else
+                showNode(OPTIONS_STREET, false);
+
+        // ? If number of characters in the search is 0.
+        } else if (inputValue.length === 0) {
+            flushOptions(OPTIONS_STREET);
+            showNode(OPTIONS_STREET, false);
         }
 
-        // ? If child nodes exist.
-        if (hasChildren())
-            flushChildren();
+    }
+    
+    
+    function numberOnInput(){
 
+        // Refresh options.
+        flushOptions(OPTIONS_NUMBER);
 
-        // Filter array of addresses.
-        let filtered = arrayFilter(getData(), addresses);
+        // Get value.
+        let inputValue = getInputValue(this);
 
+        // Init. distinction array.
+        let distinctions = [];
 
-        // ? If array is not empty.
-        if (filtered.length > 0)
-            showParent(true);
-        else {
-            flushChildren();
-            showParent(false);
-        }
-
-        // Loop through array.
-        for (let i=0; i<filtered.length; i++){
-
-            // Create DIV element.
-            let node = document.createElement('option');
-
-            // Add class to element.
-            node.classList.add('suggestion');
-
-            // Set ID.
-            node.value = filtered[i].id;
-
-            suggestion_onMouseDown(node, filtered[i]);
-            suggestion_onMouseUp(node);
-
-            // Create text node.
-            let content = document.createTextNode(filtered[i].short);
-
-            // Append text node to DIV element.
-            node.appendChild(content);
-
-            // Append DIV node to suggestions element.
-            suggestions.appendChild(node);
-
-        }
-
-        // ? If data string length is zero.
-        if (getData().length === 0){
-            flushChildren();
-            resetFamily();
-            showParent(false);
-        }
-
-    });
-
-    /**
-     * Event listener (suggestion) on mouse down.
-     *
-     * @param {object} node - The element to which the listener shall be attached.
-     * @param {object} object - An Address object.
-     * */
-    function suggestion_onMouseDown(node, object){
-        node.addEventListener('mousedown', function () {
-            suggestionClicked = true;
-            input.value = object.short;
-            zip.value = object.zip;
-            area.value = object.area;
+        // Loop through all cached addresses.
+        cachedAddresses.forEach(function (address) {
+            // Push distinctions to array.
+            distinctions.push(address.number + ' ' + address.letter);
         });
+
+        distinctions = filterArray(inputValue, distinctions);
+
+        populateOptions(OPTIONS_NUMBER, distinctions);
+        showNode(OPTIONS_NUMBER, true);
+
     }
 
-    /**
-     * Event listener (suggestion) on mouse up.
-     *
-     * @param {object} node - The element to which the listener shall be attached.
-     * */
-    function suggestion_onMouseUp(node) {
-        node.addEventListener('mouseup', function () {
-            suggestionClicked = false;
-            flushChildren();
-            showParent(false);
-        })
+    
+    function windowOnMouseDown(){
+         if (!inputMouseDown && !optionMouseDown) {
+             flushOptions(OPTIONS_STREET);
+             showNode(OPTIONS_STREET, false);
+             flushOptions(OPTIONS_NUMBER)
+             showNode(OPTIONS_NUMBER, false);
+         }
     }
 
-    /**
-     * Event listener (window) on mouse down.
-     * */
-    const window_onMouseDown = window.addEventListener('mousedown', function () {
+    
+    function inputOnMouseDown(){
 
-        // ? If a suggestion option is not clicked.
-        if (!suggestionClicked){
-            flushChildren();
-            showParent(false);
+        inputMouseDown = true;
+
+        switch (this) {
+
+            case INPUT_STREET:
+                flushOptions(OPTIONS_NUMBER);
+                showNode(OPTIONS_NUMBER, false);
+                break;
+
+            case INPUT_NUMBER:
+                flushOptions(OPTIONS_STREET);
+                showNode(OPTIONS_STREET, false);
+                break;
+
+            case INPUT_ZIP || INPUT_AREA:
+                flushOptions(OPTIONS_STREET);
+                showNode(OPTIONS_STREET, false);
+                flushOptions(OPTIONS_NUMBER);
+                showNode(OPTIONS_NUMBER, false);
+                break;
+
+            default:
+                console.log('OnMouseDown handler for ' + node + ' is undefined.');
+                break;
+        }
+        
+    }
+
+    
+    function inputOnMouseUp(){
+        inputMouseDown = false;
+    }
+
+    
+    function optionOnMouseDown(){
+
+        optionMouseDown = true;
+        let parent = this.parentNode;
+
+        switch (parent) {
+
+            case OPTIONS_STREET:
+                setSelectedValue(parent, this.value);
+                setInputValue(INPUT_STREET, this.value);
+
+                // ? If street options element has a value.
+                if (hasSelectedValue(parent)) {
+
+                    // Get value.
+                    let inputValue = getSelectedValue(parent);
+
+                    // Refresh options.
+                    flushOptions(OPTIONS_NUMBER);
+
+                    // Init. loading.
+                    initLoading(OPTIONS_NUMBER, function () {
+
+                        isLoading = true;
+
+                        // Init. AJAX fetch function.
+                        ajaxFetch(inputValue, PHP_SEARCH_ADDRESS, function (data) {
+
+                            // ? If data is in JSON format.
+                            if (isJSON(data)){
+
+                                let jsonObject = JSON.parse(data);
+                                let objectArray = Object.values(jsonObject);
+
+                                let numberArray = [];
+
+                                // Loop through each address.
+                                objectArray.forEach(function (address) {
+
+                                    // Push each address into a cached array of Address objects.
+                                    cachedAddresses.push(
+                                        new Address(
+                                            address['ID'],
+                                            address['name'],
+                                            address['house_number'],
+                                            address['letter'],
+                                            address['zip_code'],
+                                            address['postal_location'],
+                                        )
+                                    );
+
+                                    // Push house number and apartment letter into an array.
+                                    numberArray.push(
+                                        address['house_number'] + ' ' + address['letter']
+                                    );
+
+                                });
+
+                                isLoading = false;
+                                flushOptions(OPTIONS_NUMBER);
+
+                                populateOptions(OPTIONS_NUMBER, numberArray.sort());
+
+                            }
+
+                        });
+
+                    });
+
+                }
+
+                break;
+
+            case OPTIONS_NUMBER:
+                setSelectedValue(parent, this.value);
+                setInputValue(INPUT_NUMBER, this.value);
+
+                // ? If number options element has selected value.
+                if (hasSelectedValue(parent)){
+
+                    // Get selected street name.
+                    let name = getSelectedValue(OPTIONS_STREET);
+
+                    // Get selected house distinction.
+                    let distinction = getSelectedValue(parent).split(' ');
+
+                    // Reset options.
+                    flushOptions(parent);
+
+                    // Loop through all cached addresses.
+                    cachedAddresses.forEach(function (address) {
+
+                        // ? If house distinction is both alphabetical and numerical.
+                        if (distinction.length > 1) {
+
+                            // ? If current address matches with selected values.
+                            if (address.name === name && address.number.toString() === distinction[0] && address.letter.toString() === distinction[1]) {
+                                setInputValue(INPUT_ZIP, address.zip);
+                                setInputValue(INPUT_AREA, address.area);
+                                addressID = address.id;
+                            }
+
+                        // ? If house distinction is numerical only.
+                        } else {
+
+                            // ? If current address matches with selected values.
+                            if (address.name === name && address.number.toString() === distinction[0]) {
+                                setInputValue(INPUT_ZIP, address.zip);
+                                setInputValue(INPUT_AREA, address.area);
+                                addressID = address.id;
+                            }
+
+                        }
+
+                    });
+
+                }
+
+                break;
+
+            default:
+                console.log(parent + ' is an unknown parent node.');
+                break;
+
         }
 
-    });
+        flushOptions(parent);
+        showNode(parent, false);
 
+        flushOptions(parent);
+        showNode(parent, false);
 
+    }
 
+    
+    function optionOnMouseUp(){
+        optionMouseDown = false;
+        flushOptions(this.parentNode);
+        showNode(this.parentNode, false);
+    }
 
+    
+    
+    
     // ** Invoke event listeners **
-    input_onInput();
-    window_onMouseDown();
+    INPUT_STREET.addEventListener('input', streetOnInput);
+    INPUT_STREET.addEventListener('mousedown', inputOnMouseDown);
+    INPUT_STREET.addEventListener('mouseup', inputOnMouseUp);
+    
+    INPUT_NUMBER.addEventListener('input', numberOnInput);
+    INPUT_NUMBER.addEventListener('mousedown', inputOnMouseDown);
+    INPUT_NUMBER.addEventListener('mouseup', inputOnMouseUp);
+
+    INPUT_ZIP.addEventListener('mousedown', inputOnMouseDown);
+    INPUT_ZIP.addEventListener('mouseup', inputOnMouseUp);
+
+    INPUT_AREA.addEventListener('mousedown', inputOnMouseDown);
+    INPUT_AREA.addEventListener('mouseup', inputOnMouseUp);
+    
+    window.addEventListener('click', windowOnMouseDown);
 
 
+    
+    
+    // ** Utility functions **
 
+    function getInputValue(node){
+        return node.value;
+    }
 
-    // ** Reusable functions **
+    function setInputValue(node, value) {
+        node.value = value;
+    }
 
-    // Filter array:
-    function arrayFilter(value, array) {
+    function clearInputValues() {
+        setInputValue(INPUT_STREET, '');
+        setInputValue(INPUT_NUMBER, '');
+        setInputValue(INPUT_ZIP, '');
+        setInputValue(INPUT_AREA, '');
+    }
 
-        // Init. empty array.
-        let _array = [];
+    function getSelectedValue(node) {
+
+        const ATTRIBUTE_NAME = 'data-selected';
+
+        // ? If node has given attribute.
+        if (node.hasAttribute(ATTRIBUTE_NAME))
+            return node.getAttribute(ATTRIBUTE_NAME);
+
+    }
+
+    function setSelectedValue(node, value) {
+        node.setAttribute('data-selected', value);
+    }
+
+    function nodeVisible(node) {
+
+        const ATTRIBUTE_NAME = 'data-visible';
+
+        // ? If node has the given attribute.
+        if (node.hasAttribute(ATTRIBUTE_NAME)){
+
+            // Get the attribute value.
+            let value = node.getAttribute(ATTRIBUTE_NAME);
+
+            // ? If value equals true or not.
+            if (value === 'true') return true;
+            else if (value === 'false') return false;
+            else return false;
+
+        } else return true;
+
+    }
+
+    function showNode(node, boolean) {
+
+        // ? If node is visible
+        if (typeof boolean === 'boolean') {
+            node.setAttribute('data-visible', boolean);
+        } else
+            console.error('Second parameter must be a boolean type. Your parameter type: ' + typeof boolean);
+
+    }
+
+    function hasOptions(node){
+        return node.hasChildNodes();
+    }
+
+    function getOptions(node){
+
+        // ? If node has options.
+        if (hasOptions(node))
+            return node.children;
+
+    }
+
+    function flushOptions(node) {
+
+        // ? If node has options.
+        if (hasOptions(node))
+            while (hasOptions(node))
+                node.firstChild.remove();
+
+    }
+
+    function initLoading(node, callback) {
+
+        if (node === OPTIONS_STREET || node === OPTIONS_NUMBER) {
+
+            let statusDiv = document.createElement('div');
+            statusDiv.classList.add('text-gray');
+            statusDiv.setAttribute('id', 'status-div');
+            let loadingText = document.createTextNode('Searching ...');
+            statusDiv.appendChild(loadingText);
+            flushOptions(node);
+            node.appendChild(statusDiv);
+            showNode(node, true);
+
+            callback();
+
+        }
+
+    }
+
+    function filterArray(searchValue, array) {
+
+        // Force lowercase.
+        searchValue = searchValue.toLowerCase();
+
+        // Init. regular expression.
+        const REGEX = new RegExp(searchValue + '.+');
+        let returnArray = [];
 
         // Loop through array.
-        for (let i=0; i<array.length; i++){
+        array.forEach(function (row) {
 
-            // Init. regular expression.
-            let regex = new RegExp('(^' + value.toLowerCase() + ')(.+)');
+            // ? If row matches pattern.
+            if (REGEX.exec(row.toLowerCase())){
+                returnArray.push(row);
+            }
 
-            // ? If current row matches the input pattern.
-            if (regex.exec( (array[i].short).toLowerCase() ))
+        });
 
-                // Push data to array.
-                _array.push(array[i]);
+        return returnArray;
+
+    }
+
+    function populateOptions(node, array) {
+
+        if (node === OPTIONS_STREET) {
+
+            array.forEach(function (street) {
+
+                // Init. constants.
+                const OPTION_ELEMENT = document.createElement('option');
+                const OPTION_TEXT = document.createTextNode(street);
+
+                // Set value.
+                OPTION_ELEMENT.value = street;
+
+                // Append text node to option element.
+                OPTION_ELEMENT.appendChild(OPTION_TEXT);
+
+                // Add event listeners.
+                OPTION_ELEMENT.addEventListener('mousedown', optionOnMouseDown);
+                OPTION_ELEMENT.addEventListener('mouseup', optionOnMouseUp);
+
+                // Append option to options container.
+                OPTIONS_STREET.appendChild(OPTION_ELEMENT);
+
+            });
+
+            showNode(OPTIONS_STREET, true);
+
+        } else if (node === OPTIONS_NUMBER) {
+
+            array.forEach(function (number) {
+
+                // Init. constants.
+                const OPTION_ELEMENT = document.createElement('option');
+                const OPTION_TEXT = document.createTextNode(number);
+
+                // Set value.
+                OPTION_ELEMENT.value = number;
+
+                // Append text node to option element.
+                OPTION_ELEMENT.appendChild(OPTION_TEXT);
+
+                // Add event listeners.
+                OPTION_ELEMENT.addEventListener('mousedown', optionOnMouseDown);
+                OPTION_ELEMENT.addEventListener('mouseup', optionOnMouseUp);
+
+                // Append option to options container.
+                OPTIONS_NUMBER.appendChild(OPTION_ELEMENT);
+
+            });
+
+            showNode(OPTIONS_NUMBER, true);
 
         }
 
-        // Return array.
-        return _array;
-
     }
 
-    // Get data from input.
-    function getData() {
-        return input.value;
+    function setStatusDiv(text, className) {
+        let statusDiv = document.getElementById('status-div');
+        statusDiv.innerText = text;
+        statusDiv.removeAttribute('class');
+        statusDiv.classList.add(className);
     }
 
-    // Check if suggestions node has children nodes.
-    function hasChildren() {
-        let arr = document.getElementsByClassName('suggestion');
-        return arr.length > 0;
+    function isJSON(data) {
+        try {
+            JSON.parse(data);
+            return true;
+        } catch (e) {
+            return false;
+        }
     }
 
-    // Delete child nodes.
-    function flushChildren() {
-        while (suggestions.firstChild != null)
-            suggestions.removeChild(suggestions.firstChild);
+    function hasSelectedValue(node) {
+        return node.hasAttribute('data-selected') && node.getAttribute('data-selected').length > 0;
     }
 
-    // Show or hide suggestions.
-    function showParent(boolean) {
-        let val = boolean ? 'true' : 'false';
-        suggestions.setAttribute('data-visible', val);
-    }
-
-    // Reset input fields for ZIP code and postal area.
-    function resetFamily() {
-        area.value = '';
-        zip.value = '';
-    }
 
 });
 
-function getAddress(searchValue, callback) {
 
-    const ajax = new XMLHttpRequest();
 
-    ajax.onreadystatechange = function() {
 
+/**
+ * AJAX Fetch
+ *
+ * @author Isak Hauge
+ *
+ * @param {string} searchValue - The search value.
+ * @param {string} phpFile - The path and filename of the PHP AJAX handler.
+ * @param {function} callback - A callback function.
+ * */
+function ajaxFetch(searchValue, phpFile, callback) {
+
+    // Instantiate AJAX object.
+    const AJAX = new XMLHttpRequest();
+
+    // Init. on-ready event handler.
+    AJAX.onreadystatechange = function () {
+
+        // ? If data was successfully received.
         if (this.readyState === 4 && this.status === 200) {
+
+            // Send debug message to console.
+            console.log('DB request initiated.');
+
+            // Callback.
             callback(this.responseText);
+
         }
 
     };
 
-    ajax.open("GET", "src/php/ajax/search_address.php?value=" + searchValue, false);
-    ajax.send();
+    // Open connection to PHP file.
+    AJAX.open("GET", phpFile + searchValue, true);
+
+    // Send data through GET API.
+    AJAX.send();
 
 }
+

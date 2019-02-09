@@ -1,0 +1,56 @@
+@import
+  "../functions/functions",
+  "../variables/variables",
+  "../mixins/mixins",
+  "../commons/commons",
+  "../components/components";
+
+
+
+
+// ** Form group **
+.form-group{
+  width: 100%;
+}
+.form-group + .form-group{
+  padding: 2rem 0 0 0;
+}
+
+
+
+// ** Form label **
+.label{
+  display: inline-block;
+  font-weight: 700;
+  font-size: 12px;
+  margin: 0 0 5px 0;
+  box-sizing: border-box;
+  color: get('light-clay', $colors);
+}
+
+
+
+
+// ** Dropdown **
+.options{
+  @extend %input;
+  $mx: (get('content.margin.left') + get('content.margin.right'));
+  margin-top: get('component.options.margin.top');
+  padding: 0;
+  max-height: 10rem;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+  * {
+    font-weight: get('component.option.font-weight');
+    padding:
+      get('component.input.padding.top')
+      get('component.input.padding.right')
+      get('component.input.padding.bottom')
+      get('component.input.padding.left');
+  }
+  option:hover{
+    background-color: get('light-gray', $colors);
+    cursor: pointer;
+  }
+}
+

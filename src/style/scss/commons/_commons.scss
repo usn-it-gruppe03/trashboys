@@ -27,6 +27,11 @@
   flex-direction: column;
 }
 
+%flex-justify-between{
+  @extend %flex;
+  @include justify-content(space-between);
+}
+
 %flex-row-left-top{
   @extend %flex-row;
   // Horizontal align:
@@ -97,6 +102,15 @@
   @include justify-content(flex-end);
   // Vertical align:
   @include align-content(flex-end);
+}
+
+%flex-row-justify-between{
+  @extend %flex-row;
+}
+
+%flex-row-justify-between-wrap{
+  @extend %flex-row;
+  @include flex-wrap(wrap);
 }
 
 

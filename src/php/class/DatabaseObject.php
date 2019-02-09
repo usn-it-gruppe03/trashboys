@@ -192,8 +192,10 @@ abstract class DatabaseObject {
         $stmt = $mysql->prepare($sql);
 
         // ? If Execution was successful.
-        if (!$stmt->execute() || $mysql->affected_rows === 0 )
+        if (!$stmt->execute() || $mysql->affected_rows === 0 ) {
             assert(false, new Error('Could not delete ' . $class . '. MySQL Error: ' . $mysql->error . '. '));
+            $mysql->close();
+        } else $mysql->close();
 
 
     }

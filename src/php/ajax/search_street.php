@@ -12,13 +12,10 @@ if (isset($_GET['name'])){
     $mysql = DB::mysqli();
 
     // Init. SQL code.
-    $sql_code = 'SELECT `ID`, `name`, `house_number`, `letter`, `zip_code`, `postal_location` FROM `Address` WHERE `name` = ?;';
+    $sql_code = 'SELECT DISTINCT `name` FROM `Address` WHERE `name` LIKE "'.$_GET['name'].'%";';
 
     // Prepare statement.
     $stmt = $mysql->prepare($sql_code);
-
-    // Bind parameters.
-    $stmt->bind_param('s', $_GET['name']);
 
     // ? If execution was successful.
     if ($stmt->execute()){

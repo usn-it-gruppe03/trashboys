@@ -6,34 +6,43 @@
         </div>
     </div>
 </section>
-<section class="py-4">
+<section class="py-1">
     <div class="container text-center">
         <h3 class="text-dark">Tømmedatoar</h3>
         <p>Fyll inn din adresse for å sjå<br>tømmedatoar for dei respektive<br>avfallskategoriane.</p>
     </div>
 </section>
 <section>
-    <form action="">
-        <div class="form-group">
-            <div class="container">
-                <input type="text" id="address" name="address" class="input" placeholder="Adresse">
-                <section id="suggestions" data-visible="false">
-                </section>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="container">
-                <div class="row">
-                    <div class="col">
-                        <input type="text" id="zip" name="zip" class="input" placeholder="Postnummer" data-state="inactive">
+    <div class="container">
+        <form action="">
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <input type="text" id="street" name="street" class="input" placeholder="Gatenavn">
+                        <div id="options-street" class="options" data-visible="false"></div>
                     </div>
-                    <div class="col">
-                        <input type="text" id="area" name="area" class="input" placeholder="Poststed">
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <input type="text" id="number" name="number" class="input" placeholder="Husnummer">
+                        <div id="options-number" class="options" data-visible="false"></div>
                     </div>
                 </div>
             </div>
-        </div>
-    </form>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <input type="text" id="zip" name="zip" class="input" placeholder="Postnummer" disabled>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <input type="text" id="area" name="area" class="input" placeholder="Poststed" disabled>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
 </section>
 
 

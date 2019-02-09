@@ -233,7 +233,10 @@ $main: (
   // ** Row **
   'row': (
     'width': 100%,
-    'position': relative
+    'position': relative,
+    'justify-content': space-between,
+    'align-items': stretch,
+    'flex-wrap': wrap,
   ),
 
 
@@ -347,11 +350,15 @@ $main: (
       'border': 0,
     ),
 
-    /* Suggestion */
-    'suggestion': (
+    /* Options */
+    'options': (
       'margin': (
         'top': 0.5rem,
       ),
+    ),
+
+    'option': (
+      'font-weight': 700,
     ),
 
   ),

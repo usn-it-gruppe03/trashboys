@@ -34,18 +34,22 @@ $mw_mobile:      ($res_mobile     - 100px);
 
 
 
+// ** Init. horizontal content margin variable **
+$margin_hz: get('content.margin.right') + get('content.margin.left');
+
+
+
+
 // ** Typical grid classes **
 
 // Container.
-.container, container-loose {
-  width: 100%;
-}
-
-// All normal content inside a container; except rows.
-.container > *:not(.row) {
-  $m_hz: get('content.margin.right') + get('content.margin.left');
-  margin: 0 #{$m_hz/2};
-  width: calc(100% - #{$m_hz});
+.container, container-loose{
+  width: calc(100% - #{$margin_hz});
+  margin:
+    0
+    get('content.margin.right')
+    0
+    get('content.margin.left');
 }
 
 // Top margin if two containers are next to each other.
@@ -53,27 +57,26 @@ $mw_mobile:      ($res_mobile     - 100px);
   margin-top: get('content.margin.top');
 }
 
-// Margins for rows and columns.
-$margin_left: (get('content.margin.left') / 2);
-$margin_right: (get('content.margin.right') / 2);
-
 // Row class.
 .row {
   @extend %flex-row-left-top;
-  @include justify-content(space-between);
-  @include align-items(stretch);
-  @include flex-wrap(wrap);
+  @include justify-content(get('row.justify-content'));
+  @include align-items(get('row.align-items'));
+  @include flex-wrap(get('row.flex-wrap'));
+  $margin_left: (get('content.margin.left') * -1);
+  $margin_right: (get('content.margin.right') * -1);
   width: calc( 100% - #{$margin_left} - #{$margin_right} );
   margin: 0 #{$margin_right} 0 #{$margin_left};
 }
 
 // Column class.
 .col {
-  margin:
+  @include flex-grow(get('col.flex-grow'));
+  padding:
     get('content.margin.top')
-    #{(get('content.margin.right')/2)}  // Account for row margin.
+    get('content.margin.right')
     get('content.margin.bottom')
-    #{(get('content.margin.left')/2)};  // Account for row margin.
+    get('content.margin.left');
 }
 
 
@@ -81,41 +84,38 @@ $margin_right: (get('content.margin.right') / 2);
 
 // ** Media queries **
 
-// Horizontal margins combined.
-$hz_margin: (get('content.margin.right') / 2) + (get('content.margin.left') / 2);
-
 // Query: Mobile.
 @media #{$mq_mobile} {
   .container{max-width: $mw_mobile;}
-  .col:first-child:nth-last-child(1), .col:first-child:nth-last-child(1) ~ .col{width: calc(100% / 1 - #{$hz_margin});}
-  .col:first-child:nth-last-child(2), .col:first-child:nth-last-child(2) ~ .col{width: calc(100% / 1 - #{$hz_margin});}
-  .col:first-child:nth-last-child(3), .col:first-child:nth-last-child(3) ~ .col{width: calc(100% / 1 - #{$hz_margin});}
-  .col:first-child:nth-last-child(4), .col:first-child:nth-last-child(4) ~ .col{width: calc(100% / 1 - #{$hz_margin});}
+  .col:first-child:nth-last-child(1), .col:first-child:nth-last-child(1) ~ .col{width: calc(100% / 1 - #{$margin_hz});}
+  .col:first-child:nth-last-child(2), .col:first-child:nth-last-child(2) ~ .col{width: calc(100% / 1 - #{$margin_hz});}
+  .col:first-child:nth-last-child(3), .col:first-child:nth-last-child(3) ~ .col{width: calc(100% / 1 - #{$margin_hz});}
+  .col:first-child:nth-last-child(4), .col:first-child:nth-last-child(4) ~ .col{width: calc(100% / 1 - #{$margin_hz});}
 }
 
 // Query: Tablet.
 @media #{$mq_tablet} {
   .container{max-width: $mw_tablet;}
-  .col:first-child:nth-last-child(1), .col:first-child:nth-last-child(1) ~ .col{width: calc(100% / 1 - #{$hz_margin});}
-  .col:first-child:nth-last-child(2), .col:first-child:nth-last-child(2) ~ .col{width: calc(100% / 2 - #{$hz_margin});}
-  .col:first-child:nth-last-child(3), .col:first-child:nth-last-child(3) ~ .col{width: calc(100% / 2 - #{$hz_margin});}
-  .col:first-child:nth-last-child(4), .col:first-child:nth-last-child(4) ~ .col{width: calc(100% / 2 - #{$hz_margin});}
+  .col:first-child:nth-last-child(1), .col:first-child:nth-last-child(1) ~ .col{width: calc(100% / 1 - #{$margin_hz});}
+  .col:first-child:nth-last-child(2), .col:first-child:nth-last-child(2) ~ .col{width: calc(100% / 2 - #{$margin_hz});}
+  .col:first-child:nth-last-child(3), .col:first-child:nth-last-child(3) ~ .col{width: calc(100% / 2 - #{$margin_hz});}
+  .col:first-child:nth-last-child(4), .col:first-child:nth-last-child(4) ~ .col{width: calc(100% / 2 - #{$margin_hz});}
 }
 
 // Query: Desktop (small).
 @media #{$mq_desktop_sm} {
   .container{max-width: $mw_desktop_sm;}
-  .col:first-child:nth-last-child(1), .col:first-child:nth-last-child(1) ~ .col{width: calc(100% / 1 - #{$hz_margin});}
-  .col:first-child:nth-last-child(2), .col:first-child:nth-last-child(2) ~ .col{width: calc(100% / 2 - #{$hz_margin});}
-  .col:first-child:nth-last-child(3), .col:first-child:nth-last-child(3) ~ .col{width: calc(100% / 3 - #{$hz_margin});}
-  .col:first-child:nth-last-child(4), .col:first-child:nth-last-child(4) ~ .col{width: calc(100% / 3 - #{$hz_margin});}
+  .col:first-child:nth-last-child(1), .col:first-child:nth-last-child(1) ~ .col{width: calc(100% / 1 - #{$margin_hz});}
+  .col:first-child:nth-last-child(2), .col:first-child:nth-last-child(2) ~ .col{width: calc(100% / 2 - #{$margin_hz});}
+  .col:first-child:nth-last-child(3), .col:first-child:nth-last-child(3) ~ .col{width: calc(100% / 3 - #{$margin_hz});}
+  .col:first-child:nth-last-child(4), .col:first-child:nth-last-child(4) ~ .col{width: calc(100% / 3 - #{$margin_hz});}
 }
 
 // Query: Desktop.
 @media #{$mq_desktop} {
   .container{max-width: $mw_desktop;}
-  .col:first-child:nth-last-child(1), .col:first-child:nth-last-child(1) ~ .col{width: calc(100% / 1 - #{$hz_margin});}
-  .col:first-child:nth-last-child(2), .col:first-child:nth-last-child(2) ~ .col{width: calc(100% / 2 - #{$hz_margin});}
-  .col:first-child:nth-last-child(3), .col:first-child:nth-last-child(3) ~ .col{width: calc(100% / 3 - #{$hz_margin});}
-  .col:first-child:nth-last-child(4), .col:first-child:nth-last-child(4) ~ .col{width: calc(100% / 4 - #{$hz_margin});}
+  .col:first-child:nth-last-child(1), .col:first-child:nth-last-child(1) ~ .col{width: calc(100% / 1 - #{$margin_hz});}
+  .col:first-child:nth-last-child(2), .col:first-child:nth-last-child(2) ~ .col{width: calc(100% / 2 - #{$margin_hz});}
+  .col:first-child:nth-last-child(3), .col:first-child:nth-last-child(3) ~ .col{width: calc(100% / 3 - #{$margin_hz});}
+  .col:first-child:nth-last-child(4), .col:first-child:nth-last-child(4) ~ .col{width: calc(100% / 4 - #{$margin_hz});}
 }

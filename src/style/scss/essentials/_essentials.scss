@@ -68,3 +68,14 @@ header{@extend %header}
 main{@extend %main}
 section{@extend %section}
 footer{@extend %footer}
+
+html {
+  box-sizing: border-box;
+  -ms-overflow-style: scrollbar;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
