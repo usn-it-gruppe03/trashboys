@@ -55,9 +55,8 @@
   z-index: get('footer.z-index');
 }
 
-:root{
-  @extend %font-smoothing;
-  size: $idx;
+html{
+  font-size: $idx;
   font-family: #{get('root.family')};
   color: get('dark-gray', $colors);
   box-sizing: border-box;
@@ -69,13 +68,9 @@ main{@extend %main}
 section{@extend %section}
 footer{@extend %footer}
 
-html {
-  box-sizing: border-box;
-  -ms-overflow-style: scrollbar;
-}
 
 *,
 *::before,
 *::after {
-  box-sizing: inherit;
+  box-sizing: border-box;
 }

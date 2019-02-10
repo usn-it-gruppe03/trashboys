@@ -6,7 +6,7 @@
         </div>
     </div>
 </section>
-<section class="py-4">
+<section class="py-1">
     <div class="container text-center">
         <h3 class="text-dark">Velkommen</h3>
         <p>Lag ein brukar i dag og få komplett<br>oversikt over ditt abbonnement.</p>

@@ -141,6 +141,9 @@ window.addEventListener('load', function () {
              showNode(OPTIONS_STREET, false);
              flushOptions(OPTIONS_NUMBER)
              showNode(OPTIONS_NUMBER, false);
+         } else {
+             inputMouseDown = false;
+             optionMouseDown = false;
          }
     }
 
@@ -424,6 +427,9 @@ window.addEventListener('load', function () {
             while (hasOptions(node))
                 node.firstChild.remove();
 
+        showNode(node, false);
+        verticalScroll(node, false);
+
     }
 
     function initLoading(node, callback) {
@@ -493,8 +499,6 @@ window.addEventListener('load', function () {
 
             });
 
-            showNode(OPTIONS_STREET, true);
-
         } else if (node === OPTIONS_NUMBER) {
 
             array.forEach(function (number) {
@@ -518,9 +522,10 @@ window.addEventListener('load', function () {
 
             });
 
-            showNode(OPTIONS_NUMBER, true);
-
         }
+
+        showNode(node, true);
+        verticalScroll(node, true);
 
     }
 
@@ -542,6 +547,17 @@ window.addEventListener('load', function () {
 
     function hasSelectedValue(node) {
         return node.hasAttribute('data-selected') && node.getAttribute('data-selected').length > 0;
+    }
+    
+    function verticalScroll(node, boolean) {
+
+        if (typeof boolean === 'boolean'){
+            if (boolean)
+                node.classList.add('y-scroll');
+            else
+                node.classList.remove('y-scroll');
+        }
+
     }
 
 

@@ -38,9 +38,8 @@
   margin-top: get('component.options.margin.top');
   padding: 0;
   max-height: 10rem;
-  overflow-y: scroll;
-  scroll-behavior: smooth;
   * {
+    position: relative;
     font-weight: get('component.option.font-weight');
     padding:
       get('component.input.padding.top')
