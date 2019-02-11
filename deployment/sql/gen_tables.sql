@@ -14,7 +14,7 @@ CREATE TABLE `Address` (
     PRIMARY KEY(`ID`),
     FOREIGN KEY(`route_ID`) REFERENCES `Route`(`ID`),
     INDEX `Address_IDX` (`name`, `house_number`, `letter`, `zip_code`, `postal_location`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_danish_ci;
 
 
 DROP TABLE IF EXISTS `Order`;
@@ -25,7 +25,9 @@ CREATE TABLE `Order` (
 
     PRIMARY KEY (`ID`),
     FOREIGN KEY (`user_ID`) REFERENCES `User`(`ID`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_danish_ci;
+
+
 
 
 DROP TABLE IF EXISTS `Order_Line`;
@@ -39,7 +41,7 @@ CREATE TABLE `Order_Line` (
     PRIMARY KEY (`ID`),
     FOREIGN KEY (`order_ID`) REFERENCES `Order` (`ID`),
     FOREIGN KEY (`product_ID`) REFERENCES `Product` (`ID`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_danish_ci;
 
 
 DROP TABLE IF EXISTS `Price_Log`;
@@ -52,7 +54,7 @@ CREATE TABLE `Price_Log` (
 
     PRIMARY KEY (`ID`),
     FOREIGN KEY (`product_ID`) REFERENCES `Product` (`ID`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_danish_ci;
 
 
 DROP TABLE IF EXISTS `Product`;
@@ -62,7 +64,7 @@ CREATE TABLE `Product` (
     `price` decimal(8,2) NOT NULL,
 
     PRIMARY KEY (`ID`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_danish_ci;
 
 
 DROP TABLE IF EXISTS `Route`;
@@ -72,7 +74,7 @@ CREATE TABLE `Route` (
     `no_nn` varchar(45) DEFAULT NULL UNIQUE,
 
     PRIMARY KEY (`ID`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_danish_ci;
 
 
 DROP TABLE IF EXISTS `User`;
@@ -89,7 +91,7 @@ CREATE TABLE `User` (
     PRIMARY KEY (`ID`),
     FOREIGN KEY (`user_type_ID`) REFERENCES `User_Type` (`ID`),
     CONSTRAINT `CK_User_Email_Pattern` CHECK (`email` REGEXP '([a-zA-Z0-9.+]+(?:\@{1}))([a-zA-Z0-9+]+)(\.{1}[a-zA-Z0-9+]+)+')
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_danish_ci;
 
 
 DROP TABLE IF EXISTS `User_Type`;
@@ -98,7 +100,7 @@ CREATE TABLE `User_Type` (
     `name` varchar(45) NOT NULL,
 
     PRIMARY KEY (`ID`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_danish_ci;
 
 
 DROP TABLE IF EXISTS `Waste_Category`;
@@ -107,7 +109,7 @@ CREATE TABLE `Waste_Category` (
     `name` varchar(45) DEFAULT NULL UNIQUE,
 
     PRIMARY KEY (`ID`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_danish_ci;
 
 
 DROP TABLE IF EXISTS `Waste_Collection`;
@@ -120,5 +122,5 @@ CREATE TABLE `Waste_Collection` (
     PRIMARY KEY (`ID`),
     FOREIGN KEY (`route_ID`) REFERENCES `Route` (`ID`),
     FOREIGN KEY (`waste_ID`) REFERENCES `Waste_Category` (`ID`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_danish_ci;
 
