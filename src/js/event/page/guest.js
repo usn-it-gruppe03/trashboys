@@ -366,13 +366,6 @@ window.addEventListener('load', function () {
         node.setAttribute('data-value', value);
     }
 
-    function clearInputValues() {
-        setInputValue(INPUT_STREET, '');
-        setInputValue(INPUT_NUMBER, '');
-        setInputValue(INPUT_ZIP, '');
-        setInputValue(INPUT_AREA, '');
-    }
-
     function getSelectedValue(node) {
 
         const ATTRIBUTE_NAME = 'data-selected';
@@ -387,23 +380,8 @@ window.addEventListener('load', function () {
         node.setAttribute('data-selected', value);
     }
 
-    function nodeVisible(node) {
-
-        const ATTRIBUTE_NAME = 'data-visible';
-
-        // ? If node has the given attribute.
-        if (node.hasAttribute(ATTRIBUTE_NAME)){
-
-            // Get the attribute value.
-            let value = node.getAttribute(ATTRIBUTE_NAME);
-
-            // ? If value equals true or not.
-            if (value === 'true') return true;
-            else if (value === 'false') return false;
-            else return false;
-
-        } else return true;
-
+    function hasSelectedValue(node) {
+        return node.hasAttribute('data-selected') && node.getAttribute('data-selected').length > 0;
     }
 
     function showNode(node, boolean) {
@@ -549,10 +527,6 @@ window.addEventListener('load', function () {
         } catch (e) {
             return false;
         }
-    }
-
-    function hasSelectedValue(node) {
-        return node.hasAttribute('data-selected') && node.getAttribute('data-selected').length > 0;
     }
     
     function verticalScroll(node, boolean) {
