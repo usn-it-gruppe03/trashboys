@@ -89,3 +89,12 @@
   -moz-box-sizing: $param;
   box-sizing: $param;
 }
+
+
+
+
+// ** Appearance **
+@mixin appearance($param){
+  -webkit-appearance: $param;
+  -moz-appearance: $param;
+}
