@@ -15,6 +15,7 @@ CREATE PROCEDURE new_user(
     IN p_sname VARCHAR(45),
     IN p_streetname VARCHAR(80),
     IN p_streetnumber INT,
+    IN p_houseletter VARCHAR(2),
     
     OUT p_message VARCHAR(150)
 
@@ -22,8 +23,10 @@ CREATE PROCEDURE new_user(
 
 BEGIN
 START TRANSACTION;
+    
     SET @addressExists = 0;
     SET @userExists = 0;
+    SET @address_FK_temp = 0;
 
     SELECT Count(*) 
     FROM `User`
@@ -31,13 +34,19 @@ START TRANSACTION;
 
     SELECT Count(*) 
                 FROM `Address` 
-                WHERE `name` = p_streetname AND `house_number` = p_streetnumber INTO @addressExists;
+                WHERE `name` = p_streetname AND `house_number` = p_streetnumber AND `letter` = p_houseletter INTO @addressExists;
+                
+    
+        
+    SELECT `ID` 
+    FROM `Address` 
+    WHERE `name` = p_streetname AND `house_number` = p_streetnumber AND `letter` = p_houseletter INTO @address_FK_temp;
 
 
     IF @userExists > 0 THEN
             SELECT CONCAT('Bruker allerede registrert!') INTO p_message;
     
-    ELSEIF (@addressExists < 1) THEN
+    ELSEIF (@addressExists  < 1) THEN
             SELECT CONCAT('Adresse eksiterer ikke!') INTO p_message;
     
     ELSEIF (p_email = '') THEN
@@ -54,11 +63,7 @@ START TRANSACTION;
     
     ELSE
 
-        SET @address_FK_temp = 0;
         
-        SELECT `ID` 
-        FROM `Address` 
-        WHERE `name` = p_streetname AND `house_number` = p_streetnumber INTO @address_FK_temp;
         
         INSERT INTO `User` (`email` , `first_name`, `last_name`, `password`, `address_ID`)  VALUES 
             (p_email, 
@@ -82,25 +87,25 @@ DELIMITER ;
                 -- PROCEDURE 1 TEST CALL -- 
 -- ************************************************* -- 
 USE bk;
-
-SET @email='Test@test.com';
+SET @email='Andersbaero@gmail.com';
 SET @upassword = 'test123321';
 SET @fname = 'Tester';
 SET @sname= 'Testersen';
-SET @streetname='Krintovegen';
-SET @streetnumber=66;
+SET @streetname='Uvdalvegen';
+SET @streetnumber=176;
+SET @houseletter = 'B';
 
 
 
 CALL new_user(
-			@email, 
+            @email, 
             @upassword,
             @fname, 
             @sname,
             @streetname, 
             @streetnumber,
+            @houseletter,
             @svar1);
-            
             
 Select @svar1;
 
@@ -229,7 +234,7 @@ DELIMITER ;
 
 
 -- ************************************************* -- 
-                -- PROCEDURE 1 TEST CALL -- 
+                -- PROCEDURE 3 TEST CALL -- 
 -- ************************************************* -- 
 USE bk;
 
@@ -249,11 +254,109 @@ Select @svar1;
 
 
 
+-- ************************************************* -- 
+                -- PROCEDURE 4 edit_user -- 
+-- ************************************************* -- 
 
 
 
+USE bk;
+DELIMITER ::
+DROP PROCEDURE IF EXISTS edit_user::
+CREATE PROCEDURE edit_user(
+    IN p_email VARCHAR(60),
+    IN p_password VARCHAR(140),
+    IN p_fname VARCHAR(45),
+    IN p_sname VARCHAR(45),
+    IN p_streetname VARCHAR(80),
+    IN p_streetnumber INT,
+    
+    OUT p_message VARCHAR(150)
+
+)
+
+BEGIN
+START TRANSACTION;
+    SET @addressExists = 0;
+    SET @userExists = 0;
+
+    SELECT Count(*) 
+    FROM `User`
+    WHERE `email` = p_email INTO @userExists;
+
+    SELECT Count(*) 
+                FROM `Address` 
+                WHERE `name` = p_streetname AND `house_number` = p_streetnumber INTO @addressExists;
 
 
+    IF @userExists > 0 THEN
+            SELECT CONCAT('Bruker allerede registrert!') INTO p_message;
+    
+    ELSEIF (@addressExists < 1) THEN
+            SELECT CONCAT('Adresse eksiterer ikke!') INTO p_message;
+    
+    ELSEIF (p_email = '') THEN
+            SELECT CONCAT('Fyll ut epost!') INTO p_message;
+   
+    ELSEIF (p_password = '') THEN
+            SELECT CONCAT('Fyll ut passord!') INTO p_message;
+    
+    ELSEIF (p_fname = '') THEN
+            SELECT CONCAT('Fyll ut fornavn!') INTO p_message;
+   
+    ELSEIF (p_sname = '') THEN
+            SELECT CONCAT('Fyll ut etternavn!') INTO p_message;
+    
+    ELSE
+
+        SET @address_FK_temp = 0;
+        
+        SELECT `ID` 
+        FROM `Address` 
+        WHERE `name` = p_streetname AND `house_number` = p_streetnumber INTO @address_FK_temp;
+        
+        UPDATE `User`
+        SET `email` = p_email,
+        SET `first_name` = p_fname, 
+        SET `last_name` =  p_sname,
+        SET `password` =  SHA2(p_password, 512)
+        WHERE 
+        
+        SELECT CONCAT('Bruker opprettet!') INTO p_message;
+    END IF;
+        
+    
+
+    
+COMMIT;
+END ::
+DELIMITER ;
+
+-- ************************************************* -- 
+                -- PROCEDURE 4 TEST CALL -- 
+-- ************************************************* -- 
+USE bk;
+
+SET @email='Test@test.com';
+SET @upassword = 'test123321';
+SET @fname = 'Tester';
+SET @sname= 'Testersen';
+SET @streetname='Krintovegen';
+SET @streetnumber=66;
+
+
+
+CALL new_user(
+            @email, 
+            @upassword,
+            @fname, 
+            @sname,
+            @streetname, 
+            @streetnumber,
+            @svar1);
+            
+            
+Select @svar1;
 
 
 

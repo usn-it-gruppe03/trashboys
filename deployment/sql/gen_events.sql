@@ -7,6 +7,7 @@
 
 USE bk;
 DELIMITER ::
+DROP EVENT IF EXISTS update_collection_time;
 CREATE EVENT update_collection_time 
 	ON SCHEDULE EVERY 1 DAY STARTS '2018-10-12 23:58:00' 
 	DO BEGIN
