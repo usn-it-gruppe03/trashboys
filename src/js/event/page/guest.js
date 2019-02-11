@@ -192,8 +192,8 @@ window.addEventListener('load', function () {
         switch (parent) {
 
             case OPTIONS_STREET:
-                setSelectedValue(parent, this.value);
-                setInputValue(INPUT_STREET, this.value);
+                setSelectedValue(parent, getDataValue(this));
+                setInputValue(INPUT_STREET, getDataValue(this));
 
                 // ? If street options element has a value.
                 if (hasSelectedValue(parent)) {
@@ -258,8 +258,8 @@ window.addEventListener('load', function () {
                 break;
 
             case OPTIONS_NUMBER:
-                setSelectedValue(parent, this.value);
-                setInputValue(INPUT_NUMBER, this.value);
+                setSelectedValue(parent, getDataValue(this));
+                setInputValue(INPUT_NUMBER, getDataValue(this));
 
                 // ? If number options element has selected value.
                 if (hasSelectedValue(parent)){
@@ -356,6 +356,14 @@ window.addEventListener('load', function () {
 
     function setInputValue(node, value) {
         node.value = value;
+    }
+
+    function getDataValue(node) {
+        return node.getAttribute('data-value');
+    }
+
+    function setDataValue(node, value) {
+        node.setAttribute('data-value', value);
     }
 
     function clearInputValues() {
@@ -481,21 +489,20 @@ window.addEventListener('load', function () {
             array.forEach(function (street) {
 
                 // Init. constants.
-                const OPTION_ELEMENT = document.createElement('option');
-                const OPTION_TEXT = document.createTextNode(street);
+                let option_elem = document.createElement('div');
 
                 // Set value.
-                OPTION_ELEMENT.value = street;
+                setDataValue(option_elem, street);
 
                 // Append text node to option element.
-                OPTION_ELEMENT.appendChild(OPTION_TEXT);
+                option_elem.innerText = street;
 
                 // Add event listeners.
-                OPTION_ELEMENT.addEventListener('mousedown', optionOnMouseDown);
-                OPTION_ELEMENT.addEventListener('mouseup', optionOnMouseUp);
+                option_elem.addEventListener('mousedown', optionOnMouseDown);
+                option_elem.addEventListener('mouseup', optionOnMouseUp);
 
                 // Append option to options container.
-                OPTIONS_STREET.appendChild(OPTION_ELEMENT);
+                OPTIONS_STREET.appendChild(option_elem);
 
             });
 
@@ -504,21 +511,20 @@ window.addEventListener('load', function () {
             array.forEach(function (number) {
 
                 // Init. constants.
-                const OPTION_ELEMENT = document.createElement('option');
-                const OPTION_TEXT = document.createTextNode(number);
+                let option_elem = document.createElement('div');
 
                 // Set value.
-                OPTION_ELEMENT.value = number;
+                setDataValue(option_elem, number);
 
                 // Append text node to option element.
-                OPTION_ELEMENT.appendChild(OPTION_TEXT);
+                option_elem.innerText = number;
 
                 // Add event listeners.
-                OPTION_ELEMENT.addEventListener('mousedown', optionOnMouseDown);
-                OPTION_ELEMENT.addEventListener('mouseup', optionOnMouseUp);
+                option_elem.addEventListener('mousedown', optionOnMouseDown);
+                option_elem.addEventListener('mouseup', optionOnMouseUp);
 
                 // Append option to options container.
-                OPTIONS_NUMBER.appendChild(OPTION_ELEMENT);
+                OPTIONS_NUMBER.appendChild(option_elem);
 
             });
 
