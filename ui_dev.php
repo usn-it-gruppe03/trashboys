@@ -35,7 +35,7 @@ if (isset($_GET['p'])) {
 
 } else {
 
-    echo '<h1>Welcome</h1><h2>Enter following GET REST API in URL: ?p=home</h2>';
+    require_once $page . 'home.php';
 
 }
 
