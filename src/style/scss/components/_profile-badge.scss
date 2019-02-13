@@ -1,0 +1,25 @@
+@import
+"../functions/functions",
+"../variables/variables",
+"../mixins/mixins",
+"../commons/commons";
+
+
+profile-badge{
+  @extend %flex-column-center-center;
+  margin-bottom: 1rem;
+
+  #badge-image{
+    margin-bottom: 1rem;
+  }
+
+  #badge-name{
+    font-size: 1.8rem;
+    margin: 0;
+  }
+
+  #badge-address{
+    font-size: 1.4rem;
+    margin: 0;
+  }
+}

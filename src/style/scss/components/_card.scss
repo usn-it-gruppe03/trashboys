@@ -6,6 +6,7 @@
 
 %card {
   @extend %component;
+  @extend %flex-column-center-center;
   padding:
     get('component.card.padding.top')
     get('component.card.padding.right')
@@ -15,6 +16,7 @@
     text-align: get('component.card.text-align');
   }
   border-radius: get('component.border-radius');
+  overflow: hidden;
 }
 
 .card {

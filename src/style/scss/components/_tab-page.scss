@@ -1,0 +1,21 @@
+@import
+"../functions/functions",
+"../variables/variables",
+"../mixins/mixins",
+"../commons/commons";
+
+tab-page{
+  @extend %flex-column-center-center;
+
+  #tab-title{
+    font-size: 1.4rem;
+  }
+
+  #tab-date{
+
+  }
+
+  #tab-category{
+
+  }
+}

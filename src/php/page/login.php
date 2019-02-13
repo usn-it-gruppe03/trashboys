@@ -10,11 +10,9 @@
     <div class="container">
         <form action="">
             <div class="form-group">
-                <label for="email" class="label">Email:</label>
                 <input id="email" name="email" class="input" type="email" placeholder="Email address">
             </div>
             <div class="form-group">
-                <label for="password" class="label">Password:</label>
                 <input id="password" name="password" class="input" type="password" placeholder="Password">
             </div>
             <div class="form-group">
@@ -28,7 +26,7 @@
         <div class="row">
             <div class="col">
                 <h3 class="text-center">Har du ikkje ein brukar?</h3>
-                <button class="btn btn-clay w-100">Lag ein brukar</button>
+                <button class="btn btn-clay w-100" onclick="window.location.href='?p=main'">Lag ein brukar</button>
             </div>
         </div>
     </div>

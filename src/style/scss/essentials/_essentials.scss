@@ -59,6 +59,7 @@ html{
   @extend %font-smoothing;
   font-size: $idx;
   font-family: #{get('root.family')};
+  font-weight: get('root.weight');
   color: get('dark-gray', $colors);
   box-sizing: border-box;
 }

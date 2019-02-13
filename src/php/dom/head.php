@@ -20,7 +20,7 @@
         // Content-Security-Policy.
         $csp_default = "default-src 'self';";
         $csp_script = "script-src 'self' 'unsafe-inline' https://fonts.googleapis.com;";
-        $csp_style = "style-src 'self' https://fonts.googleapis.com;";
+        $csp_style = "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;";
         $csp_font = "font-src https://fonts.googleapis.com https://fonts.gstatic.com;";
         header("Content-Security-Policy: ".$csp_default.$csp_script.$csp_style.$csp_font);
 
@@ -82,7 +82,7 @@
 
 
     <!-- Google Fonts: -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700|Roboto+Condensed">
 
 
     <!-- Google Material Icons: -->

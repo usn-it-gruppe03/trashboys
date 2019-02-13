@@ -17,14 +17,19 @@
 
 %flex-row{
   @extend %flex;
-  -webkit-flex-direction: row;
-  flex-direction: row;
+  @include flex-direction(row);
 }
 
 %flex-column{
   @extend %flex;
-  -webkit-flex-direction: column;
-  flex-direction: column;
+  @include flex-direction(column);
+}
+
+%flex-column-center-center{
+  @extend %flex;
+  @include flex-direction(column);
+  @include justify-content(center);
+  @include align-items(center);
 }
 
 %flex-justify-between{
@@ -113,6 +118,10 @@
   @include flex-wrap(wrap);
 }
 
+%flex-row-center-center-wrap{
+  @extend %flex-row-center-center;
+  @include flex-wrap(wrap);
+}
 
 
 

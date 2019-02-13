@@ -9,9 +9,8 @@
 
 // ** Button **
 %btn{
-  @extend %component;
   display: get('component.button.display');
-  @include box-sizing(get('component.button.box-sizing'));
+  @extend %component;
   padding:
     get('component.button.padding.top')
     get('component.button.padding.right')
@@ -19,9 +18,12 @@
     get('component.button.padding.left');
   border: get('component.button.border');
   font-weight: get('component.button.font-weight');
-  border-radius: get('component.border-radius');
   text-align: get('component.button.text-align');
-  cursor: pointer;
+  cursor: get('component.button.cursor');
+  text-decoration: get('component.button.text-decoration');;
+  @include box-sizing(get('component.button.box-sizing'));
+  @include border-radius(get('component.border-radius'));
+  @include appearance(none);
 }
 
 .btn {

@@ -1,15 +1,9 @@
 <section>
     <div class="container">
         <div class="card card-green">
-            <h1>Boskartoteket</h1>
-            <h2 class="text-lighter">Ein enkel app for dei bosinteresserte</h2>
+            <h3>Tømmedatoar</h3>
+            <p>Fyll inn din adresse for å sjå<br>tømmedatoar for dei respektive<br>avfallskategoriane.</p>
         </div>
-    </div>
-</section>
-<section class="py-1">
-    <div class="container text-center">
-        <h3 class="text-dark">Tømmedatoar</h3>
-        <p>Fyll inn din adresse for å sjå<br>tømmedatoar for dei respektive<br>avfallskategoriane.</p>
     </div>
 </section>
 <section>

@@ -141,6 +141,10 @@ $i:0;
   @extend %flex-column;
 }
 
+.flex-column-center-center{
+  @extend %flex-column-center-center;
+}
+
 .flex-row-left-top{
   @extend %flex-row-left-top;
 }
@@ -192,7 +196,7 @@ $i:0;
 
 
 
-// ** Vertical scroll **
+// ** Scroll **
 .y-scroll{
   -ms-overflow-y: scroll;
   overflow-y: scroll;
@@ -202,6 +206,20 @@ $i:0;
   -webkit-scroll-snap-type: y mandatory;
   -ms-scroll-snap-type: mandatory;
   scroll-snap-type: y mandatory;
+  * {
+    scroll-snap-align: start;
+  }
+}
+
+.x-scroll{
+  -ms-overflow-x: scroll;
+  overflow-x: scroll;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  overflow-scrolling: touch;
+  -webkit-scroll-snap-type: x mandatory;
+  -ms-scroll-snap-type: mandatory;
+  scroll-snap-type: x mandatory;
   * {
     scroll-snap-align: start;
   }

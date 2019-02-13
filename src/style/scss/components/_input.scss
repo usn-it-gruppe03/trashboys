@@ -20,8 +20,7 @@
   font-weight: get('component.input.font-weight');
   background-color: get('component.input.background-color');
   color: get('component.input.color');
-  overflow: hidden;
-  cursor: pointer;
+  overflow: get('component.input.overflow');
   @include border-radius(get('component.border-radius'));
   @include box-sizing(get('component.input.box-sizing'));
   @include appearance(none);

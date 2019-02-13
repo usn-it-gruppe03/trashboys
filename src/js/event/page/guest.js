@@ -1,19 +1,27 @@
 // Import Address class.
-import {Address} from "../../class/address.js";
-
+import {Address} from "../../class/Address.js";
+import * as func from "../../function/global/functions.js";
 
 
 /**
  * Event listener: Window (on load).
+ *
+ * @author Isak Hauge
+ * @version 2.0
  *
  * @description This event listener is activated when the browser window is loaded.
  * */
 window.addEventListener('load', function () {
 
     // ** Debug message **
+
     console.log('Main listener initiated.');
 
+
+
+
     // ** PHP File constants **
+
     const PHP_SEARCH_STREET = "src/php/ajax/search_street.php?name=";
     const PHP_SEARCH_ADDRESS = "src/php/ajax/search_address.php?name=";
 
@@ -21,6 +29,7 @@ window.addEventListener('load', function () {
     
     
     // ** HTML element constants **
+
     const INPUT_STREET = document.getElementById('street');
     const INPUT_NUMBER = document.getElementById('number');
     const INPUT_ZIP = document.getElementById('zip');
@@ -32,6 +41,7 @@ window.addEventListener('load', function () {
     
     
     // ** Boolean program state **
+
     let inputMouseDown = false;
     let optionMouseDown = false;
     let isLoading = false;
@@ -41,20 +51,22 @@ window.addEventListener('load', function () {
     
     
     // ** Arrays **
+
     let cachedStreets = [];
     let cachedAddresses = [];
 
     
     
     
-    // TODO: Respective event listeners as functions.
+    // ** Init. functions **
+
     function streetOnInput(){
 
         // Refresh options for every input.
-        flushOptions(OPTIONS_STREET);
+        flushChildren(OPTIONS_STREET);
 
         // Get input value.
-        let inputValue = getInputValue(this);
+        let inputValue = getValue(this);
 
         // ? If number of characters in the search is 2.
         if (inputValue.length === 2) {
@@ -63,12 +75,12 @@ window.addEventListener('load', function () {
             cachedStreets.length = 0;
 
             // Invoke loading function.
-            initLoading(OPTIONS_STREET, function () {
+            initLoading(OPTIONS_STREET, () => {
 
                 isLoading = true;
 
                 // Invoke AJAX fetch function.
-                ajaxFetch(inputValue, PHP_SEARCH_STREET, function (data) {
+                func.ajaxFetch(inputValue, PHP_SEARCH_STREET, (data) => {
 
                     // ? If data is in JSON format.
                     if (isJSON(data)) {
@@ -81,7 +93,7 @@ window.addEventListener('load', function () {
                             cachedStreets.push(jsonObject[i]['name']);
 
                         isLoading = false;
-                        flushOptions(OPTIONS_STREET);
+                        flushChildren(OPTIONS_STREET);
 
                         let filteredArray = filterArray(inputValue, cachedStreets);
                         populateOptions(OPTIONS_STREET, filteredArray);
@@ -103,7 +115,7 @@ window.addEventListener('load', function () {
 
         // ? If number of characters in the search is 0.
         } else if (inputValue.length === 0) {
-            flushOptions(OPTIONS_STREET);
+            flushChildren(OPTIONS_STREET);
             showNode(OPTIONS_STREET, false);
         }
 
@@ -113,38 +125,45 @@ window.addEventListener('load', function () {
     function numberOnInput(){
 
         // Refresh options.
-        flushOptions(OPTIONS_NUMBER);
+        flushChildren(OPTIONS_NUMBER);
 
         // Get value.
-        let inputValue = getInputValue(this);
+        let inputValue = getValue(this);
 
         // Init. distinction array.
-        let distinctions = [];
+        let houseNumbers = [];
 
         // Loop through all cached addresses.
-        cachedAddresses.forEach(function (address) {
+        cachedAddresses.forEach((address) => {
             // Push distinctions to array.
-            distinctions.push(address.number + ' ' + address.letter);
+            houseNumbers.push(address.number + ' ' + address.letter);
         });
 
-        distinctions = filterArray(inputValue, distinctions);
+        houseNumbers = filterArray(inputValue, houseNumbers);
 
-        populateOptions(OPTIONS_NUMBER, distinctions);
+        populateOptions(OPTIONS_NUMBER, houseNumbers);
         showNode(OPTIONS_NUMBER, true);
 
     }
 
     
     function windowOnMouseDown(){
-         if (!inputMouseDown && !optionMouseDown) {
-             flushOptions(OPTIONS_STREET);
-             showNode(OPTIONS_STREET, false);
-             flushOptions(OPTIONS_NUMBER)
-             showNode(OPTIONS_NUMBER, false);
-         } else {
-             inputMouseDown = false;
-             optionMouseDown = false;
-         }
+
+        // ? If mousedown listener was invoked.
+        if (!inputMouseDown && !optionMouseDown) {
+
+            flushChildren(OPTIONS_STREET);
+            showNode(OPTIONS_STREET, false);
+            flushChildren(OPTIONS_NUMBER)
+            showNode(OPTIONS_NUMBER, false);
+
+        } else {
+
+            inputMouseDown = false;
+            optionMouseDown = false;
+
+        }
+
     }
 
     
@@ -155,19 +174,19 @@ window.addEventListener('load', function () {
         switch (this) {
 
             case INPUT_STREET:
-                flushOptions(OPTIONS_NUMBER);
+                flushChildren(OPTIONS_NUMBER);
                 showNode(OPTIONS_NUMBER, false);
                 break;
 
             case INPUT_NUMBER:
-                flushOptions(OPTIONS_STREET);
+                flushChildren(OPTIONS_STREET);
                 showNode(OPTIONS_STREET, false);
                 break;
 
             case INPUT_ZIP || INPUT_AREA:
-                flushOptions(OPTIONS_STREET);
+                flushChildren(OPTIONS_STREET);
                 showNode(OPTIONS_STREET, false);
-                flushOptions(OPTIONS_NUMBER);
+                flushChildren(OPTIONS_NUMBER);
                 showNode(OPTIONS_NUMBER, false);
                 break;
 
@@ -180,7 +199,9 @@ window.addEventListener('load', function () {
 
     
     function inputOnMouseUp(){
+
         inputMouseDown = false;
+
     }
 
     
@@ -191,9 +212,10 @@ window.addEventListener('load', function () {
 
         switch (parent) {
 
+            // ? If node is OPTIONS_STREET
             case OPTIONS_STREET:
                 setSelectedValue(parent, getDataValue(this));
-                setInputValue(INPUT_STREET, getDataValue(this));
+                setValue(INPUT_STREET, getDataValue(this));
 
                 // ? If street options element has a value.
                 if (hasSelectedValue(parent)) {
@@ -202,15 +224,15 @@ window.addEventListener('load', function () {
                     let inputValue = getSelectedValue(parent);
 
                     // Refresh options.
-                    flushOptions(OPTIONS_NUMBER);
+                    flushChildren(OPTIONS_NUMBER);
 
                     // Init. loading.
-                    initLoading(OPTIONS_NUMBER, function () {
+                    initLoading(OPTIONS_NUMBER, () => {
 
                         isLoading = true;
 
                         // Init. AJAX fetch function.
-                        ajaxFetch(inputValue, PHP_SEARCH_ADDRESS, function (data) {
+                        func.ajaxFetch(inputValue, PHP_SEARCH_ADDRESS, (data) => {
 
                             // ? If data is in JSON format.
                             if (isJSON(data)){
@@ -221,29 +243,29 @@ window.addEventListener('load', function () {
                                 let numberArray = [];
 
                                 // Loop through each address.
-                                objectArray.forEach(function (address) {
+                                for (let i=0; i<objectArray.length; i++) {
 
                                     // Push each address into a cached array of Address objects.
                                     cachedAddresses.push(
                                         new Address(
-                                            address['ID'],
-                                            address['name'],
-                                            address['house_number'],
-                                            address['letter'],
-                                            address['zip_code'],
-                                            address['postal_location'],
+                                            objectArray[i]['ID'],
+                                            objectArray[i]['name'],
+                                            objectArray[i]['house_number'],
+                                            objectArray[i]['letter'],
+                                            objectArray[i]['zip_code'],
+                                            objectArray[i]['postal_location'],
                                         )
                                     );
 
                                     // Push house number and apartment letter into an array.
                                     numberArray.push(
-                                        address['house_number'] + ' ' + address['letter']
+                                        objectArray[i]['house_number'] + ' ' + objectArray[i]['letter']
                                     );
 
-                                });
+                                }
 
                                 isLoading = false;
-                                flushOptions(OPTIONS_NUMBER);
+                                flushChildren(OPTIONS_NUMBER);
 
                                 populateOptions(OPTIONS_NUMBER, numberArray.sort());
 
@@ -257,9 +279,11 @@ window.addEventListener('load', function () {
 
                 break;
 
+
+            // ? If node is OPTIONS_NUMBER
             case OPTIONS_NUMBER:
                 setSelectedValue(parent, getDataValue(this));
-                setInputValue(INPUT_NUMBER, getDataValue(this));
+                setValue(INPUT_NUMBER, getDataValue(this));
 
                 // ? If number options element has selected value.
                 if (hasSelectedValue(parent)){
@@ -268,37 +292,37 @@ window.addEventListener('load', function () {
                     let name = getSelectedValue(OPTIONS_STREET);
 
                     // Get selected house distinction.
-                    let distinction = getSelectedValue(parent).split(' ');
+                    let houseNumbers = getSelectedValue(parent).split(' ');
 
                     // Reset options.
-                    flushOptions(parent);
+                    flushChildren(parent);
 
                     // Loop through all cached addresses.
-                    cachedAddresses.forEach(function (address) {
+                    for (let i=0; i<cachedAddresses.length; i++) {
 
                         // ? If house distinction is both alphabetical and numerical.
-                        if (distinction.length > 1) {
+                        if (houseNumbers.length > 1) {
 
                             // ? If current address matches with selected values.
-                            if (address.name === name && address.number.toString() === distinction[0] && address.letter.toString() === distinction[1]) {
-                                setInputValue(INPUT_ZIP, address.zip);
-                                setInputValue(INPUT_AREA, address.area);
-                                addressID = address.id;
+                            if (cachedAddresses[i].name === name && cachedAddresses[i].number.toString() === houseNumbers[0] && cachedAddresses[i].letter.toString() === houseNumbers[1]) {
+                                setValue(INPUT_ZIP, cachedAddresses[i].zip);
+                                setValue(INPUT_AREA, cachedAddresses[i].area);
+                                addressID = cachedAddresses[i].id;
                             }
 
                         // ? If house distinction is numerical only.
                         } else {
 
                             // ? If current address matches with selected values.
-                            if (address.name === name && address.number.toString() === distinction[0]) {
-                                setInputValue(INPUT_ZIP, address.zip);
-                                setInputValue(INPUT_AREA, address.area);
-                                addressID = address.id;
+                            if (cachedAddresses[i].name === name && cachedAddresses[i].number.toString() === houseNumbers[0]) {
+                                setValue(INPUT_ZIP, cachedAddresses[i].zip);
+                                setValue(INPUT_AREA, cachedAddresses[i].area);
+                                addressID = cachedAddresses[i].id;
                             }
 
                         }
 
-                    });
+                    }
 
                 }
 
@@ -310,25 +334,28 @@ window.addEventListener('load', function () {
 
         }
 
-        flushOptions(parent);
+        flushChildren(parent);
         showNode(parent, false);
 
-        flushOptions(parent);
+        flushChildren(parent);
         showNode(parent, false);
 
     }
 
     
     function optionOnMouseUp(){
+
         optionMouseDown = false;
-        flushOptions(this.parentNode);
+        flushChildren(this.parentNode);
         showNode(this.parentNode, false);
+
     }
 
     
     
     
     // ** Invoke event listeners **
+
     INPUT_STREET.addEventListener('input', streetOnInput);
     INPUT_STREET.addEventListener('mousedown', inputOnMouseDown);
     INPUT_STREET.addEventListener('mouseup', inputOnMouseUp);
@@ -350,22 +377,72 @@ window.addEventListener('load', function () {
     
     // ** Utility functions **
 
-    function getInputValue(node){
+    /**
+     * Get value.
+     *
+     * @description This function will return the value of an HTML element.
+     * Important: This function only works with element that natively
+     * supports value parameters.
+     *
+     * @param {object} node - HTML element.
+     * @return string
+     * */
+    function getValue(node){
         return node.value;
     }
 
-    function setInputValue(node, value) {
+
+    /**
+     * Set value.
+     *
+     * @description This function will set the value of an HTML element.
+     * Important: This function only works with element that natively
+     * supports value parameters.
+     *
+     * @param {object} node - HTML element.
+     * @param {string} value - The value to be attached.
+     * */
+    function setValue(node, value) {
         node.value = value;
     }
 
+
+    /**
+     * Get data value.
+     *
+     * @description This function will return the value of an HTML element
+     * with a custom value attribute. Works with all elements.
+     *
+     * @param {object} node - HTML element.
+     * @return string
+     * */
     function getDataValue(node) {
         return node.getAttribute('data-value');
     }
 
+
+    /**
+     * Set data value.
+     *
+     * @description This function will set the value to an HTML element
+     * with a custom value attribute. Works with all elements.
+     *
+     * @param {object} node - HTML element.
+     * @param {string} value - The value to be attached.
+     * */
     function setDataValue(node, value) {
         node.setAttribute('data-value', value);
     }
 
+
+    /**
+     * Get selected value.
+     *
+     * @description This function will return a selected value of an HTML element
+     * with a custom value attribute. Works with all elements.
+     *
+     * @param {object} node - HTML element.
+     * */
     function getSelectedValue(node) {
 
         const ATTRIBUTE_NAME = 'data-selected';
@@ -376,14 +453,44 @@ window.addEventListener('load', function () {
 
     }
 
+
+    /**
+     * Set selected value.
+     *
+     * @description This function will set a selected value to an HTML element
+     * with a custom value attribute. Works with all elements.
+     *
+     * @param {object} node - HTML element.
+     * @param {string} value - The value to be attached.
+     * */
     function setSelectedValue(node, value) {
         node.setAttribute('data-selected', value);
     }
 
+
+    /**
+     * Has selected value.
+     *
+     * @description This function will return a boolean value based on whether
+     * an HTML element has a selected value. Works with all elements.
+     *
+     * @param {object} node - HTML element.
+     * */
     function hasSelectedValue(node) {
-        return node.hasAttribute('data-selected') && node.getAttribute('data-selected').length > 0;
+        return node.hasAttribute('data-selected') &&
+            node.getAttribute('data-selected').length > 0;
     }
 
+
+    /**
+     * [APP] Show node.
+     *
+     * @description This function will either show or hide an HTML element
+     * depending on the boolean value entered in the boolean parameter.
+     *
+     * @param {object} node - HTML element.
+     * @param {boolean} boolean - True or false.
+     * */
     function showNode(node, boolean) {
 
         // ? If node is visible
@@ -394,40 +501,83 @@ window.addEventListener('load', function () {
 
     }
 
-    function hasOptions(node){
+
+    /**
+     * Has children.
+     *
+     * @description This function will return a boolean value based on whether
+     * the given node object has children elements.
+     *
+     * @param {object} node - HTML element.
+     * @return boolean
+     * */
+    function hasChildren(node){
         return node.hasChildNodes();
     }
 
-    function getOptions(node){
+
+    /**
+     * Get children.
+     *
+     * @description This function will return an array of child nodes if the
+     * given node has children.
+     *
+     * @param {object} node - HTML element.
+     * @return array
+     * */
+    function getChildren(node){
 
         // ? If node has options.
-        if (hasOptions(node))
+        if (hasChildren(node))
             return node.children;
 
     }
 
-    function flushOptions(node) {
+
+    /**
+     * Flush options.
+     *
+     * @description This function will delete all child nodes of the given
+     * node, if it has child nodes.
+     *
+     * @param {object} node - HTML element.
+     * */
+    function flushChildren(node) {
 
         // ? If node has options.
-        if (hasOptions(node))
-            while (hasOptions(node))
+        if (hasChildren(node))
+            while (hasChildren(node))
                 node.firstChild.remove();
 
         showNode(node, false);
-        verticalScroll(node, false);
+        setScroll(node, 'y', false);
 
     }
 
+
+    /**
+     * [APP] Initiate loading sequence.
+     *
+     * @async
+     * @description This function will make the user interface to indicate
+     * a loading process.
+     *
+     * @param {object} node - HTML element.
+     * @param {function} callback - Callback function.
+     *
+     * @callback This callback should start the actual loading from DB.
+     * */
     function initLoading(node, callback) {
 
+        // ? If node is one of the following two.
         if (node === OPTIONS_STREET || node === OPTIONS_NUMBER) {
 
             let statusDiv = document.createElement('div');
             statusDiv.classList.add('text-gray');
             statusDiv.setAttribute('id', 'status-div');
-            let loadingText = document.createTextNode('Searching ...');
+            let loadingText = document.createTextNode('Loading ...');
             statusDiv.appendChild(loadingText);
-            flushOptions(node);
+            flushChildren(node);
             node.appendChild(statusDiv);
             showNode(node, true);
 
@@ -437,6 +587,15 @@ window.addEventListener('load', function () {
 
     }
 
+
+    /**
+     * [APP] Filter array.
+     *
+     * @description This function will return an RegEx filtered array.
+     *
+     * @param {string} searchValue - The search value.
+     * @param {array} array - The processed array.
+     * */
     function filterArray(searchValue, array) {
 
         // Force lowercase.
@@ -447,33 +606,43 @@ window.addEventListener('load', function () {
         let returnArray = [];
 
         // Loop through array.
-        array.forEach(function (row) {
+        for (let i=0; i<array.length; i++) {
 
             // ? If row matches pattern.
-            if (REGEX.exec(row.toLowerCase())){
-                returnArray.push(row);
-            }
+            if (REGEX.exec(array[i].toLowerCase()))
+                returnArray.push(array[i]);
 
-        });
+        }
 
         return returnArray;
 
     }
 
+
+    /**
+     * [APP] Populate options.
+     *
+     * @description This function will populate child nodes inside the
+     * given element.
+     *
+     * @param {object} node - HTML element.
+     * @param {array} array - Array of string values, of which the child nodes will inhabit.
+     * */
     function populateOptions(node, array) {
 
+        // ? If given node is OPTION_STREET element.
         if (node === OPTIONS_STREET) {
 
-            array.forEach(function (street) {
+            for (let i=0; i<array.length; i++) {
 
                 // Init. constants.
                 let option_elem = document.createElement('div');
 
                 // Set value.
-                setDataValue(option_elem, street);
+                setDataValue(option_elem, array[i]);
 
                 // Append text node to option element.
-                option_elem.innerText = street;
+                option_elem.innerText = array[i];
 
                 // Add event listeners.
                 option_elem.addEventListener('mousedown', optionOnMouseDown);
@@ -482,20 +651,21 @@ window.addEventListener('load', function () {
                 // Append option to options container.
                 OPTIONS_STREET.appendChild(option_elem);
 
-            });
+            }
 
+        // ? If given node is OPTION_STREET element.
         } else if (node === OPTIONS_NUMBER) {
 
-            array.forEach(function (number) {
+            for (let i=0; i<array.length; i++) {
 
                 // Init. constants.
                 let option_elem = document.createElement('div');
 
                 // Set value.
-                setDataValue(option_elem, number);
+                setDataValue(option_elem, array[i]);
 
                 // Append text node to option element.
-                option_elem.innerText = number;
+                option_elem.innerText = array[i];
 
                 // Add event listeners.
                 option_elem.addEventListener('mousedown', optionOnMouseDown);
@@ -504,83 +674,82 @@ window.addEventListener('load', function () {
                 // Append option to options container.
                 OPTIONS_NUMBER.appendChild(option_elem);
 
-            });
+            }
 
         }
 
         showNode(node, true);
-        verticalScroll(node, true);
+        setScroll(node, 'y', true);
 
     }
 
+
+    /**
+     * [APP] Set status DIV.
+     *
+     * @description This function will status div created during the loading sequence.
+     *
+     * @param {string} text - The text to be displayed.
+     * @param {string} className - The name of the class to be enabled for the status div.
+     * */
     function setStatusDiv(text, className) {
+
         let statusDiv = document.getElementById('status-div');
         statusDiv.innerText = text;
         statusDiv.removeAttribute('class');
         statusDiv.classList.add(className);
+
     }
 
+
+    /**
+     * Is JSON.
+     *
+     * @description This function will return a boolean value based on whether the given string
+     * data is JSON format compliant.
+     *
+     * @param {string} data - The data string to be analyzed.
+     * @return boolean
+     * */
     function isJSON(data) {
+
         try {
+
             JSON.parse(data);
             return true;
-        } catch (e) {
-            return false;
-        }
-    }
-    
-    function verticalScroll(node, boolean) {
 
-        if (typeof boolean === 'boolean'){
+        } catch (e) {
+
+            return false;
+
+        }
+
+    }
+
+
+    /**
+     * Set scroll.
+     *
+     * @description This function will enable axis scroll on any given node.
+     *
+     * @param {object} node - HTML element.
+     * @param {string} axis - Either X or Y.
+     * @param {boolean} boolean - Enable (true) or disable (false).
+     * */
+    function setScroll(node, axis, boolean) {
+
+        // ? If boolean parameter is an actual boolean type.
+        if (typeof boolean === 'boolean' || (axis === 'y' || axis === 'x')){
+
             if (boolean)
-                node.classList.add('y-scroll');
+                node.classList.add(axis + '-scroll');
             else
-                node.classList.remove('y-scroll');
+                node.classList.remove(axis + '-scroll');
+
         }
 
     }
 
 
 });
-
-
-
-
-/**
- * AJAX Fetch
- *
- * @author Isak Hauge
- *
- * @param {string} searchValue - The search value.
- * @param {string} phpFile - The path and filename of the PHP AJAX handler.
- * @param {function} callback - A callback function.
- * */
-function ajaxFetch(searchValue, phpFile, callback) {
-
-    // Instantiate AJAX object.
-    const AJAX = new XMLHttpRequest();
-
-    // Init. on-ready event handler.
-    AJAX.onreadystatechange = function () {
-
-        // ? If data was successfully received.
-        if (this.readyState === 4 && this.status === 200) {
-
-            // Send debug message to console.
-            console.log('DB request initiated.');
-
-            // Callback.
-            callback(this.responseText);
-
-        }
-
-    };
-
-    // Open connection to PHP file.
-    AJAX.open("GET", phpFile + searchValue, true);
-
-    // Send data through GET API.
-    AJAX.send();
-
-}
 

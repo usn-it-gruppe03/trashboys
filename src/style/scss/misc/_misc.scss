@@ -47,9 +47,34 @@
       get('component.input.padding.bottom')
       get('component.input.padding.left');
   }
-  option:hover{
+  *:hover{
     background-color: get('light-gray', $colors);
-    cursor: pointer !important;
+    cursor: pointer;
   }
 }
 
+.profile-img{
+  width: 5rem;
+  height: 5rem;
+  background-color: #7198a6;
+  display: flex;
+  border-radius: 50%;
+}
+
+
+.tab-container{
+  @extend %flex-row;
+  width: 100%;
+}
+
+.tab{
+  @extend %flex-row-center-center;
+  @include flex-grow(1);
+  background-color: get('gray', $colors);
+  padding: 1rem;
+  text-align: center;
+}
+
+.tab-active, .tab:hover{
+  background-color: white;
+}

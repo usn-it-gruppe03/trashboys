@@ -27,6 +27,10 @@ if (isset($_GET['p'])) {
             require_once $page . 'db_test.php';
             break;
 
+        case 'main':
+            require_once $page . 'main.php';
+            break;
+
         default:
             echo '<h1>Page not defined</h1>';
             break;
