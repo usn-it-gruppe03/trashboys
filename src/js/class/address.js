@@ -9,11 +9,12 @@ export class Address {
     /**
      * Constructor.
      *
-     * @param {string} name Name of the street.
-     * @param {number} number House number.
-     * @param {string} letter Apartment number.
-     * @param {string} zip Postal code.
-     * @param {string} area Postal area.
+     * @param {number} id - The row ID of the Address.
+     * @param {string} name - Name of the street.
+     * @param {number} number - House number.
+     * @param {string} letter - Apartment number.
+     * @param {string} zip - Postal code.
+     * @param {string} area - Postal area.
      * */
     constructor(id, name, number, letter, zip, area){
         this._id = id;
