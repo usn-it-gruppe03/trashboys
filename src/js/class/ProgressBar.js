@@ -21,8 +21,10 @@ export class ProgressBar extends HTMLElement {
 
     populate(){
         let bar = document.createElement('div');
+        let text = document.createElement('p');
+        text.innerText = '24 dager igjen';
         bar.style.width = (this.percent * 100) + '%';
-        this.append(bar);
+        this.append(bar, text);
     }
 
     attrDefined(attr){

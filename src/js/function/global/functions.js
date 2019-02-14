@@ -209,3 +209,50 @@ export function showNode(node, boolean) {
         console.error('Second parameter must be a boolean type. Your parameter type: ' + typeof boolean);
 
 }
+
+
+/**
+ * Has previous sibling.
+ *
+ * @description This function will return a boolean value based on whether
+ * the given node has a previous sibling.
+ *
+ * @param {object} node - HTML element.
+ * @return boolean
+ * */
+export function hasPrevSibling(node){
+    return node.previousElementSibling != null;
+}
+
+
+/**
+ * Has next sibling.
+ *
+ * @description This function will return a boolean value based on whether
+ * the given node has a next sibling.
+ *
+ * @param {object} node - HTML element.
+ * @return boolean
+ * */
+export function hasNextSibling(node){
+    return node.nextElementSibling != null;
+}
+
+
+/**
+ * Attribute defined.
+ *
+ * @description This function will return a boolean value based
+ * on whether a node's attribute is defined.
+ *
+ * @param {object} node - HTML element.
+ * @param {string} attr - The attribute name.
+ * @return boolean
+ * */
+export function attrDefined(node, attr){
+
+    if (node.hasAttribute(attr))
+        return node.getAttribute(attr).length > 0;
+    else return false;
+
+}

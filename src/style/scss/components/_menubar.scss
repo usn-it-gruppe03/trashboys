@@ -1,0 +1,44 @@
+@import
+"../functions/functions",
+"../variables/variables",
+"../mixins/mixins",
+"../commons/commons";
+
+
+// ** Variables **
+$radius: get('component.border-radius');
+$height: get('component.menu-bar.height');
+
+
+// ** Menu bar **
+menu-bar{
+  @extend %flex-row-center-center;
+  width: get('component.menu-bar.width');
+  height: $height;
+  background-color: get('component.menu-bar.background-color');
+  @include border-radius($radius $radius 0 0);
+  @include drop-shadow(get('component.drop-shadow.green'));
+
+  .menu-btn{
+    @extend %flex-column-center-center;
+    width: 100%;
+    height: 100%;
+
+    img{
+      height: ($height * 0.6);
+    }
+  }
+
+  .menu-btn:first-child{
+    @include border-radius($radius 0 0 0);
+  }
+
+  .menu-btn:last-child{
+    @include border-radius(0 $radius 0 0);
+  }
+
+  .menu-btn:hover{
+    background-color: get('dark-green', $colors);
+    cursor: get('component.menu-bar.cursor');
+  }
+}

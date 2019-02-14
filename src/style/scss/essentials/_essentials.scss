@@ -55,7 +55,7 @@
   z-index: get('footer.z-index');
 }
 
-html{
+html, body{
   @extend %font-smoothing;
   font-size: $idx;
   font-family: #{get('root.family')};

@@ -10,7 +10,7 @@ export class TabPage extends HTMLElement {
     static elementText(){
         return {
             header: 'Neste tømmedag',
-            category: 'Avfallskategori:',
+            category: 'Kategori:',
         };
     }
 
@@ -27,7 +27,7 @@ export class TabPage extends HTMLElement {
     static fallback(){
         return {
             date: 'Fredag 13. Oktober',
-            progress: 0.6,
+            progress: 0.666,
             category: 'Partert lik',
         };
     }

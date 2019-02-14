@@ -6,16 +6,21 @@
 
 tab-page{
   @extend %flex-column-center-center;
+  width: 100%;
 
   #tab-title{
-    font-size: 1.4rem;
+    font-size: 1.6rem;
+    margin: 0;
+    color: get('dark', $colors);
   }
 
   #tab-date{
-
+    font-size: 1.4rem;
+    margin: 0 0 1rem 0;
   }
 
   #tab-category{
-
+    font-size: 1.4rem;
+    margin: 1rem 0 0 0;
   }
 }

@@ -5,7 +5,7 @@
 
 
 // The index size.
-$idx: 16px;
+$idx: 10px;
 
 
 
@@ -30,7 +30,7 @@ $colors: (
   'darker': rgba(0,0,0,0.5),
   'lighter': rgba(255,255,255,0.6),
 
-  'dark': #333
+  'dark':  #3d4e67,
 
 );
 
@@ -285,15 +285,15 @@ $main: (
     ),
 
     /* Border radius for all components */
-    'border-radius': 0.3rem,
+    'border-radius': 0.5rem,
 
     /* Card */
     'card': (
       'padding': (
-        'top': 2rem,
-        'right': 1rem,
-        'bottom': 2rem,
-        'left': 1rem,
+        'top': 1.5rem,
+        'right': 1.5rem,
+        'bottom': 1.5rem,
+        'left': 1.5rem,
       ),
       'text-align': center,
       'background-color': (
@@ -360,8 +360,73 @@ $main: (
       ),
     ),
 
+    /* Option (singular) */
     'option': (
       'font-weight': 700,
+    ),
+
+    /* Menu Bar */
+    'menu-bar': (
+      'width': 100%,
+      'height': 4rem,
+      'background-color': get('green', $colors),
+      'cursor': pointer,
+    ),
+
+    /* Tab Container */
+    'tab-container': (
+      'width': 100%,
+      'max-width': 20rem,
+      'overflow': hidden,
+      // Tab button:
+      'tab-button': (
+        'width': 100%,
+        'padding': 1rem,
+        'font-weight': 700,
+        'font-size': 1.2rem,
+        'cursor': pointer,
+        'background-color': (
+          'normal': get('gray', $colors),
+          'active': white,
+        ),
+        'color': (
+          'normal': get('dark-gray', $colors),
+          'active': get('light-green', $colors),
+        ),
+      ),
+    ),
+
+    /* Profile Badge */
+    'profile-badge': (
+      'width': 100%,
+      'margin': (
+        'top': 0,
+        'right': 0,
+        'bottom': 2rem,
+        'left': 0,
+      ),
+      // Badge image:
+      'badge-image': (
+        'width': 6rem,
+        'height': 6rem,
+        'border-radius': 50%,
+        'display': block,
+        'background-color': get('light-clay', $colors),
+        'background-repeat': no-repeat,
+        'background-size': cover,
+      ),
+      // Badge name:
+      'badge-name': (
+        'font-size': 1.8rem,
+        'color': get('dark', $colors),
+        // TODO: Fix the entire Profile Badge style.
+        'margin': (
+          'top': 0,
+          'right': 0,
+          'bottom': 0,
+          'left': 0,
+        ),
+      ),
     ),
 
   ),

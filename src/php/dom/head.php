@@ -54,7 +54,7 @@
     <!-- Settings: -->
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
+          content="width=device-width, user-scalable=no, initial-scale=1.0, viewport-fit=cover">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
 
@@ -65,7 +65,7 @@
 
 
     <!-- Application theme color: -->
-    <meta name="theme-color" content="#4285f4"><!-- TODO: Change color. -->
+    <meta name="theme-color" content="#31C573"><!-- TODO: Change color. -->
 
 
     <!-- Description: -->
@@ -82,7 +82,7 @@
 
 
     <!-- Google Fonts: -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700|Roboto+Condensed">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700">
 
 
     <!-- Google Material Icons: -->

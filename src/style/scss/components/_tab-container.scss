@@ -1,0 +1,58 @@
+@import
+"../functions/functions",
+"../variables/variables",
+"../mixins/mixins",
+"../commons/commons";
+
+
+// ** Tab container **
+tab-container{
+  @extend %flex-row-center-center;
+  @include flex-grow(1);
+  width: get('component.tab-container.width');
+  border-bottom-left-radius: get('component.border-radius');
+  border-bottom-right-radius: get('component.border-radius');
+  overflow: get('component.tab-container.overflow');
+}
+
+tab-container > *:first-child{
+  border-bottom-left-radius: get('component.border-radius');
+  overflow: get('component.tab-container.overflow');
+}
+
+tab-container > *:last-child{
+  border-bottom-right-radius: get('component.border-radius');
+  overflow: get('component.tab-container.overflow');
+}
+
+
+// ** Tab button **
+.tab-btn{
+  @extend %flex-row-center-center;
+  width: get('component.tab-container.tab-button.width');
+  padding: get('component.tab-container.tab-button.padding');
+  background-color: get('component.tab-container.tab-button.background-color.normal');
+  font-weight: get('component.tab-container.tab-button.font-weight');
+  font-size: get('component.tab-container.tab-button.font-size');
+  color: get('component.tab-container.tab-button.color.normal');
+  cursor: get('component.tab-container.tab-button.cursor');
+}
+
+.tab-btn[data-state="active"]{
+  background-color: get('component.tab-container.tab-button.background-color.active');
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+  color: get('component.tab-container.tab-button.color.active');
+}
+
+.tab-btn:hover{
+  color: get('component.tab-container.tab-button.color.active');
+}
+
+.tab-btn-br-tl{
+  border-top-left-radius: get('component.border-radius');
+}
+
+.tab-btn-br-tr{
+  border-top-right-radius: get('component.border-radius');
+}

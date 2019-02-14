@@ -138,7 +138,7 @@ abstract class DatabaseObject {
      */
     function delete(int $id): void {
 
-        // Get class.
+        // Get main.
         $class = get_class($this);
 
         // Init. first part of the SQL code.

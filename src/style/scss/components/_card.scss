@@ -16,7 +16,6 @@
     text-align: get('component.card.text-align');
   }
   border-radius: get('component.border-radius');
-  overflow: hidden;
 }
 
 .card {
@@ -31,6 +30,7 @@
 
 .card-white{
   @include drop-shadow(get('component.drop-shadow.white'));
+  //@include box-shadow(get('component.box-shadow.white'));
   color: get('component.card.color.white');
   background-color: get('component.card.background-color.white');
 }

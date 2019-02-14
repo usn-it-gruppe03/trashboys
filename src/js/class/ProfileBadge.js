@@ -54,21 +54,13 @@ export class ProfileBadge extends HTMLElement {
         let badgeImage = document.createElement('div');
         badgeImage.setAttribute('id', 'badge-image');
 
-        let css = `
-        width: 4rem;
-        height: 4rem;
-        border-radius: 50%;
-        display: block;
-        background-color: gray;
-        background-repeat: no-repeat;
-        background-size: cover;
-        `;
+        let img = '';
 
         if (this.attrDefined(ProfileBadge.attr().image)){
-            css += 'background-image: url("' + this.image + '");';
+            img += 'background-image: url("' + this.image + '");';
         }
 
-        badgeImage.setAttribute('style', css);
+        badgeImage.setAttribute('style', img);
 
 
         // ** Create name node **

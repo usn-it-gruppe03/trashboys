@@ -1,6 +1,6 @@
 <?php
 
-include 'src/php/class/DB.php';
+include 'src/php/main/DB.php';
 
 $mysql = DB::mysqli();
 

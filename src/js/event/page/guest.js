@@ -1,4 +1,4 @@
-// Import Address class.
+// Import Address main.
 import {Address} from "../../class/Address.js";
 import * as func from "../../function/global/functions.js";
 
@@ -690,13 +690,13 @@ window.addEventListener('load', function () {
      * @description This function will status div created during the loading sequence.
      *
      * @param {string} text - The text to be displayed.
-     * @param {string} className - The name of the class to be enabled for the status div.
+     * @param {string} className - The name of the main to be enabled for the status div.
      * */
     function setStatusDiv(text, className) {
 
         let statusDiv = document.getElementById('status-div');
         statusDiv.innerText = text;
-        statusDiv.removeAttribute('class');
+        statusDiv.removeAttribute('main');
         statusDiv.classList.add(className);
 
     }

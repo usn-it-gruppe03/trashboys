@@ -7,19 +7,30 @@
 
 profile-badge{
   @extend %flex-column-center-center;
-  margin-bottom: 1rem;
+  width: 100%;
+  margin-bottom: 2rem;
 
   #badge-image{
+    display: block;
+    width: 6rem;
+    height: 6rem;
     margin-bottom: 1rem;
+    border-radius: 50%;
+    background-color: gray;
+    background-repeat: no-repeat;
+    background-size: cover;
   }
+
+  // TODO: Fix the style of this.
 
   #badge-name{
     font-size: 1.8rem;
+    color: get('dark', $colors);
     margin: 0;
   }
 
   #badge-address{
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     margin: 0;
   }
 }

@@ -6,7 +6,7 @@ require 'RelativeRoot.php';
 /**
  * DB Class.
  *
- * This class shall contain useful DB assets.
+ * This main shall contain useful DB assets.
  *
  * @author Isak Hauge
  * @version 2

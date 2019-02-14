@@ -2,6 +2,7 @@ import {ProfileBadge} from "../../class/ProfileBadge.js";
 import {TabPage} from "../../class/TabPage.js";
 import {ProgressBar} from "../../class/ProgressBar.js";
 import {TabContainer} from "../../class/TabContainer.js";
+import {MenuBar} from "../../class/MenuBar.js";
 
 
 function window_onLoad() {
@@ -13,6 +14,7 @@ function window_onLoad() {
     customElements.define('tab-page', TabPage);
     customElements.define('progress-bar', ProgressBar);
     customElements.define('tab-container', TabContainer);
+    customElements.define('menu-bar', MenuBar);
 
     // TODO: HTML elements (constants).
 
