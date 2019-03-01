@@ -406,7 +406,7 @@ $main: (
         'left': 0,
       ),
       // Badge image:
-      'badge-image': (
+      'image': (
         'width': 6rem,
         'height': 6rem,
         'border-radius': 50%,
@@ -414,9 +414,15 @@ $main: (
         'background-color': get('light-clay', $colors),
         'background-repeat': no-repeat,
         'background-size': cover,
+        'margin': (
+          'top': 0,
+          'right': 0,
+          'bottom': 1rem,
+          'left': 0,
+        ),
       ),
       // Badge name:
-      'badge-name': (
+      'name': (
         'font-size': 1.8rem,
         'color': get('dark', $colors),
         // TODO: Fix the entire Profile Badge style.
@@ -425,6 +431,17 @@ $main: (
           'right': 0,
           'bottom': 0,
           'left': 0,
+          'none': 0,
+        ),
+      ),
+      'address': (
+        'font-size': 1.6rem,
+        'margin': (
+          'top': 0,
+          'right': 0,
+          'bottom': 0,
+          'left': 0,
+          'none': 0,
         ),
       ),
     ),

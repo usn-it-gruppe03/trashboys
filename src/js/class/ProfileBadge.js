@@ -56,9 +56,8 @@ export class ProfileBadge extends HTMLElement {
 
         let img = '';
 
-        if (this.attrDefined(ProfileBadge.attr().image)){
+        if (this.attrDefined(ProfileBadge.attr().image))
             img += 'background-image: url("' + this.image + '");';
-        }
 
         badgeImage.setAttribute('style', img);
 

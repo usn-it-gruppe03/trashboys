@@ -7,30 +7,28 @@
 
 profile-badge{
   @extend %flex-column-center-center;
-  width: 100%;
-  margin-bottom: 2rem;
+  width: get('component.profile-badge.width');
+  margin-bottom: get('component.profile-badge.margin.bottom');
 
   #badge-image{
-    display: block;
-    width: 6rem;
-    height: 6rem;
-    margin-bottom: 1rem;
-    border-radius: 50%;
-    background-color: gray;
-    background-repeat: no-repeat;
-    background-size: cover;
+    display: get('component.profile-badge.image.display');
+    width: get('component.profile-badge.image.width');
+    height: get('component.profile-badge.image.height');
+    margin-bottom: get('component.profile-badge.image.margin.bottom');
+    border-radius: get('component.profile-badge.image.border-radius');
+    background-color: get('component.profile-badge.image.background-color');
+    background-repeat: get('component.profile-badge.image.background-repeat');
+    background-size: get('component.profile-badge.image.background-size');
   }
 
-  // TODO: Fix the style of this.
-
   #badge-name{
-    font-size: 1.8rem;
-    color: get('dark', $colors);
-    margin: 0;
+    font-size: get('component.profile-badge.font-size');
+    color: get('component.profile-badge.color');
+    margin: get('component.profile-badge.margin.none');
   }
 
   #badge-address{
-    font-size: 1.6rem;
-    margin: 0;
+    font-size: get('component.profile-badge.address.font-size');
+    margin: get('component.profile-badge.address.margin.none');
   }
 }
