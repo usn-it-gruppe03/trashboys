@@ -212,6 +212,25 @@ export function showNode(node, boolean) {
 
 
 /**
+ * Is hidden.
+ *
+ * @description This function will return a boolean value based on
+ * whether the given node is hidden or visible.
+ *
+ * @param {object} node - The HTML element.
+ *
+ * @return boolean
+ * */
+export function isHidden(node) {
+
+    // ? If node has the "data-visible" attribute.
+    if (node.hasAttribute('data-visible'))
+        return node.getAttribute('data-visible') === 'true';
+    else return false;
+}
+
+
+/**
  * Has previous sibling.
  *
  * @description This function will return a boolean value based on whether

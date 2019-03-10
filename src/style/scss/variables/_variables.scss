@@ -68,92 +68,92 @@ $main: (
     // Heading 1.
     'h1': (
       'family': '"Quicksand", sans-serif',
-      'size': '',
-      'weight': '',
-      'style': '',
-      'transform': '',
-      'line-height': '',
-      'letter-spacing': '',
-      'text-align': '',
+      'size': 2.5rem,
+      'weight': 700,
+      'style': normal,
+      'transform': none,
+      'line-height': 1.25em,
+      'letter-spacing': 0,
+      'text-align': inherit,
       'color': get('dark', $colors)
     ),
 
     // Heading 2.
     'h2': (
       'family': '"Quicksand", sans-serif',
-      'size': '',
-      'weight': '',
-      'style': '',
-      'transform': '',
-      'line-height': '',
-      'letter-spacing': '',
-      'text-align': '',
-      'color': ''
+      'size': 2rem,
+      'weight': 700,
+      'style': normal,
+      'transform': none,
+      'line-height': 1.25em,
+      'letter-spacing': 0,
+      'text-align': inherit,
+      'color': get('dark', $colors),
     ),
 
     // Heading 3.
     'h3': (
       'family': '"Quicksand", sans-serif',
-      'size': '',
-      'weight': '',
-      'style': '',
-      'transform': '',
-      'line-height': '',
-      'letter-spacing': '',
-      'text-align': '',
-      'color': ''
+      'size': 1.8rem,
+      'weight': 700,
+      'style': normal,
+      'transform': none,
+      'line-height': 1.25em,
+      'letter-spacing': 0,
+      'text-align': inherit,
+      'color': get('dark', $colors),
     ),
 
     // Heading 4.
     'h4': (
       'family': '"Quicksand", sans-serif',
-      'size': '',
-      'weight': '',
-      'style': '',
-      'transform': '',
-      'line-height': '',
-      'letter-spacing': '',
-      'text-align': '',
-      'color': ''
+      'size': 1.6rem,
+      'weight': 700,
+      'style': normal,
+      'transform': none,
+      'line-height': 1.25em,
+      'letter-spacing': 0,
+      'text-align': inherit,
+      'color': get('dark', $colors),
     ),
 
     // Heading 5.
     'h5': (
       'family': '"Quicksand", sans-serif',
-      'size': '',
-      'weight': '',
-      'style': '',
-      'transform': '',
-      'line-height': '',
-      'letter-spacing': '',
-      'text-align': '',
-      'color': ''
+      'size': 1.5rem,
+      'weight': 700,
+      'style': normal,
+      'transform': none,
+      'line-height': 1.25em,
+      'letter-spacing': 0,
+      'text-align': inherit,
+      'color': get('dark', $colors),
     ),
 
     // Heading 6.
     'h6': (
       'family': '"Quicksand", sans-serif',
-      'size': '',
-      'weight': '',
-      'style': '',
-      'transform': '',
-      'line-height': '',
-      'letter-spacing': '',
-      'text-align': '',
-      'color': ''
+      'size': 1.3rem,
+      'weight': 700,
+      'style': normal,
+      'transform': uppercase,
+      'line-height': 1.25em,
+      'letter-spacing': 0.05em,
+      'text-align': center,
+      'color': get('clay', $colors),
     ),
 
     // Paragraph.
     'p': (
       'family': '"Quicksand", sans-serif',
-      'size': '',
-      'weight': '',
-      'style': '',
-      'transform': '',
-      'line-height': '',
-      'letter-spacing': '',
-      'text-align': '',
-      'color': ''
+      'size': 1.4rem,
+      'weight': 700,
+      'style': normal,
+      'transform': none,
+      'line-height': 1.25em,
+      'letter-spacing': 0,
+      'text-align': inherit,
+      'color': get('dark-clay', $colors),
     ),
 
     // Small.
@@ -290,9 +290,9 @@ $main: (
     /* Card */
     'card': (
       'padding': (
-        'top': 1.5rem,
+        'top': 2rem,
         'right': 1.5rem,
-        'bottom': 1.5rem,
+        'bottom': 2rem,
         'left': 1.5rem,
       ),
       'text-align': center,
@@ -423,9 +423,8 @@ $main: (
       ),
       // Badge name:
       'name': (
-        'font-size': 1.8rem,
+        'font-size': 2rem,
         'color': get('dark', $colors),
-        // TODO: Fix the entire Profile Badge style.
         'margin': (
           'top': 0,
           'right': 0,
@@ -444,6 +443,11 @@ $main: (
           'none': 0,
         ),
       ),
+    ),
+
+    /* Progress Bar */
+    'progress-bar': (
+
     ),
 
   ),

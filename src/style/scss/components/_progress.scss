@@ -5,8 +5,8 @@
   "../commons/commons";
 
 progress-bar{
-  display: block;
   width: 100%;
+  max-width: 300px;
   $height: 2.5rem;
   height: $height;
   padding: 0.33rem;
@@ -24,10 +24,11 @@ progress-bar{
   p{
     margin: 0;
     font-size: ($height/2);
-    transform: translateY($height * 0.75 * (-1));
-    color: white;
-    //text-shadow: 0 0 0.2rem rgba(0,0,0,0.5);
+    transform: translateY(($height/2) * 1.27 * (-1));
+    color: white !important;
+    text-shadow: 0 0 1rem rgba(0,0,0,0.3);
     text-transform: uppercase;
     font-weight: 700;
+    line-height: 1em;
   }
 }

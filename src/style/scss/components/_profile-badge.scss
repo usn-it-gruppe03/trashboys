@@ -22,9 +22,9 @@ profile-badge{
   }
 
   #badge-name{
-    font-size: get('component.profile-badge.font-size');
-    color: get('component.profile-badge.color');
-    margin: get('component.profile-badge.margin.none');
+    font-size: get('component.profile-badge.name.font-size');
+    color: get('component.profile-badge.name.color');
+    margin: get('component.profile-badge.name.margin.none');
   }
 
   #badge-address{

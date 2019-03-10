@@ -17,6 +17,7 @@
     get('component.button.padding.bottom')
     get('component.button.padding.left');
   border: get('component.button.border');
+  font-size: get('font.p.size');
   font-weight: get('component.button.font-weight');
   text-align: get('component.button.text-align');
   cursor: get('component.button.cursor');

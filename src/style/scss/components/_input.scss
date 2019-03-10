@@ -17,6 +17,7 @@
     get('component.input.padding.bottom')
     get('component.input.padding.left');
   border: get('component.input.border');
+  font-size: get('font.p.size');
   font-weight: get('component.input.font-weight');
   background-color: get('component.input.background-color');
   color: get('component.input.color');

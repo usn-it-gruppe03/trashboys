@@ -1,0 +1,117 @@
+@import
+"../functions/functions",
+"../variables/variables",
+"../mixins/mixins",
+"../commons/commons";
+
+
+
+
+// Heading 1
+h1{
+  font-family: #{get('font.h1.family')};
+  font-size: get('font.h1.size');
+  font-weight: get('font.h1.weight');
+  font-style: get('font.h1.style');
+  text-transform: get('font.h1.transform');
+  line-height: get('font.h1.line-height');
+  letter-spacing: get('font.h1.letter-spacing');
+  text-align: get('font.h1.text-align');
+  color: get('font.h1.color');
+}
+
+
+
+
+// Heading 2
+h2{
+  font-family: #{get('font.h2.family')};
+  font-size: get('font.h2.size');
+  font-weight: get('font.h2.weight');
+  font-style: get('font.h2.style');
+  text-transform: get('font.h2.transform');
+  line-height: get('font.h2.line-height');
+  letter-spacing: get('font.h2.letter-spacing');
+  text-align: get('font.h2.text-align');
+  color: get('font.h2.color');
+}
+
+
+
+
+// Heading 3
+h3{
+  font-family: #{get('font.h3.family')};
+  font-size: get('font.h3.size');
+  font-weight: get('font.h3.weight');
+  font-style: get('font.h3.style');
+  text-transform: get('font.h3.transform');
+  line-height: get('font.h3.line-height');
+  letter-spacing: get('font.h3.letter-spacing');
+  text-align: get('font.h3.text-align');
+  color: get('font.h3.color');
+}
+
+
+
+
+// Heading 4
+h4{
+  font-family: #{get('font.h4.family')};
+  font-size: get('font.h4.size');
+  font-weight: get('font.h4.weight');
+  font-style: get('font.h4.style');
+  text-transform: get('font.h4.transform');
+  line-height: get('font.h4.line-height');
+  letter-spacing: get('font.h4.letter-spacing');
+  text-align: get('font.h4.text-align');
+  color: get('font.h4.color');
+}
+
+
+
+
+// Heading 5
+h5{
+  font-family: #{get('font.h5.family')};
+  font-size: get('font.h5.size');
+  font-weight: get('font.h5.weight');
+  font-style: get('font.h5.style');
+  text-transform: get('font.h5.transform');
+  line-height: get('font.h5.line-height');
+  letter-spacing: get('font.h5.letter-spacing');
+  text-align: get('font.h5.text-align');
+  color: get('font.h5.color');
+}
+
+
+
+
+// Heading 6
+h6{
+  font-family: #{get('font.h6.family')};
+  font-size: get('font.h6.size');
+  font-weight: get('font.h6.weight');
+  font-style: get('font.h6.style');
+  text-transform: get('font.h6.transform');
+  line-height: get('font.h6.line-height');
+  letter-spacing: get('font.h6.letter-spacing');
+  text-align: get('font.h6.text-align');
+  color: get('font.h6.color');
+}
+
+
+
+
+// Paragraph
+p{
+  font-family: #{get('font.p.family')};
+  font-size: get('font.p.size');
+  font-weight: get('font.p.weight');
+  font-style: get('font.p.style');
+  text-transform: get('font.p.transform');
+  line-height: get('font.p.line-height');
+  letter-spacing: get('font.p.letter-spacing');
+  text-align: get('font.p.text-align');
+  color: get('font.p.color');
+}

@@ -31,6 +31,10 @@ if (isset($_GET['p'])) {
             require_once $page . 'main.php';
             break;
 
+        case 'typo':
+            require_once $page . 'typo.php';
+            break;
+
         default:
             echo '<h1>Page not defined</h1>';
             break;

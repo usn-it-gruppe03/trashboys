@@ -8,11 +8,11 @@
 </section>
 <section class="py-1">
     <div class="container text-center">
-        <h3 class="text-dark">Velkommen</h3>
-        <p>Lag ein brukar i dag og få komplett<br>oversikt over ditt abbonnement.</p>
+        <h3>Velkommen</h3>
+        <p class="m-0">Lag ein brukar i dag og få komplett<br>oversikt over ditt abbonnement.</p>
     </div>
 </section>
-<section>
+<section class="py-0">
     <div class="container">
         <div class="row">
             <div class="col"><a class="btn btn-green w-100" href="?p=login">Login</a></div>

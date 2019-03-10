@@ -9,21 +9,35 @@ export class ProgressBar extends HTMLElement {
     static attr(){
         return {
             percent: 'data-percent',
+            days: 'data-text',
         };
     }
 
     check(){
-        if (this.attrDefined(ProgressBar.attr().percent))
-            this.percent = this.getAttribute(ProgressBar.attr().percent);
-        else
-            this.precent = 0;
+
+        // * Check if attributes are defined:
+        let percentDefined = (this.attrDefined(ProgressBar.attr().percent));
+        let daysDefined = (this.attrDefined(ProgressBar.attr().days));
+
+        // * Set object attributes:
+        this.percent = percentDefined ? this.getAttribute(ProgressBar.attr().percent) : 0;
+        this.text = daysDefined ? this.getAttribute(ProgressBar.attr().days) : 0;
     }
 
     populate(){
+
+        // * Init. elements:
         let bar = document.createElement('div');
         let text = document.createElement('p');
-        text.innerText = '24 dager igjen';
+
+        // * Init. the inner text:
+        text.innerText = this.text;
+
+        // * Set the progress bar's width.
+        console.log(this.percent);
         bar.style.width = (this.percent * 100) + '%';
+
+        // * Append nodes to main this object.
         this.append(bar, text);
     }
 

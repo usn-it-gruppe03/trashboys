@@ -4,6 +4,10 @@
   "../mixins/mixins",
   "../commons/commons";
 
+
+
+
+
 %card {
   @extend %component;
   @extend %flex-column-center-center;
@@ -14,21 +18,34 @@
     get('component.card.padding.left');
   h1,h2,h3,h4,h5,h6,p,small {
     text-align: get('component.card.text-align');
+    color: inherit;
   }
   border-radius: get('component.border-radius');
 }
 
+
+
+
+// Regular card.
 .card {
   @extend %card;
 }
 
+
+
+
+// Green card.
 .card-green {
   @include drop-shadow(get('component.drop-shadow.green'));
   color: get('component.card.color.green');
   background-color: get('component.card.background-color.green');
 }
 
-.card-white{
+
+
+
+// White card.
+.card-white {
   @include drop-shadow(get('component.drop-shadow.white'));
   //@include box-shadow(get('component.box-shadow.white'));
   color: get('component.card.color.white');

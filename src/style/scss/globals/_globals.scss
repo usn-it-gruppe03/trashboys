@@ -8,17 +8,17 @@
 
 // ** Text alignment **
 .text-center {
-  text-align: center;
+  text-align: center !important;
 }
 .text-left {
-  text-align: left;
+  text-align: left !important;
 }
 .text-right{
-  text-align: right;
+  text-align: right !important;
 }
 .text-justify{
-  text-align: justify;
-  text-justify: inter-character;
+  text-align: justify !important;
+  text-justify: inter-character !important;
 }
 
 
@@ -26,43 +26,43 @@
 
 // ** Text color **
 .text-green{
-  color: get('green', $colors);
+  color: get('green', $colors) !important;
 }
 .text-dark-green{
-  color: get('dark-green', $colors);
+  color: get('dark-green', $colors) !important;
 }
 .text-light-green{
-  color: get('light-green', $colors);
+  color: get('light-green', $colors) !important;
 }
 .text-clay{
-  color: get('clay', $colors);
+  color: get('clay', $colors) !important;
 }
 .text-dark-clay{
-  color: get('dark-clay', $colors);
+  color: get('dark-clay', $colors) !important;
 }
 .text-light-clay{
-  color: get('light-clay', $colors);
+  color: get('light-clay', $colors) !important;
 }
 .text-gray{
-  color: get('gray', $colors);
+  color: get('gray', $colors) !important;
 }
 .text-dark-gray{
-  color: get('dark-gray', $colors);
+  color: get('dark-gray', $colors) !important;
 }
 .text-light-gray{
-  color: get('light-gray', $colors);
+  color: get('light-gray', $colors) !important;
 }
 .text-skye-blue{
-  color: get('sky-blue', $colors);
+  color: get('sky-blue', $colors) !important;
 }
 .text-darker{
-  color: get('darker', $colors);
+  color: get('darker', $colors) !important;
 }
 .text-lighter{
-  color: get('lighter', $colors);
+  color: get('lighter', $colors) !important;
 }
 .text-dark{
-  color: get('dark', $colors);
+  color: get('dark', $colors) !important;
 }
 
 

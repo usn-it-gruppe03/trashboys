@@ -13,23 +13,20 @@ import * as func from "../../function/global/functions.js";
  * */
 window.addEventListener('load', function () {
 
-    // ** Debug message **
-
+    // * Debug message:
     console.log('Main listener initiated.');
 
 
 
 
-    // ** PHP File constants **
-
+    // * PHP File constants:
     const PHP_SEARCH_STREET = "src/php/ajax/search_street.php?name=";
     const PHP_SEARCH_ADDRESS = "src/php/ajax/search_address.php?name=";
 
     
     
     
-    // ** HTML element constants **
-
+    // * HTML element constants:
     const INPUT_STREET = document.getElementById('street');
     const INPUT_NUMBER = document.getElementById('number');
     const INPUT_ZIP = document.getElementById('zip');
@@ -40,8 +37,7 @@ window.addEventListener('load', function () {
     
     
     
-    // ** Boolean program state **
-
+    // * Boolean program state:
     let inputMouseDown = false;
     let optionMouseDown = false;
     let isLoading = false;
@@ -50,16 +46,14 @@ window.addEventListener('load', function () {
     
     
     
-    // ** Arrays **
-
+    // * Arrays:
     let cachedStreets = [];
     let cachedAddresses = [];
 
     
     
     
-    // ** Init. functions **
-
+    // * Init. functions:
     function streetOnInput(){
 
         // Refresh options for every input.
@@ -354,28 +348,28 @@ window.addEventListener('load', function () {
     
     
     
-    // ** Invoke event listeners **
-
+    // * Invoke event listeners:
+    // Input (street):
     INPUT_STREET.addEventListener('input', streetOnInput);
     INPUT_STREET.addEventListener('mousedown', inputOnMouseDown);
     INPUT_STREET.addEventListener('mouseup', inputOnMouseUp);
-    
+    // Input (number):
     INPUT_NUMBER.addEventListener('input', numberOnInput);
     INPUT_NUMBER.addEventListener('mousedown', inputOnMouseDown);
     INPUT_NUMBER.addEventListener('mouseup', inputOnMouseUp);
-
+    // Input (zip):
     INPUT_ZIP.addEventListener('mousedown', inputOnMouseDown);
     INPUT_ZIP.addEventListener('mouseup', inputOnMouseUp);
-
+    // Input (area):
     INPUT_AREA.addEventListener('mousedown', inputOnMouseDown);
     INPUT_AREA.addEventListener('mouseup', inputOnMouseUp);
-    
+    // Window.
     window.addEventListener('click', windowOnMouseDown);
 
 
     
     
-    // ** Utility functions **
+    // * Utility functions:
 
     /**
      * Get value.

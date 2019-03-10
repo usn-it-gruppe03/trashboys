@@ -6,7 +6,7 @@
         </div>
     </div>
 </section>
-<section class="py-2">
+<section class="py-3">
     <div class="container">
         <form action="">
             <div class="form-group">
@@ -23,11 +23,7 @@
 </section>
 <section>
     <div class="container">
-        <div class="row">
-            <div class="col">
-                <h3 class="text-center">Har du ikkje ein brukar?</h3>
-                <button class="btn btn-clay w-100" onclick="window.location.href='?p=main'">Lag ein brukar</button>
-            </div>
-        </div>
+        <h3 class="text-center mb-1">Har du ikkje ein brukar?</h3>
+        <button class="btn btn-clay w-100" onclick="window.location.href='?p=main'">Lag ein brukar</button>
     </div>
 </section>
