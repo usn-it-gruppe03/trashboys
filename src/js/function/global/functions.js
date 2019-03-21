@@ -275,3 +275,16 @@ export function attrDefined(node, attr){
     else return false;
 
 }
+
+
+/**
+ * Console Out.
+ *
+ * @description This function simplifies the console log
+ * function.
+ *
+ * @param {string} msg - The message.
+ * */
+export function cout(msg) {
+    console.log(msg);
+}

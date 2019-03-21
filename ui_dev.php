@@ -19,6 +19,10 @@ if (isset($_GET['p'])) {
             require_once $page . 'login.php';
             break;
 
+        case 'register':
+            require_once $page . 'register.php';
+            break;
+
         case 'guest':
             require_once $page . 'guest.php';
             break;

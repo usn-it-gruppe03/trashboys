@@ -42,3 +42,18 @@ menu-bar{
     cursor: get('component.menu-bar.cursor');
   }
 }
+
+#shop-button-badge{
+  @extend %flex-row-center-center;
+  font-style: normal;
+  font-size: 1.2rem;
+  background-color: red;
+  position: absolute;
+  top: 0.3rem;
+  right: calc(50% - 2.5em);
+  border-radius: 50%;
+  width: 1.5em;
+  height: 1.5em;
+  color: white;
+  font-weight: bold;
+}

@@ -99,3 +99,14 @@
   -moz-appearance: $param;
   appearance: $param;
 }
+
+
+
+
+// ** Background Size **
+@mixin background-size($param){
+  -webkit-background-size: $param;
+  -moz-background-size: $param;
+  -o-background-size: $param;
+  background-size: $param;
+}

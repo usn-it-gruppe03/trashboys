@@ -1,0 +1,135 @@
+@import
+"../functions/functions",
+"../variables/variables",
+"../mixins/mixins",
+"../commons/commons";
+
+
+
+
+// * Shopping Cart:
+shopping-cart{
+  @extend %flex-column;
+  width: 100%;
+}
+
+
+
+
+// * Product List:
+.product-list{
+  @extend %flex-column;
+  width: inherit;
+}
+
+
+
+
+// * Product Item:
+product-item{
+  @extend %flex-row;
+  @include flex-wrap(nowrap);
+  align-items: center;
+  font-size: get('font.p.size');
+}
+
+product-item + product-item{
+  margin-top: 2rem;
+}
+
+
+
+
+// * Quantity:
+.product-item-quantity{
+  background-color: get('clay', $colors);
+  font-size: get('font.p.size');
+  font-weight: 700;
+  $size: 1.5em;
+  width: $size;
+  height: $size;
+  color: white;
+  border-radius: 50%;
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
+
+// * Description:
+.product-item-description{
+  margin-right: 1rem;
+}
+
+
+
+
+// * Name:
+.product-item-name{
+  font-size: inherit;
+}
+
+
+
+
+// * Category:
+.product-item-category{
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: bold;
+  color: get('clay', $colors);
+}
+
+
+
+
+// * Category:
+.product-item-price{
+  font-size: inherit;
+}
+.product-item-price::before{
+  content: 'NOK: ';
+}
+
+
+
+
+// * Delete:
+.product-item-delete{
+  flex-grow: 1;
+  text-align: right;
+}
+
+
+
+
+//
+.shopping-cart-details{
+  @extend %flex-row-left-center;
+  @include flex-wrap(wrap);
+  width: 100%;
+  //background-color: #f7f7f7;
+  margin: 2rem 0;
+}
+
+.shopping-cart-quantity{
+  font-size: get('font.p.size');
+  width: 50%;
+  min-width: 150px;
+}
+.shopping-cart-quantity::before{
+  content: 'Tal på produktar: ';
+}
+
+.shopping-cart-sum{
+  font-size: get('font.p.size');
+  width: 50%;
+  min-width: 150px;
+}
+.shopping-cart-sum::before{
+  content: 'Total sum: NOK ';
+}

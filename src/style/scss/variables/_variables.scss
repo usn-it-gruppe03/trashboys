@@ -37,6 +37,28 @@ $colors: (
 
 
 
+// Map of Bootstrap's (4.1) standard colors:
+$bootstrap: (
+  'color': (
+    'primary':      #007bff,
+    'secondary':    #6c757d,
+    'success':      #28a745,
+    'danger':       #dc3545,
+    'warning':      #ffc107,
+    'info':         #17a2b8,
+    'muted':        #6c757d,
+    'light':        #f8f9fa,
+    'dark':         #343a40,
+    'white':        white,
+    'transparent':  transparent,
+    'white-50':     rgba(255,255,255,.5),
+    'black-50':     rgba(0,0,0,.5)
+  )
+);
+
+
+
+
 // Map of variables.
 $main: (
 
@@ -336,6 +358,7 @@ $main: (
     /* Input */
     'input': (
       'display': inline-block,
+      'appearance': none,
       'box-sizing': border-box,
       'background-color': white,
       'width': 100%,

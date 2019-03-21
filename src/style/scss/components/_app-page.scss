@@ -1,0 +1,16 @@
+@import
+  "../functions/functions",
+  "../variables/variables",
+  "../mixins/mixins",
+  "../commons/commons";
+
+
+
+// App Page:
+%app-page{
+  width: 100%;
+}
+
+app-page{
+  @extend %app-page;
+}

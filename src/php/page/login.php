@@ -24,6 +24,6 @@
 <section>
     <div class="container">
         <h3 class="text-center mb-1">Har du ikkje ein brukar?</h3>
-        <button class="btn btn-clay w-100" onclick="window.location.href='?p=main'">Lag ein brukar</button>
+        <button class="btn btn-clay w-100" onclick="window.location.href='?p=register'">Lag ein brukar</button>
     </div>
 </section>

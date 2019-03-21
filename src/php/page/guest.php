@@ -43,4 +43,4 @@
 
 
 <!-- JS Event listener for this page only -->
-<script type="module" src="src/js/event/page/guest.js"></script>
+<script type="module" src="src/js/event/global/addressSearch.js"></script>

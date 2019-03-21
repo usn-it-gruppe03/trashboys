@@ -8,7 +8,7 @@ export class ProfileBadge extends HTMLElement {
 
     }
 
-    // Element attribute naming.
+    // Element attribute attr.
     static attr(){
         return {image:'badge-image', name:'badge-name', address:'badge-address'};
     }

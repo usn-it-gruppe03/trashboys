@@ -1,0 +1,50 @@
+@import
+  "../functions/functions",
+  "../variables/variables",
+  "../mixins/mixins",
+  "../commons/commons";
+
+
+
+
+// * Bullet Common
+%bullet{
+  display: -moz-inline-block;
+  display: inline-block;
+  width: unset !important;
+  background-color: get('clay', $colors);
+  font-size: 1rem;
+  font-weight: 700;
+  color: white;
+  padding: 0.25em 0.5em;
+  border-radius: 0.3em;
+  margin: 1rem 0;
+  letter-spacing: 0.05em;
+  font-style: normal;
+  text-transform: uppercase;
+}
+
+
+// * Bullet Element
+.bullet{
+  @extend %bullet;
+}
+
+.bullet + .bullet{
+  margin-left: 0.2rem;
+}
+
+.bullet-success{
+  color: white !important;
+  background-color: get('green', $colors) !important;
+}
+
+.bullet-warning{
+  color: get('dark', $colors);
+  background-color: get('color.warning', $bootstrap) !important;
+}
+
+.bullet-danger{
+  color: white;
+  background-color: get('color.danger', $bootstrap) !important;
+}

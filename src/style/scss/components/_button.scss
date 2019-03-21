@@ -51,3 +51,15 @@
   @include drop-shadow(get('component.drop-shadow.clay'));
   @include box-shadow(get('component.box-shadow.clay'));
 }
+
+.btn-shop-add {
+  background-color: get('component.button.background-color.green');
+  color: get('component.button.color.green');
+  @include box-shadow(get('component.box-shadow.green'));
+}
+
+.btn-shop-remove {
+  background-color: get('component.button.background-color.clay');
+  color: get('component.button.color.clay');
+  @include box-shadow(get('component.box-shadow.clay'));
+}

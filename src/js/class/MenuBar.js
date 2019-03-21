@@ -1,3 +1,6 @@
+import * as x from "../function/global/functions.js";
+import {ShoppingCart} from "./ShoppingCart.js";
+
 export class MenuBar extends HTMLElement {
 
     constructor(){
@@ -13,74 +16,134 @@ export class MenuBar extends HTMLElement {
         }
     }
 
-    static links(){
-        return {
-            home: '',
-            shop: '',
-            settings: '',
-        }
-    }
 
-    static naming(){
+    static attr(){
         return {
             id: {
                 home: 'menu-home',
                 shop: 'menu-shop',
                 settings: 'menu-settings',
             },
-            class: 'menu-btn',
+            class: 'menu-btn'
         }
     }
 
+
+    static fetchPages(){
+        return {
+            home: document.getElementById('page-home'),
+            shop: document.getElementById('page-shop'),
+            settings: document.getElementById('page-settings')
+        };
+    }
+
+
     populate(){
 
+        // * Create div elements:
         let home = document.createElement('div');
         let shop = document.createElement('div');
         let settings = document.createElement('div');
 
+        // * Create img elements:
         let img_home = document.createElement('img');
         let img_shop = document.createElement('img');
         let img_settings = document.createElement('img');
 
+        let shop_badge = document.createElement('i');
+        shop_badge.setAttribute('id','shop-button-badge');
+        x.showNode(shop_badge,false);
+        shop_badge.innerText = '0';
+        let event = MenuBar.updateShopIcon(shop_badge);
+        shop_badge.addEventListener(event.type,event.listener);
+
+        // * Add resources to images:
         img_home.src = MenuBar.icons().home;
         img_shop.src = MenuBar.icons().shop;
         img_settings.src = MenuBar.icons().settings;
 
-        home.setAttribute('id', MenuBar.naming().id.home);
-        shop.setAttribute('id', MenuBar.naming().id.shop);
-        settings.setAttribute('id', MenuBar.naming().id.settings);
+        // * Set ID and class:
+        home.setAttribute('id', MenuBar.attr().id.home);
+        shop.setAttribute('id', MenuBar.attr().id.shop);
+        settings.setAttribute('id', MenuBar.attr().id.settings);
+        home.setAttribute('class', MenuBar.attr().class);
+        shop.setAttribute('class', MenuBar.attr().class);
+        settings.setAttribute('class', MenuBar.attr().class);
 
-        home.setAttribute('class', MenuBar.naming().class);
-        shop.setAttribute('class', MenuBar.naming().class);
-        settings.setAttribute('class', MenuBar.naming().class);
-
+        // * Add event listeners:
         home.addEventListener('click', this.onClick);
         shop.addEventListener('click', this.onClick);
         settings.addEventListener('click', this.onClick);
 
+        // * Append nodes:
         home.appendChild(img_home);
-        shop.appendChild(img_shop);
+        shop.append(img_shop,shop_badge);
         settings.appendChild(img_settings);
 
+        // * Add child nodes to this object.
         this.append(home,shop,settings);
 
     }
 
     onClick(){
 
+        // * Get the ID of the clicked object.
         let id = this.getAttribute('id');
 
+        // * Fetch all pages.
+        let pages = MenuBar.fetchPages();
+
+        // * Examine ID.
         switch (id) {
 
-            case MenuBar.naming().home:
+            // ? If the ID belongs to the home button.
+            case MenuBar.attr().id.home:
+                x.showNode(pages.home, true);
+                x.showNode(pages.shop, false);
+                x.showNode(pages.settings, false);
+                console.log('Click: Home');
                 break;
-            case MenuBar.naming().shop:
+
+            // ? If the ID belongs to the shop button.
+            case MenuBar.attr().id.shop:
+                x.showNode(pages.home, false);
+                x.showNode(pages.shop, true);
+                x.showNode(pages.settings, false);
+                console.log('Click: Shop');
                 break;
-            case MenuBar.naming().settings:
+
+            // ? If the ID belongs to the settings button.
+            case MenuBar.attr().id.settings:
+                x.showNode(pages.home, false);
+                x.showNode(pages.shop, false);
+                x.showNode(pages.settings, true);
+                console.log('Click: Settings');
                 break;
 
         }
 
+    }
+
+    static updateShopIcon(shopIcon){
+        return {
+            /**@type{string}*/
+            type: 'updateCart',
+            /**@type{function}*/
+            listener: event => {
+
+                const PRODUCT_LIST = document.getElementById('product-list');
+                const CART_DATA = ShoppingCart.getCartData(PRODUCT_LIST);
+                shopIcon.innerText = CART_DATA.quantity.toString();
+                let cartIsEmpty = parseInt(shopIcon.innerText) < 1;
+
+                if (cartIsEmpty){
+                    x.showNode(shopIcon, false);
+                } else if (!cartIsEmpty) {
+                    x.showNode(shopIcon, true);
+                }
+
+            }
+        };
     }
 
 }

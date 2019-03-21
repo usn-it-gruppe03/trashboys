@@ -68,6 +68,32 @@
 
 
 
+// ** Background color **
+.bg-primary{
+  background-color: get('color.primary', $bootstrap);
+}
+.bg-secondary{
+  background-color: get('color.secondary', $bootstrap);
+}
+.bg-success{
+  background-color: get('color.success', $bootstrap);
+}
+.bg-danger{
+  background-color: get('color.danger', $bootstrap);
+}
+.bg-warning{
+  background-color: get('color.warning', $bootstrap);
+}
+.bg-info{
+  background-color: get('color.info', $bootstrap);
+}
+.bg-green{
+  background-color: get('green', $colors);
+}
+
+
+
+
 // ** Width **
 $i:0;
 @while $i <= 100{

@@ -1,4 +1,19 @@
-@import "card", "button", "input", "progress", "profile-badge", "tab-page", "tab-container", "menubar";
+@import
+"card",
+"button",
+"input",
+"progress",
+"profile-badge",
+"tab-page",
+"tab-container",
+"menubar",
+"bullet",
+"app-page",
+"product-box",
+"shopping-cart";
+
+
+
 
 [data-visible="true"]{
   visibility: visible;

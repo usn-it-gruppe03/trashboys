@@ -14,7 +14,7 @@ import * as func from "../../function/global/functions.js";
 window.addEventListener('load', function () {
 
     // * Debug message:
-    console.log('Main listener initiated.');
+    console.log('Address Search Listener: Started.');
 
 
 
@@ -23,9 +23,9 @@ window.addEventListener('load', function () {
     const PHP_SEARCH_STREET = "src/php/ajax/search_street.php?name=";
     const PHP_SEARCH_ADDRESS = "src/php/ajax/search_address.php?name=";
 
-    
-    
-    
+
+
+
     // * HTML element constants:
     const INPUT_STREET = document.getElementById('street');
     const INPUT_NUMBER = document.getElementById('number');
@@ -34,26 +34,27 @@ window.addEventListener('load', function () {
     const OPTIONS_STREET = document.getElementById('options-street');
     const OPTIONS_NUMBER = document.getElementById('options-number');
 
-    
-    
-    
+
+
+
     // * Boolean program state:
     let inputMouseDown = false;
     let optionMouseDown = false;
     let isLoading = false;
     let addressID = 0;
-    
-    
-    
-    
+
+
+
+
     // * Arrays:
     let cachedStreets = [];
     let cachedAddresses = [];
 
-    
-    
-    
-    // * Init. functions:
+
+
+
+    // * Init. functions for Event Listeners:
+    // Street EL (input):
     function streetOnInput(){
 
         // Refresh options for every input.
@@ -98,7 +99,7 @@ window.addEventListener('load', function () {
 
             });
 
-        // ? If number of characters in the search is more than 2.
+            // ? If number of characters in the search is more than 2.
         } else if (inputValue.length > 2) {
 
             let filteredArray = filterArray(inputValue, cachedStreets);
@@ -107,15 +108,16 @@ window.addEventListener('load', function () {
             else
                 showNode(OPTIONS_STREET, false);
 
-        // ? If number of characters in the search is 0.
+            // ? If number of characters in the search is 0.
         } else if (inputValue.length === 0) {
             flushChildren(OPTIONS_STREET);
             showNode(OPTIONS_STREET, false);
         }
 
     }
-    
-    
+
+
+    // Number EL (input):
     function numberOnInput(){
 
         // Refresh options.
@@ -140,7 +142,8 @@ window.addEventListener('load', function () {
 
     }
 
-    
+
+    // Window EL (mousedown):
     function windowOnMouseDown(){
 
         // ? If mousedown listener was invoked.
@@ -160,7 +163,8 @@ window.addEventListener('load', function () {
 
     }
 
-    
+
+    // Input EL (mousedown):
     function inputOnMouseDown(){
 
         inputMouseDown = true;
@@ -188,17 +192,19 @@ window.addEventListener('load', function () {
                 console.log('OnMouseDown handler for ' + node + ' is undefined.');
                 break;
         }
-        
+
     }
 
-    
+
+    // Input EL (mouseup):
     function inputOnMouseUp(){
 
         inputMouseDown = false;
 
     }
 
-    
+
+    // Option EL (mousedown):
     function optionOnMouseDown(){
 
         optionMouseDown = true;
@@ -304,7 +310,7 @@ window.addEventListener('load', function () {
                                 addressID = cachedAddresses[i].id;
                             }
 
-                        // ? If house distinction is numerical only.
+                            // ? If house distinction is numerical only.
                         } else {
 
                             // ? If current address matches with selected values.
@@ -336,7 +342,8 @@ window.addEventListener('load', function () {
 
     }
 
-    
+
+    // Option EL (mouseup):
     function optionOnMouseUp(){
 
         optionMouseDown = false;
@@ -345,9 +352,9 @@ window.addEventListener('load', function () {
 
     }
 
-    
-    
-    
+
+
+
     // * Invoke event listeners:
     // Input (street):
     INPUT_STREET.addEventListener('input', streetOnInput);
@@ -367,8 +374,8 @@ window.addEventListener('load', function () {
     window.addEventListener('click', windowOnMouseDown);
 
 
-    
-    
+
+
     // * Utility functions:
 
     /**
@@ -647,7 +654,7 @@ window.addEventListener('load', function () {
 
             }
 
-        // ? If given node is OPTION_STREET element.
+            // ? If given node is OPTION_STREET element.
         } else if (node === OPTIONS_NUMBER) {
 
             for (let i=0; i<array.length; i++) {
@@ -746,4 +753,3 @@ window.addEventListener('load', function () {
 
 
 });
-

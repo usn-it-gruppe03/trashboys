@@ -45,7 +45,7 @@ export class TabPage extends HTMLElement {
         return {
             lastDate: 'last-collection-date',
             nextDate: 'next-collection-date',
-            category: 'waste-category',
+            category: 'waste-categoryIndex',
         };
     }
 
@@ -106,10 +106,10 @@ export class TabPage extends HTMLElement {
             this.niceDate = TabPage.beautifyDate(this.nextDate);
         } else this.niceDate = TabPage.beautifyDate(TabPage.fallback().date);
 
-        // * Waste category:
-        // ? If the waste category attribute is defined.
+        // * Waste categoryIndex:
+        // ? If the waste categoryIndex attribute is defined.
         if (this.attrDefined(TabPage.attr().category))
-            // Get the waste category.
+            // Get the waste categoryIndex.
             this.category = this.getAttribute(TabPage.attr().category);
         else this.category = TabPage.fallback().category;
     }
@@ -154,7 +154,7 @@ export class TabPage extends HTMLElement {
         // * Create paragraph element.
         let category = document.createElement('p');
         category.innerText = TabPage.text().category + ' ' + this.category;
-        category.setAttribute('id', 'tab-category');
+        category.setAttribute('id', 'tab-categoryIndex');
 
         // * Append child nodes to this object.
         this.append(head, date, progress, category);
@@ -237,9 +237,6 @@ export class TabPage extends HTMLElement {
         // * Calculate remaining days.
         let daysLeft = ((collectionDate - nowDate)/1000/60/60/24);
 
-        // ! Debug.
-        console.log('Days left: ' + daysLeft);
-
         // * Return value.
         return daysLeft;
 
@@ -272,11 +269,6 @@ export class TabPage extends HTMLElement {
         let delta_nextDate = obj_nextDate - obj_lastDate;
         let delta_nowDate = obj_nowDate - obj_lastDate;
         let percent = delta_nowDate / delta_nextDate;
-
-        // ! Debug:
-        console.log('Delta Next Date: ' + delta_nextDate);
-        console.log('Delta Now Date: ' + delta_nowDate);
-        console.log('Percent: ' + percent);
 
         // * Return value.
         return (percent >= 1.0 ? 1 : percent);

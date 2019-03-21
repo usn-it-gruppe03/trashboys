@@ -37,7 +37,7 @@
   $mx: (get('content.margin.left') + get('content.margin.right'));
   margin-top: get('component.options.margin.top');
   padding: 0;
-  max-height: 10rem;
+  max-height: 15rem;
   * {
     position: relative;
     font-weight: get('component.option.font-weight');

@@ -158,8 +158,8 @@ abstract class DatabaseObject {
             case 'PriceLog':
                 $sql .= ' `Price_Log` ';
                 break;
-            case 'Product':
-                $sql .= ' `Product` ';
+            case 'ProductBox':
+                $sql .= ' `ProductBox` ';
                 break;
             case 'Route':
                 $sql .= ' `Route` ';

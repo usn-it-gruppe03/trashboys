@@ -1,0 +1,41 @@
+@import
+"../functions/functions",
+"../variables/variables",
+"../mixins/mixins",
+"../commons/commons";
+
+
+
+
+// * Product Box (common):
+%product-box{
+  @extend %flex-column-center-center;
+  width: 100%;
+  min-width: 150px;
+  //@include box-shadow(inset 0 0 0 1px #{get('light-clay', $colors)});
+  @include border-radius(0.5rem);
+}
+
+
+product-box{
+  @extend %product-box;
+}
+
+.product-box-img{
+  width: 80px;
+  height: 80px;
+  @include background-size(cover);
+}
+
+.product-box-name{
+  margin: 1rem 0 0 0;
+}
+
+.product-box-price{
+  margin: 1rem 0;
+  font-size: 2rem;
+}
+
+.product-box-price::before{
+  content: 'NOK: ';
+}

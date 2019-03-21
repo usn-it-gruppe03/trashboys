@@ -34,7 +34,6 @@ export class ProgressBar extends HTMLElement {
         text.innerText = this.text;
 
         // * Set the progress bar's width.
-        console.log(this.percent);
         bar.style.width = (this.percent * 100) + '%';
 
         // * Append nodes to main this object.

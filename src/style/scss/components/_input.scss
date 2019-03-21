@@ -24,7 +24,7 @@
   overflow: get('component.input.overflow');
   @include border-radius(get('component.border-radius'));
   @include box-sizing(get('component.input.box-sizing'));
-  @include appearance(none);
+  @include appearance('component.input.appearance');
   @include box-shadow(get('component.box-shadow.white'));
   @include drop-shadow(get('component.drop-shadow.white'));
 }
