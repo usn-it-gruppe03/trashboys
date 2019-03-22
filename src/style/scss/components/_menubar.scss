@@ -18,6 +18,7 @@ menu-bar{
   background-color: get('component.menu-bar.background-color');
   @include border-radius($radius $radius 0 0);
   @include drop-shadow(get('component.drop-shadow.green'));
+  padding-bottom: env(safe-area-inset-bottom);
 
   .menu-btn{
     @extend %flex-column-center-center;

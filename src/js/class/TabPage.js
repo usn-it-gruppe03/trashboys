@@ -45,7 +45,7 @@ export class TabPage extends HTMLElement {
         return {
             lastDate: 'last-collection-date',
             nextDate: 'next-collection-date',
-            category: 'waste-categoryIndex',
+            category: 'waste-category',
         };
     }
 
@@ -154,7 +154,7 @@ export class TabPage extends HTMLElement {
         // * Create paragraph element.
         let category = document.createElement('p');
         category.innerText = TabPage.text().category + ' ' + this.category;
-        category.setAttribute('id', 'tab-categoryIndex');
+        category.setAttribute('id', 'tab-category');
 
         // * Append child nodes to this object.
         this.append(head, date, progress, category);
