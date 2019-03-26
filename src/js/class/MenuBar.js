@@ -1,13 +1,34 @@
 import * as x from "../function/global/functions.js";
 import {ShoppingCart} from "./ShoppingCart.js";
 
+
+/**
+ * MenuBar
+ *
+ * @author Isak K. Hauge
+ * @version 1.1
+ * */
 export class MenuBar extends HTMLElement {
 
+
+    /**
+     * Constructor.
+     * */
     constructor(){
         super();
-        this.populate();
     }
 
+
+
+
+    /**
+     * Icons.
+     *
+     * @static
+     * @description TODO: Write
+     *
+     * @returns {object}
+     * */
     static icons(){
         return {
             home: 'src/media/img/icon/outline-home-24px.svg',
@@ -17,6 +38,16 @@ export class MenuBar extends HTMLElement {
     }
 
 
+
+
+    /**
+     * Attributes.
+     *
+     * @static
+     * @description TODO: Write
+     *
+     * @returns {object}
+     * */
     static attr(){
         return {
             id: {
@@ -29,6 +60,16 @@ export class MenuBar extends HTMLElement {
     }
 
 
+
+
+    /**
+     * Fetch pages.
+     *
+     * @static
+     * @description TODO: Write.
+     *
+     * @returns {object}
+     * */
     static fetchPages(){
         return {
             home: document.getElementById('page-home'),
@@ -38,7 +79,25 @@ export class MenuBar extends HTMLElement {
     }
 
 
-    populate(){
+
+
+    /**
+     * Connected Callback
+     * */
+    connectedCallback(){
+        if (this.isConnected)
+            this.build();
+    }
+
+
+
+
+    /**
+     * Build.
+     *
+     * @description TODO: Write.
+     * */
+    build(){
 
         // * Create div elements:
         let home = document.createElement('div');
@@ -71,9 +130,10 @@ export class MenuBar extends HTMLElement {
         settings.setAttribute('class', MenuBar.attr().class);
 
         // * Add event listeners:
-        home.addEventListener('click', this.onClick);
-        shop.addEventListener('click', this.onClick);
-        settings.addEventListener('click', this.onClick);
+        event = MenuBar.onClick();
+        home.addEventListener(event.type, event.listener);
+        shop.addEventListener(event.type, event.listener);
+        settings.addEventListener(event.type, event.listener);
 
         // * Append nodes:
         home.appendChild(img_home);
@@ -85,45 +145,79 @@ export class MenuBar extends HTMLElement {
 
     }
 
-    onClick(){
 
-        // * Get the ID of the clicked object.
-        let id = this.getAttribute('id');
 
-        // * Fetch all pages.
-        let pages = MenuBar.fetchPages();
 
-        // * Examine ID.
-        switch (id) {
+    /**
+     * On click.
+     * */
+    static onClick(){
+        return {
+            type: 'click',
+            listener: event => {
 
-            // ? If the ID belongs to the home button.
-            case MenuBar.attr().id.home:
-                x.showNode(pages.home, true);
-                x.showNode(pages.shop, false);
-                x.showNode(pages.settings, false);
-                console.log('Click: Home');
-                break;
+                // * Get the ID of the clicked object.
+                let id = event.target.getAttribute('id');
 
-            // ? If the ID belongs to the shop button.
-            case MenuBar.attr().id.shop:
-                x.showNode(pages.home, false);
-                x.showNode(pages.shop, true);
-                x.showNode(pages.settings, false);
-                console.log('Click: Shop');
-                break;
+                // * Fetch all pages.
+                let pages = MenuBar.fetchPages();
 
-            // ? If the ID belongs to the settings button.
-            case MenuBar.attr().id.settings:
-                x.showNode(pages.home, false);
-                x.showNode(pages.shop, false);
-                x.showNode(pages.settings, true);
-                console.log('Click: Settings');
-                break;
+                let attr = MenuBar.attr();
+                const get = (id) => {return document.getElementById(id)};
 
-        }
+                // * Examine ID.
+                switch (id) {
 
+                    // ? If the ID belongs to the home button.
+                    case MenuBar.attr().id.home:
+                        x.showNode(pages.home, true);
+                        x.showNode(pages.shop, false);
+                        x.showNode(pages.settings, false);
+                        x.setState(get(attr.id.home), 'active');
+                        x.setState(get(attr.id.shop), 'inactive');
+                        x.setState(get(attr.id.settings), 'inactive');
+                        console.log('Click: Home');
+                        break;
+
+                    // ? If the ID belongs to the shop button.
+                    case MenuBar.attr().id.shop:
+                        x.showNode(pages.home, false);
+                        x.showNode(pages.shop, true);
+                        x.showNode(pages.settings, false);
+                        x.setState(get(attr.id.home), 'inactive');
+                        x.setState(get(attr.id.shop), 'active');
+                        x.setState(get(attr.id.settings), 'inactive');
+                        console.log('Click: Shop');
+                        break;
+
+                    // ? If the ID belongs to the settings button.
+                    case MenuBar.attr().id.settings:
+                        x.showNode(pages.home, false);
+                        x.showNode(pages.shop, false);
+                        x.showNode(pages.settings, true);
+                        x.setState(get(attr.id.home), 'inactive');
+                        x.setState(get(attr.id.shop), 'inactive');
+                        x.setState(get(attr.id.settings), 'active');
+                        console.log('Click: Settings');
+                        break;
+
+                }
+
+            },
+        };
     }
 
+
+
+
+    /**
+     * Update Shop Icon.
+     *
+     * @static
+     * @description TODO: Write
+     *
+     * @returns {object}
+     * */
     static updateShopIcon(shopIcon){
         return {
             /**@type{string}*/

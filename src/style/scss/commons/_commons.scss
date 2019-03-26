@@ -36,6 +36,7 @@
   @include flex-direction(column);
   @include justify-content(center);
   @include align-items(center);
+  @include align-content(center);
 }
 
 %flex-justify-between{

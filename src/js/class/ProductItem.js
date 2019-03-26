@@ -194,7 +194,7 @@ export class ProductItem extends HTMLElement {
 
         DELETE.classList.add(attr.class.delete);
 
-        this.buttonElement.classList.add('btn', 'btn-shop-remove');
+        this.buttonElement.classList.add('btn', 'btn-clay', 'fx-3d-clay');
         this.buttonElement.innerText = 'Fjern';
         this.buttonElement.addEventListener(
             ProductItem.btnOnClick(this).type,

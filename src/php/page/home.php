@@ -15,8 +15,12 @@
 <section class="py-0">
     <div class="container">
         <div class="row">
-            <div class="col"><a class="btn btn-green w-100" href="?p=login">Login</a></div>
-            <div class="col"><button class="btn btn-clay w-100" onclick="window.location.href='?p=guest'">Eg vil berre sjå tømmedatoar</button></div>
+            <div class="col">
+                <a class="btn btn-green fx-3d-green w-100" href="?p=login">Login</a>
+            </div>
+            <div class="col">
+                <button class="btn btn-clay fx-3d-clay w-100" onclick="window.location.href='?p=guest'">Eg vil berre sjå tømmedatoar</button>
+            </div>
         </div>
     </div>
 </section>

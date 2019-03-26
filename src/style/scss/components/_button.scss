@@ -34,32 +34,14 @@
 .btn-white {
   background-color: get('component.button.background-color.white');
   color: get('component.button.color.white');
-  @include drop-shadow(get('component.drop-shadow.white'));
-  @include box-shadow(get('component.box-shadow.white'));
 }
 
 .btn-green {
   background-color: get('component.button.background-color.green');
   color: get('component.button.color.green');
-  @include drop-shadow(get('component.drop-shadow.green'));
-  @include box-shadow(get('component.box-shadow.green'));
 }
 
 .btn-clay {
   background-color: get('component.button.background-color.clay');
   color: get('component.button.color.clay');
-  @include drop-shadow(get('component.drop-shadow.clay'));
-  @include box-shadow(get('component.box-shadow.clay'));
-}
-
-.btn-shop-add {
-  background-color: get('component.button.background-color.green');
-  color: get('component.button.color.green');
-  @include box-shadow(get('component.box-shadow.green'));
-}
-
-.btn-shop-remove {
-  background-color: get('component.button.background-color.clay');
-  color: get('component.button.color.clay');
-  @include box-shadow(get('component.box-shadow.clay'));
 }

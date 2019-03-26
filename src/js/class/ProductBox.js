@@ -124,7 +124,7 @@ export class ProductBox extends HTMLElement {
 
         // * Create elements:
         const IMG = create('div');
-        const NAME = create('h3');
+        const NAME = create('p');
         const CAT = create('i');
         const BTN = create('btn');
         const PRICE = create('p');
@@ -145,7 +145,7 @@ export class ProductBox extends HTMLElement {
 
         // Button:
         BTN.innerText = 'Legg til kurv';
-        BTN.classList.add('btn', 'btn-shop-add');
+        BTN.classList.add('btn', 'btn-green', 'fx-3d-green');
         let {type, listener} = ProductBox.btnOnClick(this);
         BTN.addEventListener(type,listener);
 
@@ -155,7 +155,7 @@ export class ProductBox extends HTMLElement {
 
 
         // * Append nodes to object.
-        this.append(IMG,NAME,CAT,BTN,PRICE);
+        this.append(IMG,NAME,CAT,PRICE,BTN);
 
     }
 

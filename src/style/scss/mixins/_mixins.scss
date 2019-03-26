@@ -110,3 +110,26 @@
   -o-background-size: $param;
   background-size: $param;
 }
+
+
+
+
+// ** Transition **
+@mixin transition($param){
+  -webkit-transition: $param;
+  -moz-transition: $param;
+  -o-transition: $param;
+  transition: $param;
+}
+
+
+
+
+// ** Transform **
+@mixin transform($param){
+  -webkit-transform: $param;
+  -moz-transform: $param;
+  -ms-transform: $param;
+  -o-transform: $param;
+  transform: $param;
+}

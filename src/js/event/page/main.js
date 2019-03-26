@@ -7,6 +7,7 @@ import {AppPage} from "../../class/AppPage.js";
 import {ProductBox} from "../../class/ProductBox.js";
 import {ShoppingCart} from "../../class/ShoppingCart.js";
 import {ProductItem} from "../../class/ProductItem.js";
+import {ToggleSwitch} from "../../class/ToggleSwitch.js";
 
 
 function window_onLoad() {
@@ -23,6 +24,7 @@ function window_onLoad() {
     customElements.define('product-box', ProductBox);
     customElements.define('shopping-cart', ShoppingCart);
     customElements.define('product-item', ProductItem);
+    customElements.define('toggle-switch', ToggleSwitch);
 
     // TODO: HTML elements (constants).
     const BUTTONS = document.getElementsByClassName('btn-shop');

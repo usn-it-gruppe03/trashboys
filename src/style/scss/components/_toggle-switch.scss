@@ -1,0 +1,78 @@
+@import
+"../functions/functions",
+"../variables/variables",
+"../mixins/mixins",
+"../commons/commons";
+
+
+
+
+// ** Cascading variables **
+$width: get('component.toggle-switch.width');
+$border-width: get('component.toggle-switch.border.width');
+$border-color: get('component.toggle-switch.border.color');
+$border-style: get('component.toggle-switch.border.style');
+
+
+
+
+// ** Commons **
+
+// Toggle Switch:
+%toggle-switch{
+  @extend %flex-row-center-center;
+  width: ($width + $border-width * 2);
+  height: ($width/2 + $border-width * 2);
+  border-radius: (($width/2) / 2 + ($border-width*2));
+  border: $border-width $border-style $border-color;
+}
+
+// Toggle Switch Button:
+%toggle-switch-button{
+  @include box-shadow(get('component.toggle-switch.button.box-shadow'));
+  background-color: get('component.toggle-switch.button.background-color');
+  border-radius: get('component.toggle-switch.button.border-radius');
+  cursor: get('component.toggle-switch.button.cursor');
+  width: ($width/2);
+  height: ($width/2);
+}
+
+
+
+
+// ** Style **
+
+// Toggle Switch:
+toggle-switch{
+  @extend %toggle-switch;
+}
+// State: OFF
+toggle-switch,
+toggle-switch[data-toggle="off"],
+toggle-switch[data-toggle="OFF"]{
+  background-color: get('component.toggle-switch.background-color.off');
+}
+// State: ON
+toggle-switch[data-toggle="on"],
+toggle-switch[data-toggle="ON"]{
+  background-color: get('component.toggle-switch.background-color.on');
+}
+
+
+// Toggle Switch Button:
+.toggle-switch-button{
+  @extend %toggle-switch-button;
+}
+// State: OFF
+toggle-switch > .toggle-switch-button,
+toggle-switch[data-toggle="off"] > .toggle-switch-button,
+toggle-switch[data-toggle="OFF"] > .toggle-switch-button{
+  @include transform(translateX(-($width/4)));
+  @include transition(get('component.toggle-switch.transition'));
+}
+// State: ON
+toggle-switch[data-toggle="on"] > .toggle-switch-button,
+toggle-switch[data-toggle="ON"] > .toggle-switch-button{
+  @include transform(translateX(($width/4)));
+  @include transition(get('component.toggle-switch.transition'));
+}

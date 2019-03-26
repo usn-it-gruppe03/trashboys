@@ -39,6 +39,14 @@ if (isset($_GET['p'])) {
             require_once $page . 'typo.php';
             break;
 
+        case 'admin_login':
+            require_once $page . 'admin_login.php';
+            break;
+
+        case 'admin_dashboard':
+            require_once $page . 'admin_dashboard.php';
+            break;
+
         default:
             echo '<h1>Page not defined</h1>';
             break;

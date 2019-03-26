@@ -10,7 +10,8 @@
 "bullet",
 "app-page",
 "product-box",
-"shopping-cart";
+"shopping-cart",
+"toggle-switch";
 
 
 
@@ -23,4 +24,44 @@
   visibility: hidden;
   display: none;
   position: absolute;
+}
+
+
+
+
+// ** Shadows **:
+
+// Shadow for white components.
+.shadow-regular{
+  @include drop-shadow(get('component.drop-shadow.white'));
+}
+
+// Shadow for green components.
+.shadow-green{
+  @include drop-shadow(get('component.drop-shadow.green'));
+}
+
+// Shadow for clay colored components.
+.shadow-clay{
+  @include drop-shadow(get('component.drop-shadow.clay'));
+}
+
+
+
+
+// ** 3D Effect **:
+
+// 3D extrusion effect on white components.
+.fx-3d-regular{
+  @include box-shadow(get('component.box-shadow.white'));
+}
+
+// 3D extrusion effect on green components.
+.fx-3d-green{
+  @include box-shadow(get('component.box-shadow.green'));
+}
+
+// 3D extrusion effect on clay colored components.
+.fx-3d-clay{
+  @include box-shadow(get('component.box-shadow.clay'));
 }

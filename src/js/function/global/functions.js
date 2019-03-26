@@ -212,6 +212,20 @@ export function showNode(node, boolean) {
 
 
 /**
+ * Set state.
+ *
+ * @description This function will set the state of an HTML element
+ * given in the parameters.
+ *
+ * @param {HTMLElement} node - HTML element.
+ * @param {string} state - The state.
+ * */
+export function setState(node, state) {
+    node.setAttribute('data-state', state);
+}
+
+
+/**
  * Is hidden.
  *
  * @description This function will return a boolean value based on

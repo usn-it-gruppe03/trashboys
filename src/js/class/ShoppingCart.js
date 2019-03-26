@@ -90,8 +90,8 @@ export class ShoppingCart extends HTMLElement {
 
         CART_DETAILS.append(CART_QUANTITY,CART_SUM);
 
-        ORDER_BUTTON.innerText = 'Bestill';
-        ORDER_BUTTON.classList.add('btn', 'btn-shop-add');
+        ORDER_BUTTON.innerText = 'Bestill varane';
+        ORDER_BUTTON.classList.add('btn', 'btn-green', 'fx-3d-green');
 
 
         // * Append child nodes.

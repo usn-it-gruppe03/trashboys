@@ -5,54 +5,90 @@
 "../commons/commons";
 
 
+
+
 // ** Variables **
 $radius: get('component.border-radius');
+
+
 
 
 // ** Menu bar **
 menu-bar{
   @extend %flex-row;
+  @include border-radius($radius);
+  @include drop-shadow(get('component.drop-shadow.green'));
   width: get('component.menu-bar.width');
   background-color: get('component.menu-bar.background-color');
-  @include border-radius($radius $radius 0 0);
-  @include drop-shadow(get('component.drop-shadow.green'));
+  margin-bottom: get('component.menu-bar.margin.bottom');
 
+  // Menu button:
   .menu-btn{
     @extend %flex-column-center-center;
-    padding-top: 1rem;
-    padding-bottom: calc(env(safe-area-inset-bottom) + 1rem);
-    width: 100%;
+    width: get('component.menu-bar.button.width');
+    padding:
+      get('component.menu-bar.button.padding.top')
+      get('component.menu-bar.button.padding.right')
+      get('component.menu-bar.button.padding.bottom')
+      get('component.menu-bar.button.padding.left');
 
+    // Icon:
     img{
-      height: 2.5rem;
+      height: get('component.menu-bar.button.img.height');
     }
   }
 
+  // First menu button:
   .menu-btn:first-child{
-    @include border-radius($radius 0 0 0);
+    @include border-radius($radius 0 0 $radius);
   }
 
+  // Last menu button:
   .menu-btn:last-child{
-    @include border-radius(0 $radius 0 0);
+    @include border-radius(0 $radius $radius 0);
   }
 
-  .menu-btn:hover{
+  // When hover:
+  .menu-btn:hover, .menu-btn[data-state="active"]{
     background-color: get('dark-green', $colors);
     cursor: get('component.menu-bar.cursor');
   }
 }
 
+
+
+
+// Compensate for the menu bar's gross height:
+.menu-bar-height-compensation{
+  $menu-margin-bottom: get('component.menu-bar.margin.bottom');
+  $menu-btn-padding-bottom: get('component.menu-bar.button.padding.bottom');
+  $menu-btn-icon-height: get('component.menu-bar.button.img.height');
+  $menu-btn-padding-top: get('component.menu-bar.button.padding.top');
+
+  margin-bottom: calc(
+    #{$menu-margin-bottom} +
+    #{$menu-btn-padding-bottom} +
+    #{$menu-btn-icon-height} +
+    #{$menu-btn-padding-top} +
+    #{$menu-margin-bottom}
+  );
+}
+
+
+
+
+// Shop button badge - Cart notification:
 #shop-button-badge{
   @extend %flex-row-center-center;
-  font-style: normal;
-  font-size: 1.2rem;
-  background-color: red;
-  position: absolute;
-  top: 0.3rem;
-  right: calc(50% - 2.5em);
-  border-radius: 50%;
-  width: 1.5em;
-  height: 1.5em;
-  color: white;
-  font-weight: bold;
+  width: get('component.menu-bar.button.badge.width');
+  height: get('component.menu-bar.button.badge.height');
+  top: get('component.menu-bar.button.badge.top');
+  right: get('component.menu-bar.button.badge.right');
+  position: get('component.menu-bar.button.badge.position');
+  background-color: get('component.menu-bar.button.badge.background-color');
+  border-radius: get('component.menu-bar.button.badge.border-radius');
+  color: get('component.menu-bar.button.badge.color');
+  font-size: get('component.menu-bar.button.badge.font.size');
+  font-style: get('component.menu-bar.button.badge.font.style');
+  font-weight: get('component.menu-bar.button.badge.font.weight');
 }

@@ -64,11 +64,19 @@
 .text-dark{
   color: get('dark', $colors) !important;
 }
+.text-white{
+  color: white;
+}
+.text-black{
+  color: black;
+}
 
 
 
 
 // ** Background color **
+
+// Bootstrap Colors:
 .bg-primary{
   background-color: get('color.primary', $bootstrap);
 }
@@ -87,8 +95,43 @@
 .bg-info{
   background-color: get('color.info', $bootstrap);
 }
+
+// Custom colors:
 .bg-green{
-  background-color: get('green', $colors);
+   background-color: get('green', $colors);
+ }
+.bg-dark-green{
+  background-color: get('dark-green', $colors);
+}
+.bg-light-green{
+  background-color: get('light-green', $colors);
+}
+.bg-clay{
+  background-color: get('clay', $colors);
+}
+.bg-dark-clay{
+  background-color: get('dark-clay', $colors);
+}
+.bg-light-clay{
+  background-color: get('light-clay', $colors);
+}
+.bg-gray{
+  background-color: get('gray', $colors);
+}
+.bg-dark-gray{
+  background-color: get('dark-gray', $colors);
+}
+.bg-light-gray{
+  background-color: get('light-gray', $colors);
+}
+.bg-sky-blue{
+  background-color: get('skye-blue', $colors);
+}
+.bg-darker{
+  background-color: get('darker', $colors);
+}
+.bg-lighter{
+  background-color: get('lighter', $colors);
 }
 
 
@@ -107,7 +150,7 @@ $i:0;
 // ** Height **
 $i:0;
 @while $i <= 100{
-  .h-#{$i}{ width: #{unquote('#{$i}vh')} !important; }
+  .h-#{$i}{ height: #{unquote('#{$i}vh')} !important; }
   $i: $i + 10;
 }
 

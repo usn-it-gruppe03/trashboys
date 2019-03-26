@@ -394,6 +394,39 @@ $main: (
       'height': 4rem,
       'background-color': get('green', $colors),
       'cursor': pointer,
+      'margin': (
+        'top': 0,
+        'right': 0,
+        'bottom': calc(1rem + env(safe-area-inset-bottom)),
+        'left': 0,
+      ),
+      'button': (
+        'width': 100%,
+        'padding': (
+          'top': 1rem,
+          'right': 0,
+          'bottom': 1rem,
+          'left': 0,
+        ),
+        'img': (
+          'height': 2.5rem,
+        ),
+        'badge': (
+          'width': 1.5em,
+          'height': 1.5em,
+          'top': 0.3rem,
+          'right': calc(50% - 2.5em),
+          'position': absolute,
+          'background-color': get('color.danger', $bootstrap),
+          'border-radius': 50%,
+          'color': white,
+          'font': (
+            'size': 1.2rem,
+            'style': normal,
+            'weight': 700,
+          ),
+        ),
+      ),
     ),
 
     /* Tab Container */
@@ -471,6 +504,27 @@ $main: (
     /* Progress Bar */
     'progress-bar': (
 
+    ),
+
+    /* Toggle Switch */
+    'toggle-switch': (
+      'width': 5rem,
+      'border': (
+        'width': .5rem,
+        'style': solid,
+        'color': get('light-clay', $colors),
+      ),
+      'background-color': (
+        'on': get('light-green', $colors),
+        'off': white,
+      ),
+      'transition': transform 200ms ease-in-out,
+      'button': (
+        'border-radius': 50%,
+        'cursor': pointer,
+        'box-shadow': 0 .2rem .4rem rgba(0,0,0,0.4),
+        'background-color': white,
+      ),
     ),
 
   ),
