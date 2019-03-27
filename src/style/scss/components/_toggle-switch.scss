@@ -30,6 +30,8 @@ $border-style: get('component.toggle-switch.border.style');
 // Toggle Switch Button:
 %toggle-switch-button{
   @include box-shadow(get('component.toggle-switch.button.box-shadow'));
+  @include transform(translateX(0));
+  @include transition(get('component.toggle-switch.transition'));
   background-color: get('component.toggle-switch.button.background-color');
   border-radius: get('component.toggle-switch.button.border-radius');
   cursor: get('component.toggle-switch.button.cursor');

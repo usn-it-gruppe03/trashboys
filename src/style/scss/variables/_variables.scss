@@ -390,7 +390,7 @@ $main: (
 
     /* Menu Bar */
     'menu-bar': (
-      'width': 100%,
+      'width': calc(100% - env(safe-area-inset-left) - env(safe-area-inset-right)),
       'height': 4rem,
       'background-color': get('green', $colors),
       'cursor': pointer,

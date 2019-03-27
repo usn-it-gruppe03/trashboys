@@ -1,0 +1,13 @@
+@import
+"../functions/functions",
+"../variables/variables",
+"../mixins/mixins",
+"../commons/commons";
+
+app-window{
+  @extend %flex-row;
+  @include flex-wrap(nowrap);
+  @include all-width(100vw);
+  @include all-height(100vh);
+  overflow-x: scroll;
+}

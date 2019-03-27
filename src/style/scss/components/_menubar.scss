@@ -8,7 +8,12 @@
 
 
 // ** Variables **
-$radius: get('component.border-radius');
+$height: (
+  get('component.menu-bar.button.padding.bottom') +
+  get('component.menu-bar.button.img.height') +
+  get('component.menu-bar.button.padding.top')
+);
+$radius: ($height/2);
 
 
 
