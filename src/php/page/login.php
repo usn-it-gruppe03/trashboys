@@ -8,7 +8,7 @@
 </section>
 <section class="py-3">
     <div class="container">
-        <form action="">
+        <form action="src/php/handler/login.php" method="post" name="login">
             <div class="form-group">
                 <input id="email" name="email" class="input input-3d" type="email" placeholder="Email address">
             </div>
@@ -16,7 +16,7 @@
                 <input id="password" name="password" class="input input-3d" type="password" placeholder="Password">
             </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-green fx-3d-shadow-green w-100">Login</button>
+                <button type="submit" name="submit" class="btn btn-green fx-3d-shadow-green w-100">Login</button>
             </div>
         </form>
     </div>
