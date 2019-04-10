@@ -54,12 +54,12 @@
     <!-- Settings: -->
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, viewport-fit=cover">
+          content="width=device-width, height=device-height user-scalable=no, initial-scale=1.0, viewport-fit=cover">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
 
     <!-- Application settings: -->
-    <meta name="application-name" content="ByBest">
+    <meta name="application-name" content="Boskartoteket">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 

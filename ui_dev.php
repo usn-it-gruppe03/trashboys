@@ -48,7 +48,7 @@ if (isset($_GET['p'])) {
             break;
 
         default:
-            echo '<h1>Page not defined</h1>';
+            require_once $page . '404.php';
             break;
 
     }

@@ -36,7 +36,7 @@
 
 // Green card.
 .card-green {
-  @include drop-shadow(get('component.drop-shadow.green'));
+  @include box-shadow(get('component.shadow.green'));
   color: get('component.card.color.green');
   background-color: get('component.card.background-color.green');
 }
@@ -46,7 +46,7 @@
 
 // White card.
 .card-white {
-  @include drop-shadow(get('component.drop-shadow.white'));
+  @include box-shadow(get('component.shadow.white'));
   //@include box-shadow(get('component.box-shadow.white'));
   color: get('component.card.color.white');
   background-color: get('component.card.background-color.white');

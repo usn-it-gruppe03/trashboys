@@ -17,14 +17,14 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="fname">Førenamn</label>
-                        <input type="text" id="fname" name="fname" class="input input-3D" placeholder="Førenamn" autocomplete="given-name" pattern="([a-zæøåA-ZÆØÅ\-]+)" title="Namn kan berre innehalde bokstavar og bindestrekar" required>
+                        <input type="text" id="fname" name="fname" class="input input-3d" placeholder="Førenamn" autocomplete="given-name" pattern="([a-zæøåA-ZÆØÅ\-]+)" title="Namn kan berre innehalde bokstavar og bindestrekar" required>
                     </div>
                 </div>
                 <!-- Last name -->
                 <div class="col">
                     <div class="form-group">
                         <label for="lname">Etternamn</label>
-                        <input type="text" id="lname" name="lname" class="input input-3D" placeholder="Etternamn" autocomplete="family-name" pattern="([a-zæøåA-ZÆØÅ\-]+)" title="Namn kan berre innehalde bokstavar og bindestrekar" required>
+                        <input type="text" id="lname" name="lname" class="input input-3d" placeholder="Etternamn" autocomplete="family-name" pattern="([a-zæøåA-ZÆØÅ\-]+)" title="Namn kan berre innehalde bokstavar og bindestrekar" required>
                     </div>
                 </div>
             </div>
@@ -35,14 +35,14 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="email">Epost-adresse</label>
-                        <input type="text" id="email" name="email" class="input input-3D" placeholder="Epost" autocomplete="email" pattern="([a-zA-Z0-9\+\.])+(\@{1})([a-zA-Z0-9])+(\.[a-zA-Z0-9]+)+" title="Enter a valid email" required>
+                        <input type="text" id="email" name="email" class="input input-3d" placeholder="Epost" autocomplete="email" pattern="([a-zA-Z0-9\+\.])+(\@{1})([a-zA-Z0-9])+(\.[a-zA-Z0-9]+)+" title="Enter a valid email" required>
                     </div>
                 </div>
                 <!-- Phone number -->
                 <div class="col">
                     <div class="form-group">
                         <label for="phone">Ditt mobilnummer</label>
-                        <input type="tel" id="phone" name="phone" class="input input-3D" placeholder="Mobilnummer"  autocomplete="tel-local" pattern="\d{8}" title="Enter a valid phone number" required>
+                        <input type="tel" id="phone" name="phone" class="input input-3d" placeholder="Mobilnummer"  autocomplete="tel-local" pattern="\d{8}" title="Enter a valid phone number" required>
                     </div>
                 </div>
             </div>
@@ -53,7 +53,7 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="pass">Skriv inn eit passord</label>
-                        <input type="password" id="pass" name="pass" class="input input-3D" placeholder="Passord" autocomplete="new-password" required>
+                        <input type="password" id="pass" name="pass" class="input input-3d" placeholder="Passord" autocomplete="new-password" required>
                         <i class="bullet" id="char">Minst 8 teikn</i>
                         <i class="bullet" id="num">Minst 1 tal</i>
                         <i class="bullet" id="special">Minst 1 spesialteikn</i>
@@ -63,7 +63,7 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="pass-confirm">Bekreft passordet ditt</label>
-                        <input type="password" id="pass-confirm" name="pass-confirm" class="input input-3D" placeholder="Bekreft password" autocomplete="new-password" required>
+                        <input type="password" id="pass-confirm" name="pass-confirm" class="input input-3d" placeholder="Bekreft password" autocomplete="new-password" required>
                     </div>
                 </div>
             </div>
@@ -73,14 +73,14 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="street">Gatenamn</label>
-                        <input type="text" id="street" name="street" class="input input-3D" placeholder="Gatenamn" required>
+                        <input type="text" id="street" name="street" class="input input-3d" placeholder="Gatenamn" required>
                         <div id="options-street" class="options" data-visible="false"></div>
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-group">
                         <label for="number">Husnummeret</label>
-                        <input type="text" id="number" name="number" class="input input-3D" placeholder="Husnummer" required>
+                        <input type="text" id="number" name="number" class="input input-3d" placeholder="Husnummer" required>
                         <div id="options-number" class="options" data-visible="false"></div>
                     </div>
                 </div>
@@ -89,13 +89,13 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="zip">Postnummer</label>
-                        <input type="text" id="zip" name="zip" class="input input-3D" placeholder="Postnummer" disabled>
+                        <input type="text" id="zip" name="zip" class="input input-3d" placeholder="Postnummer" disabled>
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-group">
                         <label for="area">Poststad</label>
-                        <input type="text" id="area" name="area" class="input input-3D" placeholder="Poststad" disabled>
+                        <input type="text" id="area" name="area" class="input input-3d" placeholder="Poststad" disabled>
                     </div>
                 </div>
             </div>

@@ -9,6 +9,10 @@
 
 %input{
   @extend %component;
+  @include border-radius(get('component.border-radius'));
+  @include box-sizing(get('component.input.box-sizing'));
+  @include appearance('component.input.appearance');
+  @include appearance(inherit);
   display: get('component.input.display');
   width: get('component.input.width');
   padding:
@@ -22,9 +26,6 @@
   background-color: get('component.input.background-color');
   color: get('component.input.color');
   overflow: get('component.input.overflow');
-  @include border-radius(get('component.border-radius'));
-  @include box-sizing(get('component.input.box-sizing'));
-  @include appearance('component.input.appearance');
 }
 
 .input{
@@ -34,11 +35,42 @@
   color: get('component.input.placeholder');
 }
 
-.input-3D{
-  @include box-shadow(get('component.box-shadow.white'));
-  @include drop-shadow(get('component.drop-shadow.white'));
+.input-3d{
+  @include box-shadow(#{get('component.3d.white'), get('component.shadow.white')});
+  -webkit-appearance: inherit;
 }
 
-.input-border{
-  @include box-shadow(inset 0 0 0 1px #{get('light-clay', $colors)});
+.input-flat{
+  background-color: get('light-gray', $colors);
+  color: get('dark', $colors);
+}
+
+.input-flat::placeholder{
+  color: get('clay', $colors);
+}
+
+
+
+
+// ** Dropdown **
+.options{
+  @extend %input;
+  @include box-shadow(#{get('component.3d.white'), get('component.shadow.white')});
+  $mx: (get('content.margin.left') + get('content.margin.right'));
+  margin-top: get('component.options.margin.top');
+  padding: 0;
+  max-height: 15rem;
+  * {
+    position: relative;
+    font-weight: get('component.option.font-weight');
+    padding:
+      get('component.input.padding.top')
+      get('component.input.padding.right')
+      get('component.input.padding.bottom')
+      get('component.input.padding.left');
+  }
+  *:hover{
+    background-color: get('light-gray', $colors);
+    cursor: pointer;
+  }
 }

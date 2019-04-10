@@ -1,66 +1,23 @@
-<div id="app-window" class="app-window">
-    <div class="app-container">
-
-        <div class="app-page">
-            <section class="bg-primary">
-                <div class="container">
-                    <div class="card card-white">
-                        <h1>Page One</h1>
-                    </div>
-                </div>
-            </section>
+<section class="h-100">
+    <div class="container">
+        <div class="card card-green mb-2">
+            <h1>Boskartoteket</h1>
         </div>
 
-        <div class="app-page">
-            <section class="bg-warning">
-                <div class="container">
-                    <div class="card card-white">
-                        <h1>Page One</h1>
-                    </div>
+        <div class="card card-white">
+            <h2>Login</h2>
+            <h6>Administrator</h6>
+            <form action="#" method="post" class="w-100 my-2">
+                <div class="form-group">
+                    <input type="text" id="email" name="email" class="input input-flat" placeholder="Epost" autocomplete="email" pattern="([a-zA-Z0-9\+\.])+(\@{1})([a-zA-Z0-9])+(\.[a-zA-Z0-9]+)+" title="Enter a valid email" required>
                 </div>
-            </section>
-        </div>
-
-        <div class="app-page">
-            <section class="bg-danger">
-                <div class="container">
-                    <div class="card card-white">
-                        <h1>Page One</h1>
-                    </div>
+                <div class="form-group">
+                    <input type="password" id="pass" name="pass" class="input input-flat" placeholder="Passord" autocomplete="current-password" required>
                 </div>
-            </section>
+                <div class="form-group">
+                    <button class="btn btn-clay fx-3d-clay">Login</button>
+                </div>
+            </form>
         </div>
-
     </div>
-</div>
-<style>
-    .app-container{
-        background-color: #3d4e67;
-        width: 100vw;
-        height: 100vh;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        overflow-x: scroll;
-    }
-
-    .app-page{
-        width: 100vw;
-        min-width: 100vw;
-        height: 100vh;
-        min-height: 100vh;
-    }
-</style>
-<script>
-
-    const appWindow = document.getElementById('app-window');
-    const dimension = appWindow.getBoundingClientRect();
-    console.log(dimension.toJSON());
-
-    appWindow.ontouchmove = e => {
-        console.log(e.touches[0].clientX);
-    };
-
-
-
-</script>
+</section>

@@ -299,7 +299,46 @@ $i:0;
 
 
 
+// ** Position **
 .pos-fixed-bottom{
   position: fixed;
   bottom: 0;
+}
+
+
+
+
+// ** Shadow **
+.shadow-dark{
+  @include box-shadow(get('component.shadow.white'));
+}
+.shadow-clay{
+  @include box-shadow(get('component.shadow.clay'));
+}
+.shadow-green{
+  @include box-shadow(get('component.shadow.green'));
+}
+
+
+
+
+// ** 3D extrusion **
+.fx-3d-white{
+   @include box-shadow(get('component.3d.white'));
+ }
+.fx-3d-clay{
+  @include box-shadow(get('component.3d.clay'));
+}
+.fx-3d-green{
+  @include box-shadow(get('component.3d.green'));
+}
+
+.fx-3d-shadow-white{
+  @include box-shadow(#{get('component.3d.white'), get('component.shadow.white')});
+}
+.fx-3d-shadow-clay{
+  @include box-shadow(#{get('component.3d.clay'), get('component.shadow.clay')});
+}
+.fx-3d-shadow-green{
+  @include box-shadow(#{get('component.3d.green'), get('component.shadow.green')});
 }

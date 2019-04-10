@@ -22,7 +22,7 @@ $radius: ($height/2);
 menu-bar{
   @extend %flex-row;
   @include border-radius($radius);
-  @include drop-shadow(get('component.drop-shadow.green'));
+  @include box-shadow(get('component.shadow.green'));
   width: get('component.menu-bar.width');
   background-color: get('component.menu-bar.background-color');
   margin-bottom: get('component.menu-bar.margin.bottom');

@@ -2,8 +2,7 @@
   "../functions/functions",
   "../variables/variables",
   "../mixins/mixins",
-  "../commons/commons",
-  "../components/components";
+  "../commons/commons";
 
 
 
@@ -31,26 +30,72 @@
 
 
 
-// ** Dropdown **
-.options{
-  @extend %input;
-  @include box-shadow(get('component.box-shadow.white'));
-  @include drop-shadow(get('component.drop-shadow.white'));
-  $mx: (get('content.margin.left') + get('content.margin.right'));
-  margin-top: get('component.options.margin.top');
+// ** Navigation Bar **
+.nav-bar{
+  @extend %flex-row-justify-between;
+  @include align-items(center);
+  @include align-content(center);
+  width: 100%;
+  height: 6rem;
+}
+
+.brand{
+  font-style: normal;
+  font-size: get('font.h3.size');
+  font-weight: 700;
+  color: white;
+}
+
+.nav-menu{
+  @extend %flex-row;
+  list-style-type: none;
+  list-style-position: inside;
   padding: 0;
-  max-height: 15rem;
-  * {
-    position: relative;
-    font-weight: get('component.option.font-weight');
-    padding:
-      get('component.input.padding.top')
-      get('component.input.padding.right')
-      get('component.input.padding.bottom')
-      get('component.input.padding.left');
+  margin: 0;
+}
+
+.nav-menu > li{
+  font-size: get('font.p.size');
+  color: white;
+}
+
+.nav-menu > li + .nav-menu > li, .nav-menu > li:not(:first-child){
+  margin-left: 2rem;
+}
+
+
+
+
+// ** Table **
+%table-container{
+  width: 100%;
+  font-size: get('font.p.size');
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+}
+
+.table-container{
+  @extend %table-container;
+  table{
+    width: 100%;
   }
-  *:hover{
-    background-color: get('light-gray', $colors);
-    cursor: pointer;
+  thead{
+    background-color: get('dark-clay', $colors);
+    th{
+      color: white;
+    }
+  }
+  tbody{}
+  th,td{
+    padding: 1em;
+    white-space: nowrap;
+  }
+  tbody tr:nth-child(odd){
+    background-color: #f1f1f1;
+  }
+  tbody tr:nth-child(even){
+    background-color: #f9f9f9;
   }
 }

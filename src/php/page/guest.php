@@ -12,13 +12,13 @@
             <div class="row">
                 <div class="col">
                     <div class="form-group">
-                        <input type="text" id="street" name="street" class="input input-3D" placeholder="Gatenavn">
+                        <input type="text" id="street" name="street" class="input input-3d" placeholder="Gatenavn">
                         <div id="options-street" class="options" data-visible="false"></div>
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <input type="text" id="number" name="number" class="input input-3D" placeholder="Husnummer">
+                        <input type="text" id="number" name="number" class="input input-3d" placeholder="Husnummer">
                         <div id="options-number" class="options" data-visible="false"></div>
                     </div>
                 </div>
@@ -26,12 +26,12 @@
             <div class="row">
                 <div class="col">
                     <div class="form-group">
-                        <input type="text" id="zip" name="zip" class="input input-3D" placeholder="Postnummer" disabled>
+                        <input type="text" id="zip" name="zip" class="input input-3d" placeholder="Postnummer" disabled>
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <input type="text" id="area" name="area" class="input input-3D" placeholder="Poststed" disabled>
+                        <input type="text" id="area" name="area" class="input input-3d" placeholder="Poststed" disabled>
                     </div>
                 </div>
             </div>

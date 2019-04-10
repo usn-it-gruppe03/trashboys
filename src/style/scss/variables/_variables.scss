@@ -293,14 +293,14 @@ $main: (
     'box-sizing': border-box,
 
     /* Drop shadow for all components */
-    'drop-shadow': (
-      'white': 0 0 10px rgba(0,57,81,0.15),
-      'green': 0 0 10px rgba(0,191,85,0.5),
-      'clay': 0 0 10px rgba(0,57,81,0.25),
+    'shadow': (
+      'white': 0 0 1rem rgba(0,57,81,0.15),
+      'green': 0 0 1rem rgba(0,191,85,0.5),
+      'clay': 0 0 1rem rgba(0,57,81,0.25),
     ),
 
     /* 3D box shadow for all components */
-    'box-shadow': (
+    '3d': (
       'white': 0 0.25rem 0 get('light-gray', $colors),
       'green': 0 0.25rem 0 get('dark-green', $colors),
       'clay': 0 0.25rem 0 get('dark-clay', $colors),
@@ -358,7 +358,7 @@ $main: (
     /* Input */
     'input': (
       'display': inline-block,
-      'appearance': none,
+      'appearance': inherit,
       'box-sizing': border-box,
       'background-color': white,
       'width': 100%,
@@ -390,14 +390,14 @@ $main: (
 
     /* Menu Bar */
     'menu-bar': (
-      'width': calc(100% - env(safe-area-inset-left) - env(safe-area-inset-right)),
+      'width': 100%,
       'height': 4rem,
       'background-color': get('green', $colors),
       'cursor': pointer,
       'margin': (
         'top': 0,
         'right': 0,
-        'bottom': calc(1rem + env(safe-area-inset-bottom)),
+        'bottom': 1rem,
         'left': 0,
       ),
       'button': (

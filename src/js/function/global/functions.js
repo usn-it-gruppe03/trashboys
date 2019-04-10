@@ -1,4 +1,21 @@
 /**
+ * Make Element
+ *
+ * @description This function will return an HTML element
+ *
+ * @param {string} tagName - The desired HTML tag.
+ * @param {string} content - Inner HTML content.
+ *
+ * @returns {HTMLElement}
+ * */
+export function makeElement(tagName, content = ''){
+    let element = document.createElement(tagName);
+    element.innerHTML = content;
+    return element;
+}
+
+
+/**
  * Get value.
  *
  * @description This function will return the value of an HTML element.
@@ -6,7 +23,7 @@
  * supports value parameters.
  *
  * @param {object} node - HTML element.
- * @return string
+ * @returns string
  * */
 export function getValue(node){
     return node.value;
@@ -35,7 +52,7 @@ export function setValue(node, value){
  * with a custom value attribute. Works with all elements.
  *
  * @param {object} node - HTML element.
- * @return string
+ * @returns {string}
  * */
 export function getDataValue(node){
     return node.getAttribute('data-value');
@@ -149,7 +166,7 @@ export function ajaxFetch(searchValue, phpFileURL, callback){
  * data is JSON format compliant.
  *
  * @param {string} data - The data string to be analyzed.
- * @return boolean
+ * @returns {boolean}
  * */
 export function isJSON(data) {
 
@@ -233,7 +250,7 @@ export function setState(node, state) {
  *
  * @param {object} node - The HTML element.
  *
- * @return boolean
+ * @returns {boolean}
  * */
 export function isHidden(node) {
 
@@ -251,7 +268,7 @@ export function isHidden(node) {
  * the given node has a previous sibling.
  *
  * @param {object} node - HTML element.
- * @return boolean
+ * @returns {boolean}
  * */
 export function hasPrevSibling(node){
     return node.previousElementSibling != null;
@@ -265,7 +282,7 @@ export function hasPrevSibling(node){
  * the given node has a next sibling.
  *
  * @param {object} node - HTML element.
- * @return boolean
+ * @returns {boolean}
  * */
 export function hasNextSibling(node){
     return node.nextElementSibling != null;
@@ -280,7 +297,7 @@ export function hasNextSibling(node){
  *
  * @param {object} node - HTML element.
  * @param {string} attr - The attribute name.
- * @return boolean
+ * @returns {boolean}
  * */
 export function attrDefined(node, attr){
 

@@ -8,11 +8,13 @@
 
 // App Page:
 %app-page{
-  @include all-width(100vw);
-  @include all-height(100vh);
-  overflow-y: scroll;
+  width: 100%;
 }
 
 app-page{
   @extend %app-page;
+}
+
+app-page > *:last-child{
+  padding-bottom: 6.5rem;
 }
