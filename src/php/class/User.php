@@ -4,6 +4,11 @@
 	class User {
 		protected $mysqli;
 		private $id;
+		/*Variable for user name*/
+		private $full_name;
+		/*Variables for user address*/
+		private $address_ID;
+		private $full_address;
 
 		public function __construct(){
 			$this->mysqli = DB::mysqli();
