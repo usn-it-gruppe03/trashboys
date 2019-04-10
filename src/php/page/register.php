@@ -9,7 +9,7 @@
 
 <section>
     <div class="container">
-        <form action="" method="post">
+        <form action="src/php/handler/registration.php" method="post">
 
             <!-- First and last name: -->
             <div class="row mt-3">
@@ -104,7 +104,7 @@
             <div class="row mt-3">
                 <div class="col">
                     <div class="form-group">
-                        <button type="submit" class="btn btn-green fx-3d-green">Registrer</button>
+                        <button type="submit" name="submit" class="btn btn-green fx-3d-green">Registrer</button>
                     </div>
                 </div>
             </div>
