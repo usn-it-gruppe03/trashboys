@@ -101,12 +101,21 @@
 			$sqlCheck = "SELECT ID FROM `User` WHERE ID = '$id'"; 
 			$result = $this->mysqli->query($sqlCheck) or die($this->mysqli->error);
 
-			$result2 = $this->mysqli->query($sqlCheck) or die($this->mysqli->error);
+			$sqlCheck2 = "SELECT ID, first_name, last_name, address_ID FROM `User` WHERE ID = '$id'";
+			$result2 = $this->mysqli->query($sqlCheck2) or die($this->mysqli->error);
 			$rowId = $result2->fetch_assoc();
 
 			#echo $rowId["ID"];
 			$this->id = $rowId["ID"];
+			$this->full_name = $rowId["first_name"] . " " . $rowId["last_name"];
+			$this->address_ID = $rowId["address_ID"]; #Use this for finding the users address.
 			#echo $this->id;
+
+			$sqlCheck3 = "SELECT `name`, house_number, letter FROM `Address` WHERE ID = '$this->address_ID'";
+			$result3 = $this->mysqli->query($sqlCheck3) or die($this->mysqli->error);
+			$rowId3 = $result3->fetch_assoc();
+
+			$this->full_address = $rowId3["name"] . " " . $rowId3["house_number"] . " " . $rowId3["letter"];
 
 			$user_data = $result->fetch_assoc();
 			$count_row = $result->num_rows;
@@ -114,6 +123,8 @@
 			if ($count_row == 1) {
 	            $_SESSION['login'] = true; 
 	            $_SESSION['id'] = $this->id;
+	            $_SESSION['full_name'] = $this->full_name;
+	            $_SESSION['full_address'] = $this->full_address;
 	            return true;
 	        }else {
 				return false;
