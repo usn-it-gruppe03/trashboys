@@ -10,8 +10,8 @@
                 <div class="p-1 w-100">
                     <profile-badge
                             badge-image="src/media/img/demo/isak.jpg"
-                            badge-name="Isak Hauge"
-                            badge-address="Stasjonsvegen 21 B"></profile-badge>
+                            badge-name="<?php echo (User::get_full_name());?>"
+                            badge-address="<?php echo (User::get_full_address());?>"></profile-badge>
 
                     <tab-page id="tab-1" last-collection-date="2019-03-01" next-collection-date="2019-03-05" waste-category="Plastemballasje"></tab-page>
                     <tab-page id="tab-2" last-collection-date="2019-03-01" next-collection-date="2019-03-10" waste-category="Restavfall" data-visible="false"></tab-page>
