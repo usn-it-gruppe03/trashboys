@@ -136,16 +136,6 @@
 	}
 
 /*============================================================================================================================================================================*/
-
-	public function get_fullname($uid){
-		$query = "SELECT first_name FROM `User` WHERE id = $uid";
-		$result = $this->db->query($query) or die($this->db->error);
-		
-		$user_data = $result->fetch_array(MYSQLI_ASSOC);
-		echo $user_data['first_name'];	
-	}
-
-/*============================================================================================================================================================================*/
 	public static function salt($length) {
 		return bin2hex(random_bytes($length));
 	}
