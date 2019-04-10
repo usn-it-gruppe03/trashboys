@@ -1,3 +1,6 @@
+<?php include_once 'src/php/class/User.php'; 
+    session_start();
+?>
 <!-- Page: Home -->
 <app-page id="page-home" data-visible="true">
     <section>
