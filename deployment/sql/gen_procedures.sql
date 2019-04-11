@@ -364,6 +364,20 @@ Select @svar1;
 
 
 
+---------------------------
+
+SET @routeIDtemp = -1;
+
+select DISTINCT route_ID 
+INTO  @routeIDtemp
+from `Address`
+where `name` = "Uvdalvegen" -- plukk ut brukeradresse eller adressen skrevet inn i forms
+AND `house_number` = 176; -- samme her 
+
+select `name`, `date`
+from `Waste_Collection` as WC, `Waste_Category` AS WCAT
+where route_ID = @routeIDtemp
+AND WC.waste_ID = WCAT.ID;
 
 
 
