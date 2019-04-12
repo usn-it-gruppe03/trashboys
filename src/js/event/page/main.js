@@ -8,6 +8,7 @@ import {ProductBox} from "../../class/ProductBox.js";
 import {ShoppingCart} from "../../class/ShoppingCart.js";
 import {ProductItem} from "../../class/ProductItem.js";
 import {ToggleSwitch} from "../../class/ToggleSwitch.js";
+import * as x from "../../function/global/functions.js";
 
 
 function window_onLoad() {
@@ -27,10 +28,21 @@ function window_onLoad() {
     customElements.define('toggle-switch', ToggleSwitch);
 
     // TODO: HTML elements (constants).
-    const BUTTONS = document.getElementsByClassName('btn-shop');
-    const SHOPPING_CART = document.getElementById('shopping-cart');
-    const PRODUCT_LIST = document.getElementById('product-list');
-    const PRODUCT_SUM = document.getElementById('product-sum');
+    const button_orderBags = document.getElementById('order-bags');
+    button_orderBags.onclick = event => {
+        const pageHome = document.getElementById('page-home');
+        const pageShop = document.getElementById('page-shop');
+        const pageSettings = document.getElementById('page-settings');
+        const menuHome = document.getElementById('menu-home');
+        const menuShop = document.getElementById('menu-shop');
+        const menuSettings = document.getElementById('menu-settings');
+        x.showNode(pageHome, false);
+        x.showNode(pageShop, true);
+        x.showNode(pageSettings, false);
+        x.setState(menuHome, 'inactive');
+        x.setState(menuShop, 'active');
+        x.setState(menuSettings, 'inactive');
+    };
 
     // TODO: Define event listener functions.
 

@@ -319,3 +319,21 @@ export function attrDefined(node, attr){
 export function cout(msg) {
     console.log(msg);
 }
+
+
+/**
+ * Remove Children
+ *
+ * @description This function will remove all child nodes
+ * of the given parent element node, before any other function.
+ *
+ * @param {HTMLElement} htmlElement - The parent element.
+ * @param {function} callback - The callback function.
+ * */
+export function removeChildren(htmlElement, callback) {
+
+    while (htmlElement.hasChildNodes())
+        htmlElement.firstChild.remove();
+
+    callback();
+}

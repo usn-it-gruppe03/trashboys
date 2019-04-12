@@ -9,7 +9,7 @@ export class RouteToolbar extends HTMLElement {
      * */
     constructor(){
         super();
-        this._isTyping = false;
+        this._chachedStreetNames = [];
     }
 
 
@@ -34,6 +34,7 @@ export class RouteToolbar extends HTMLElement {
                 },
                 div: {
                     addressCount: 'address-count',
+                    optionsStreet: 'options-street',
                 }
             },
             class: {
@@ -41,7 +42,9 @@ export class RouteToolbar extends HTMLElement {
                 select: 'input input-flat',
                 button: 'btn bg-danger text-white',
                 div: {
-                    addressCount: 'input bg-clay text-lighter'
+                    addressCount: 'input bg-clay text-lighter',
+                    options: 'options',
+                    option: 'option',
                 },
             },
             attributes: {
@@ -77,8 +80,16 @@ export class RouteToolbar extends HTMLElement {
                 }
             },
             ajax: {
-                searchValue: '?route=all',
-                phpFileURL: 'src/php/ajax/get_all_routes.php',
+                routeSearch: {
+                    searchValue: '?route=all',
+                    phpFileURL: 'src/php/ajax/get_all_routes.php',
+                },
+                streetNameSearch: {
+                    searchValue: function (name) {
+                        return '?name=' + name;
+                    },
+                    phpFileURL: 'src/php/ajax/search_street.php',
+                }
             }
         }
     }
@@ -131,6 +142,10 @@ export class RouteToolbar extends HTMLElement {
             value.text.input.streetName
         );
 
+        this._options_streetName = create.options(
+            value.id.div.optionsStreet,
+        );
+
         // Input: Search house number.
         this._input_houseNumber = create.input(
             value.attributes.input.type,
@@ -178,7 +193,7 @@ export class RouteToolbar extends HTMLElement {
         const routeTable = document.querySelector('route-table');
 
         // Fetch the onInput event listener object.
-        const ev_onInput = RouteToolbar.ev_onInput(this, routeTable);
+        const ev_onInput = RouteToolbar.ev_input_onInput(this, routeTable);
 
         // Add EventListener.
         this._input_streetName.addEventListener(
@@ -195,7 +210,7 @@ export class RouteToolbar extends HTMLElement {
 
         // * Create rows:
         const row1 = RouteToolbar.generateRowAnd3Columns(
-            [labels.streetName, this._input_streetName],
+            [labels.streetName, this._input_streetName, this._options_streetName],
             [labels.houseNumber, this._input_houseNumber],
             [labels.filterRoute, this._select_filterRoute]
         );
@@ -225,8 +240,8 @@ export class RouteToolbar extends HTMLElement {
     async getRoutes(callback){
 
         // * Get AJAX parameters:
-        const AJAX_SEARCH_VALUE = RouteToolbar.values().ajax.searchValue;
-        const AJAX_PHP_FILE_URL = RouteToolbar.values().ajax.phpFileURL;
+        const AJAX_SEARCH_VALUE = RouteToolbar.values().ajax.routeSearch.searchValue;
+        const AJAX_PHP_FILE_URL = RouteToolbar.values().ajax.routeSearch.phpFileURL;
 
         // * Send and AJAX request.
         x.ajaxFetch(AJAX_SEARCH_VALUE, AJAX_PHP_FILE_URL, (rawData) => {
@@ -288,64 +303,12 @@ export class RouteToolbar extends HTMLElement {
 
 
     /**
-     * EventListener: Search Street Name
-     *
-     * @static
-     * @description TODO: Write
-     *
-     * @param {RouteToolbar} object - The object.
-     *
-     * @returns {object}
-     * */
-    static ev_searchStreetName(object){
-        return {
-            typeArg: 'searchStreetName',
-            eventInitDict: {
-                detail: {
-                    searchValue: object._input_streetName.value,
-                    routeFilter: object._select_filterRoute.value,
-                }
-            }
-        }
-
-    }
-
-
-
-
-    /**
-     * EventListener: Search House Number
-     *
-     * @static
-     * @description TODO: Write
-     *
-     * @param {RouteToolbar} object - The object.
-     *
-     * @returns {object}
-     * */
-    static ev_searchHouseNumber(object){
-        return {
-            typeArg: 'searchHouseNumber',
-            eventInitDict: {
-                detail: {
-                    searchValue: object._input_houseNumber.value,
-                    routeFilter: object._select_filterRoute.value,
-                }
-            }
-        }
-
-    }
-
-
-
-
-    /**
      * EventListener: On input
      *
      * @param {RouteToolbar} object - The object.
-     * @param {HTMLElement} receiver - The receiving element.
+     * @param {HTMLInputElement} receiver - The receiving element.
      * */
-    static ev_onInput(object, receiver){
+    static ev_input_onInput(object, receiver){
         return {
             type: 'input',
             listener: event => {
@@ -355,38 +318,151 @@ export class RouteToolbar extends HTMLElement {
                 const value = self.value;
 
                 // ? If the search value is greater than two characters.
-                if (value.length > 3){
+                if (value.length > 2){
 
                     // * Fetch IDs:
                     const searchStreetName_ID = RouteToolbar.values().id.input.streetName;
                     const searchHouseNumber_ID = RouteToolbar.values().id.input.houseNumber;
-
-                    // Fetch custom event object.
-                    let customEventObject = {};
 
                     // * Init. switch statement.
                     switch (self.getAttribute('id')) {
 
                         // ? If ID is equal to that of the searchStreetName element.
                         case searchStreetName_ID:
-                            customEventObject = RouteToolbar.ev_searchStreetName(object);
+
+                            // * Get AJAX default data:
+                            const ajax = RouteToolbar.values().ajax.streetNameSearch;
+                            const query = ajax.searchValue(value);
+                            const file = ajax.phpFileURL;
+
+                            // * Invoke AJAX request.
+                            x.ajaxFetch(query,file,(rawData) => {
+
+                                // ? If raw data is of JSON format.
+                                if (x.isJSON(rawData)){
+
+                                    // Parse data to a JSON object.
+                                    const jsonObject = JSON.parse(rawData);
+
+                                    // Populate options.
+                                    // TODO: Continue here.
+                                    object.populateOptions(jsonObject);
+                                }
+                            });
                             break;
+
 
                         // ? If ID is equal to that of the searchHouseNumber element.
                         case searchHouseNumber_ID:
-                            customEventObject = RouteToolbar.ev_searchHouseNumber(object);
+
+                            // * Init. custom event object.
+                            const customEventObject = RouteToolbar.ev_input_houseNumber(object);
+
+                            // * Instantiate new custom event object.
+                            const customEvent = new CustomEvent(
+                                customEventObject.typeArg,
+                                customEventObject.eventInitDict
+                            );
+
+                            // * Dispatch event.
+                            receiver.dispatchEvent(customEvent);
                             break;
                     }
 
-                    // * Instantiate new custom event object.
-                    const customEvent = new CustomEvent(
-                        customEventObject.typeArg,
-                        customEventObject.eventInitDict
-                    );
+                }
+            }
+        }
+    }
 
-                    // * Dispatch event.
-                    receiver.dispatchEvent(customEvent);
 
+
+
+    /**
+     * EventListener: Option on click
+     *
+     * @param {RouteToolbar} object - The RouteToolbar object.
+     *
+     * @returns {object}
+     * */
+    static ev_option_onClick(object){
+        return {
+            type: 'click',
+            listener: event => {
+
+                // * Init. self.
+                const self = event.target;
+
+                // * Transfer value to input field.
+                object._input_streetName.value = x.getDataValue(self);
+
+                // * Refer to RouteTable element.
+                const routeTable = document.querySelector('route-table');
+
+                // * Init. custom event object.
+                const customEventObject = RouteToolbar.ev_option_streetNameChosen(
+                    x.getDataValue(self)
+                );
+
+                // * Instantiate new custom event.
+                const ev_streetNameChosen = new CustomEvent(
+                    customEventObject.typeArg,
+                    customEventObject.eventInitDict
+                );
+
+                // * Dispatch event.
+                routeTable.dispatchEvent(ev_streetNameChosen);
+
+                // * Remove option children from options parent.
+                x.removeChildren(object._options_streetName, () => {
+
+                    // * Hide node.
+                    x.showNode(object._options_streetName, false);
+                });
+            },
+        }
+    }
+
+
+
+
+    /**
+     * EventListener: Street Name Chosen
+     *
+     * @static
+     * @description TODO: Write
+     *
+     * @param {string} dataValue - The data value of the element.
+     *
+     * @return {object}
+     * */
+    static ev_option_streetNameChosen(dataValue){
+        return {
+            typeArg: 'streetNameChosen',
+            eventInitDict: {
+                detail: {
+                    dataValue: dataValue
+                }
+            }
+        }
+    }
+
+
+
+
+    /**
+     * EventListener: Input House Number
+     *
+     * @static
+     * @description TODO: Write
+     *
+     *
+     * */
+    static ev_input_houseNumber(object){
+        return {
+            typeArg: 'searchHouseNumber',
+            eventInitDict: {
+                detail: {
+                    houseNumber: object._input_houseNumber.value,
                 }
             }
         }
@@ -419,6 +495,21 @@ export class RouteToolbar extends HTMLElement {
                 elem.setAttribute('class', className);
                 elem.setAttribute('placeholder', placeholder);
                 return elem;
+            },
+            options: function(id){
+                const className = RouteToolbar.values().class.div.options;
+                const elem = x.makeElement('div');
+                elem.setAttribute('id', id);
+                elem.setAttribute('class', className);
+                x.showNode(elem,false);
+                x.setScroll(elem,'y', true  );
+                return elem;
+            },
+            option: function(text){
+                const className = RouteToolbar.values().class.div.option;
+                const elem = x.makeElement('div', text);
+                elem.setAttribute('class', className);
+                x.setDataValue(elem,text);
             },
             select: function (id, name, className, defaultValue, defaultName) {
                 const elem = x.makeElement('select');
@@ -483,16 +574,38 @@ export class RouteToolbar extends HTMLElement {
 
 
     /**
-     * Type
+     * Populate Options
+     *
+     * @param {object} jsonObject - The JSON object.
      * */
-    async activateTypeMode(){
+    populateOptions(jsonObject){
 
-        this._isTyping = true;
-        setTimeout(()=> {
-            this._isTyping = false;
-        }, 3000);
+        // * Remove child nodes before introducing new ones.
+        x.removeChildren(this._options_streetName, () => {
 
+            // * Loop through all JSON objects.
+            for (let i=0; i<jsonObject.length; i++){
+
+                // * Create new option element:
+                const option = x.makeElement('div');
+                option.innerText = jsonObject[i].name;
+                x.setDataValue(option, jsonObject[i].name);
+
+                // * Add event listener.
+                const eventObject = RouteToolbar.ev_option_onClick(this);
+                option.addEventListener(
+                    eventObject.type,
+                    eventObject.listener
+                );
+
+                // * Append option element to options element.
+                this._options_streetName.append(option);
+
+                x.showNode(this._options_streetName, true);
+            }
+        });
     }
+
 }
 
 

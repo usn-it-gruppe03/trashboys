@@ -35,7 +35,7 @@ export class RouteTable extends HTMLElement {
             id: {},
             class: {
                 i: {
-                    routeBullet: 'bullet bg-warning',
+                    routeBullet: 'bullet bg-warning m-0',
                 },
             },
             attribute: {
@@ -118,8 +118,8 @@ export class RouteTable extends HTMLElement {
 
         // * Add event listeners:
         this.addEventListener(
-            RouteTable.ev_searchStreetName(this).type,
-            RouteTable.ev_searchStreetName(this).listener
+            RouteTable.ev_streetNameChosen(this).type,
+            RouteTable.ev_streetNameChosen(this).listener
         );
 
 
@@ -147,6 +147,7 @@ export class RouteTable extends HTMLElement {
                 const elem = x.makeElement('i');
                 const className = RouteTable.values().class.i.routeBullet;
                 elem.setAttribute('class', className);
+                innerText = (innerText == null) ? 'Udefinert' : 'Rute ' + innerText;
                 elem.innerText = innerText;
                 return elem;
             },
@@ -173,30 +174,79 @@ export class RouteTable extends HTMLElement {
 
 
     /**
-     * EventListener
+     * EventListener: Street Name Chosen
      *
      * @static
      * @description TODO: Write
      *
      * @returns {object}
      * */
-    static ev_searchStreetName(object){
+    static ev_streetNameChosen(object){
         return {
-            type: 'searchStreetName',
+            type: 'streetNameChosen',
             listener: event => {
 
                 // * Deconstruct event detail object.
-                const streetName = event.detail.searchValue;
-                const routeNumber = event.detail.routeFilter;
+                const streetName = event.detail.dataValue;
 
                 // * Fetch AJAX values:
-                const ajax_searchStreet = {
-                    searchValue: RouteTable.values().ajax.searchStreet.searchValue(streetName),
-                    phpFileURL: RouteTable.values().ajax.searchStreet.phpFileURL,
-                }
+                const ajax = RouteTable.values().ajax.searchAddress;
+                const query = ajax.searchValue(streetName,0,100);
+                const file = ajax.phpFileURL;
+
+                // * Invoke AJAX request.
+                x.ajaxFetch(query,file,(rawData) => {
+
+                    // ? If raw data is of JSON format.
+                    if (x.isJSON(rawData)){
+
+                        // Convert raw data to JSON object.
+                        const jsonObject = JSON.parse(rawData);
+
+                        object.populateTable(jsonObject);
+                    }
+                });
 
             },
         }
+    }
+
+
+
+
+    /**
+     * Populate table
+     * */
+    populateTable(jsonObject){
+
+        // * Remove child nodes before introducing new ones.
+        x.removeChildren(this._tbody, () => {
+
+            // Loop through all objects.
+            for (let i=0; i<jsonObject.length; i++){
+
+                // * Create a column array.
+                const columnArray = [
+                    RouteTable.essentialElements().checkBox(jsonObject[i].ID),
+                    RouteTable.essentialElements().routeBullet(jsonObject[i].route_ID),
+                    jsonObject[i].name,
+                    jsonObject[i].house_number + ' ' + jsonObject[i].letter,
+                    jsonObject[i].zip_code,
+                    jsonObject[i].postal_location
+                ];
+
+                // * Generate a table row.
+                const tableRow = RouteTable.essentialElements().tableRow(
+                    columnArray, 'td'
+                );
+
+                // * Append row to table body.
+                this._tbody.append(tableRow);
+
+            }
+
+        });
+
     }
 
 

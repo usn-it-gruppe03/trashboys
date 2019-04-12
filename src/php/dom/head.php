@@ -18,8 +18,8 @@
         header("X-Content-Type-Options: nosniff");
 
         // Content-Security-Policy.
-        $csp_default = "default-src 'self';";
-        $csp_script = "script-src 'self' 'unsafe-inline' https://fonts.googleapis.com;";
+        $csp_default = "default-src 'self' https://maps.gstatic.com;";
+        $csp_script = "script-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://maps.googleapis.com https://maps.gstatic.com;";
         $csp_style = "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;";
         $csp_font = "font-src https://fonts.googleapis.com https://fonts.gstatic.com;";
         header("Content-Security-Policy: ".$csp_default.$csp_script.$csp_style.$csp_font);

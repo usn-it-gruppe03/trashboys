@@ -8,6 +8,8 @@
 		private $full_name;
 		/*Variables for user address*/
 		private $address_ID;
+		private $street_name;
+		private $house_number;
 		private $full_address;
 
 		public function __construct(){
@@ -115,6 +117,8 @@
 			$result3 = $this->mysqli->query($sqlCheck3) or die($this->mysqli->error);
 			$rowId3 = $result3->fetch_assoc();
 
+			$this->street_name = $rowId3["name"];
+			$this->house_number = $rowId3["house_number"];
 			$this->full_address = $rowId3["name"] . " " . $rowId3["house_number"] . " " . $rowId3["letter"];
 
 			$user_data = $result->fetch_assoc();
@@ -125,6 +129,8 @@
 	            $_SESSION['id'] = $this->id;
 	            $_SESSION['full_name'] = $this->full_name;
 	            $_SESSION['full_address'] = $this->full_address;
+                $_SESSION['name'] = $this->street_name;
+                $_SESSION['house_number'] = $this->house_number;
 	            return true;
 	        }else {
 				return false;
@@ -141,18 +147,30 @@
 	}
 /*============================================================================================================================================================================*/	
 	/*** starting the session ***/
-	public function get_session(){
+	public static function get_session(){
 	    return $_SESSION['login'];
     }
 /*============================================================================================================================================================================*/					
 	/*** Get user in current sessions Full name ***/
-	public function get_full_name(){
+	public static function get_full_name(){
 	    return $_SESSION['full_name'];
 	}
 
+        /*============================================================================================================================================================================*/
+        /*** Get user in current sessions Full name ***/
+        public static function get_street_name(){
+            return $_SESSION['name'];
+        }
+
+        /*============================================================================================================================================================================*/
+        /*** Get user in current sessions Full name ***/
+        public static function get_house_number(){
+            return $_SESSION['house_number'];
+        }
+
 /*============================================================================================================================================================================*/
 	/*** Get user in current sessions Full address ***/
-	public function get_full_address(){
+	public static function get_full_address(){
 	    return $_SESSION['full_address'];
 	}
 /*============================================================================================================================================================================*/	
@@ -167,4 +185,3 @@
 	    session_destroy();
     }
 } #END OF CLASS
-?>

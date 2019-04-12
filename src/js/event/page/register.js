@@ -19,7 +19,6 @@ window.addEventListener('load', function () {
     const IN_FNAME = get('fname');
     const IN_LNAME = get('lname');
     const IN_EMAIL = get('email');
-    const IN_PHONE = get('phone');
 
 
 
@@ -38,7 +37,6 @@ window.addEventListener('load', function () {
     const BULLET_FNAME = create('i');
     const BULLET_LNAME = create('i');
     const BULLET_EMAIL = create('i');
-    const BULLET_PHONE = create('i');
 
 
 
@@ -70,8 +68,8 @@ window.addEventListener('load', function () {
 
     // * Populate bullets.
     populate(
-        [IN_FNAME, IN_LNAME, IN_EMAIL, IN_PHONE],
-        [BULLET_FNAME, BULLET_LNAME, BULLET_EMAIL, BULLET_PHONE]
+        [IN_FNAME, IN_LNAME, IN_EMAIL],
+        [BULLET_FNAME, BULLET_LNAME, BULLET_EMAIL]
     );
 
 
@@ -127,12 +125,6 @@ window.addEventListener('load', function () {
             case IN_EMAIL:
                 rex = REX.email;
                 bullet = BULLET_EMAIL;
-                break;
-
-            // ? If this object is an input element for phone number.
-            case IN_PHONE:
-                rex = REX.phone;
-                bullet = BULLET_PHONE;
                 break;
         }
 

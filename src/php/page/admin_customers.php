@@ -2,7 +2,7 @@
     <div class="container">
         <div class="card card-white">
             <h1>Kundeliste</h1>
-            <customer-table class="table-container w-100"></customer-table>
+            <customer-table class="table-container mt-2 w-100"></customer-table>
         </div>
     </div>
 </section>

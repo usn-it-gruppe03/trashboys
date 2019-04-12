@@ -1,0 +1,30 @@
+@import
+"../functions/functions",
+"../variables/variables",
+"../mixins/mixins",
+"../commons/commons";
+
+order-box{
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  background-color: rgba(0,0,0,0.3);
+  z-index: 999;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+order-box > div {
+  width: 500px;
+  max-width: 100%;
+  background-color: white;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+order-box td, order-box th{
+  padding: 5px !important;
+}

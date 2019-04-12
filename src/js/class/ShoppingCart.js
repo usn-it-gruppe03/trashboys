@@ -92,6 +92,10 @@ export class ShoppingCart extends HTMLElement {
 
         ORDER_BUTTON.innerText = 'Bestill varane';
         ORDER_BUTTON.classList.add('btn', 'btn-green', 'fx-3d-green');
+        ORDER_BUTTON.addEventListener(
+            ShoppingCart.ev_orderBtn_onClick().type,
+            ShoppingCart.ev_orderBtn_onClick().listener
+        );
 
 
         // * Append child nodes.
@@ -332,6 +336,66 @@ export class ShoppingCart extends HTMLElement {
             quantity: totalQuantity,
             sum: totalSum,
         };
+
+    }
+
+
+
+
+    /**
+     * EventListener: Order Button On Click
+     * */
+    static ev_orderBtn_onClick(){
+        return {
+            type: 'click',
+            listener: event => {
+
+                const productList = document.getElementById('product-list');
+                const test = ShoppingCart.exportCartData(productList);
+
+                const fileURL = '../php/handler/order.php';
+
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', fileURL, true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.send({test: 'test'});
+                window.location = 'src/php/handler/order.php';
+
+            }
+        }
+    }
+
+
+
+
+    /**
+     * Export Cart Data
+     * */
+    static exportCartData(productList){
+
+        const items = Array.from(productList.childNodes);
+        const ProductLine = (id, quantity) => {
+            return {
+                id: id,
+                quantity: quantity,
+            }
+        };
+        const jsonObject = {
+            productList: [],
+        };
+
+        const get = (node, attribute) => {return node.getAttribute(attribute)};
+        const attr = ProductItem.attr();
+
+        for (let i=0; i<items.length; i++){
+            const id = get(items[i], attr.id);
+            const quantity = get(items[i], attr.quantity);
+            jsonObject.productList.push(
+                ProductLine(id, quantity),
+            );
+        }
+
+        return jsonObject;
 
     }
 

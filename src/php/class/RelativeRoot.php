@@ -1,5 +1,4 @@
-<?php
-class RelativeRoot {
+<?php class RelativeRoot {
 
     public static function getURL(): string {
 

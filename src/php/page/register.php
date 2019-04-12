@@ -38,13 +38,6 @@
                         <input type="text" id="email" name="email" class="input input-3d" placeholder="Epost" autocomplete="email" pattern="([a-zA-Z0-9\+\.])+(\@{1})([a-zA-Z0-9])+(\.[a-zA-Z0-9]+)+" title="Enter a valid email" required>
                     </div>
                 </div>
-                <!-- Phone number -->
-                <div class="col">
-                    <div class="form-group">
-                        <label for="phone">Ditt mobilnummer</label>
-                        <input type="tel" id="phone" name="phone" class="input input-3d" placeholder="Mobilnummer"  autocomplete="tel-local" pattern="\d{8}" title="Enter a valid phone number" required>
-                    </div>
-                </div>
             </div>
 
             <!-- Password: -->
