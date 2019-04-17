@@ -183,14 +183,14 @@
                         <div class="col">
                             <div class="form-group">
                                 <label for="street">Gatenamn</label>
-                                <input type="text" id="street" name="street" class="input input-flat" placeholder="Gatenamn" required>
+                                <input type="text" id="street" name="street" class="input input-flat" value="<?php echo($street_name)?>" required>
                                 <div id="options-street" class="options" data-visible="false"></div>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
                                 <label for="number">Husnummeret</label>
-                                <input type="text" id="number" name="number" class="input input-flat" placeholder="Husnummer" required>
+                                <input type="text" id="number" name="number" class="input input-flat" value="<?php echo($street_number . ' ' . $house_letter)?>" required>
                                 <div id="options-number" class="options" data-visible="false"></div>
                             </div>
                         </div>
