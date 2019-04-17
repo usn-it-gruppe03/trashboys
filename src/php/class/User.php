@@ -38,7 +38,6 @@
 				if ($id == 0) {
 
 					$connect = $this->mysqli;
-					$set = "SET @email = ?, SET @password = ?, SET @firstname = ?, SET @lastname = ?, SET @streetname = ?, SET @streetnumber = ?, SET @houseletter = ?";
 					//bind the value of the 1st IN parameter to the session variable @id
 					$stmt = $connect->prepare("SET @email = ?");
 					$stmt->bind_param('s', $email);
