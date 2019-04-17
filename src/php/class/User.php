@@ -88,10 +88,11 @@
 /*============================================================================================================================================================================*/		
 	/*** for login process ***/
     public function check_login($email, $password){
-    	$salt = "AfghsdfDFjhkl54w21FGn2gf65bdfzdf";
-    	$saltedPw = $password . $salt;
-        $password = hash('sha512', $saltedPw);
-		$sql = 'SELECT ID FROM `User` WHERE email=? AND password=?';
+    	$salt 		= "AfghsdfDFjhkl54w21FGn2gf65bdfzdf";
+    	$saltedPw 	= $password . $salt;
+        $password 	= hash('sha512', $saltedPw);
+        $password 	= hash('sha512', $password);
+		$sql 		= 'SELECT ID FROM `User` WHERE email=? AND password=?';
 
 		$stmt = $this->mysqli->prepare($sql);
 
