@@ -152,7 +152,7 @@
                         <div class="col">
                             <div class="form-group">
                                 <label for="email">Epost-adresse</label>
-                                <input type="text" id="email" name="email" class="input input-flat" placeholder="Epost" autocomplete="email" pattern="([a-zA-Z0-9\+\.])+(\@{1})([a-zA-Z0-9])+(\.[a-zA-Z0-9]+)+" title="Enter a valid email" required>
+                                <input type="text" id="email" name="email" class="input input-flat" value="<?php echo($email)?>" autocomplete="email" pattern="([a-zA-Z0-9\+\.])+(\@{1})([a-zA-Z0-9])+(\.[a-zA-Z0-9]+)+" title="Enter a valid email" required>
                             </div>
                         </div>
                     </div>
