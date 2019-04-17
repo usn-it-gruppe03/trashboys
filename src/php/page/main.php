@@ -127,21 +127,21 @@
             </div>
             <div class="card card-white">
                 <h2>Brukardetaljar</h2>
-                <form action="#" method="post" class="w-100">
+                <form action="src/php/handler/update.php" method="post" class="w-100">
                     <!-- First and last name: -->
                     <div class="row mt-3">
                         <!-- First name -->
                         <div class="col">
                             <div class="form-group">
                                 <label for="fname">Førenamn</label>
-                                <input type="text" id="fname" name="fname" class="input input-flat" placeholder="Førenamn" autocomplete="given-name" pattern="([a-zæøåA-ZÆØÅ\-]+)" title="Namn kan berre innehalde bokstavar og bindestrekar" required>
+                                <input type="text" id="fname" name="fname" class="input input-flat" value="<?php echo($first_name)?>" autocomplete="given-name" pattern="([a-zæøåA-ZÆØÅ\-]+)" title="Namn kan berre innehalde bokstavar og bindestrekar" required>
                             </div>
                         </div>
                         <!-- Last name -->
                         <div class="col">
                             <div class="form-group">
                                 <label for="lname">Etternamn</label>
-                                <input type="text" id="lname" name="lname" class="input input-flat" placeholder="Etternamn" autocomplete="family-name" pattern="([a-zæøåA-ZÆØÅ\-]+)" title="Namn kan berre innehalde bokstavar og bindestrekar" required>
+                                <input type="text" id="lname" name="lname" class="input input-flat" value="<?php echo($last_name)?>" autocomplete="family-name" pattern="([a-zæøåA-ZÆØÅ\-]+)" title="Namn kan berre innehalde bokstavar og bindestrekar" required>
                             </div>
                         </div>
                     </div>
