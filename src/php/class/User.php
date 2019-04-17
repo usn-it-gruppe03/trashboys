@@ -22,10 +22,10 @@
 /*============================================================================================================================================================================*/
 		/*** for registration process ***/
 		public function reg_user($firstname, $lastname, $streetname, $streetnumber, $houseletter, $password, $email){
-			$sql = "SELECT ID FROM `User` WHERE email=?";
-			$initialStmt = $this->mysqli->prepare($sql);
-			$salt = "AfghsdfDFjhkl54w21FGn2gf65bdfzdf";
-			$password .= $salt;
+			$sql 			= "SELECT ID FROM `User` WHERE email=?";
+			$initialStmt 	= $this->mysqli->prepare($sql);
+			$salt 			= "AfghsdfDFjhkl54w21FGn2gf65bdfzdf";
+			$password 		.= $salt;
 
 			if ($initialStmt &&
 				$initialStmt -> bind_param('s', $email) &&
