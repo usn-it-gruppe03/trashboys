@@ -4,12 +4,16 @@
 	class User {
 		protected $mysqli;
 		private $id;
-		/*Variable for user name*/
+		/*Variable for users name*/
 		private $full_name;
+		private $first_name;
+		private $last_name;
+		private $email;
 		/*Variables for user address*/
 		private $address_ID;
 		private $street_name;
 		private $house_number;
+		private $house_letter;
 		private $full_address;
 
 		public function __construct(){
