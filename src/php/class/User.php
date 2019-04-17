@@ -104,37 +104,46 @@
 
 		 	$stmt -> fetch();
 
-			$sqlCheck = "SELECT ID FROM `User` WHERE ID = '$id'"; 
-			$result = $this->mysqli->query($sqlCheck) or die($this->mysqli->error);
+			$sqlCheck 	= "SELECT ID FROM `User` WHERE ID = '$id'"; 
+			$result 	= $this->mysqli->query($sqlCheck) or die($this->mysqli->error);
 
-			$sqlCheck2 = "SELECT ID, first_name, last_name, address_ID FROM `User` WHERE ID = '$id'";
-			$result2 = $this->mysqli->query($sqlCheck2) or die($this->mysqli->error);
-			$rowId = $result2->fetch_assoc();
+			$sqlCheck2 	= "SELECT ID, first_name, last_name, address_ID FROM `User` WHERE ID = '$id'";
+			$result2 	= $this->mysqli->query($sqlCheck2) or die($this->mysqli->error);
+			$rowId 		= $result2->fetch_assoc();
 
 			#echo $rowId["ID"];
-			$this->id = $rowId["ID"];
-			$this->full_name = $rowId["first_name"] . " " . $rowId["last_name"];
-			$this->address_ID = $rowId["address_ID"]; #Use this for finding the users address.
+			$this->id 			= $rowId["ID"];
+			$this->first_name 	= $rowId["first_name"];
+			$this->last_name 	= $rowId["last_name"];
+			$this->email 		= $rowId["email"];
+			$this->full_name 	= $rowId["first_name"] . " " . $rowId["last_name"];
+			$this->address_ID 	= $rowId["address_ID"]; #Use this for finding the users address.
 			#echo $this->id;
 
-			$sqlCheck3 = "SELECT `name`, house_number, letter FROM `Address` WHERE ID = '$this->address_ID'";
-			$result3 = $this->mysqli->query($sqlCheck3) or die($this->mysqli->error);
-			$rowId3 = $result3->fetch_assoc();
+			$sqlCheck3 	= "SELECT `name`, house_number, letter FROM `Address` WHERE ID = '$this->address_ID'";
+			$result3 	= $this->mysqli->query($sqlCheck3) or die($this->mysqli->error);
+			$rowId3 	= $result3->fetch_assoc();
 
-			$this->street_name = $rowId3["name"];
-			$this->house_number = $rowId3["house_number"];
-			$this->full_address = $rowId3["name"] . " " . $rowId3["house_number"] . " " . $rowId3["letter"];
+			$this->street_name 		= $rowId3["name"];
+			$this->street_number 	= $rowId3["house_number"];
+			$this->house_letter 	= $rowId3["letter"];
+			$this->full_address 	= $rowId3["name"] . " " . $rowId3["house_number"] . " " . $rowId3["letter"];
 
 			$user_data = $result->fetch_assoc();
 			$count_row = $result->num_rows;
 
 			if ($count_row == 1) {
 	            $_SESSION['login'] = true; 
-	            $_SESSION['id'] = $this->id;
-	            $_SESSION['full_name'] = $this->full_name;
-	            $_SESSION['full_address'] = $this->full_address;
-                $_SESSION['name'] = $this->street_name;
-                $_SESSION['house_number'] = $this->house_number;
+	            $_SESSION['id'] 			= $this->id;
+	            $_SESSION['full_name'] 		= $this->full_name;
+	            $_SESSION['full_address'] 	= $this->full_address;
+            #######################################################
+	            $_SESSION['first_name'] 	= $this->first_name;
+	            $_SESSION['last_name'] 		= $this->last_name;
+	            $_SESSION['email'] 			= $this->email;
+	            $_SESSION['street_name'] 	= $this->street_name;
+	            $_SESSION['street_number'] 	= $this->street_number;
+	            $_SESSION['house_letter'] 	= $this->house_letter;
 	            return true;
 	        }else {
 				return false;
@@ -142,7 +151,59 @@
 		}else {
 			echo 'Prepared Statement Error';
 		}
+	}
+/*============================================================================================================================================================================*/
+	public function update($fname, $lname, $street, $number, $houseletter, $email, $id, $password, $password_again) {
 
+		$sql_address_id 	= "SELECT `ID` FROM `Address` WHERE `name` = ? AND `house_number` = ? AND `letter` = ?;";
+		$initialStmt 		= $this->mysqli->prepare($sql_address_id);
+		$salt 				= "AfghsdfDFjhkl54w21FGn2gf65bdfzdf";
+    	$salted_pw 			= $password . $salt;
+        $password 			= hash('sha512', $salted_pw);
+        ##################################################################################################################################
+        $salted_pw_again	= $password_again . $salt;
+        $password_again 	= hash('sha512', $salted_pw_again);
+
+		#If user updates password &&/|| user details, this will run.
+		if ($initialStmt 													  &&
+			strlen($password) >= 8 											  &&
+			$password === $password_again 									  &&
+			$initialStmt -> bind_param('sss', $street, $number, $houseletter) &&
+			$initialStmt -> execute() 										  &&
+			$initialStmt -> store_result() 									  &&
+			$initialStmt -> bind_result($address_id)) {
+		##################################################################################################################################	
+		 	$initialStmt -> fetch();
+
+			$query 		= "UPDATE `User` SET first_name = ?, last_name = ?, password = ?, email = ?, address_ID = '$address_id' WHERE ID = ?;";
+			$password 	= hash('sha512', $password);
+			$stmt1 = $this->mysqli->prepare($query);
+			$stmt1->bind_param('sssss', $fname, $lname, $password, $email, $id);
+			$stmt1->execute();
+
+		 	return true;
+		}
+
+	######################################################################################################################################
+
+		#If user updates just user details, this will run.
+		if ($initialStmt &&
+			$initialStmt -> bind_param('sss', $street, $number, $houseletter) &&
+			$initialStmt -> execute() &&
+			$initialStmt -> store_result() &&
+			$initialStmt -> bind_result($address_id)) {
+		##################################################################################################################################	
+		 	$initialStmt -> fetch();
+
+			$sql  = "UPDATE `User` SET first_name = ?, last_name = ?, email = ?, address_ID = '$address_id' WHERE ID = ?;";	 	
+			$stmt2 = $this->mysqli->prepare($sql);
+			$stmt2->bind_param('ssss', $fname, $lname, $email, $id);
+			$stmt2->execute();
+
+		 	return true;
+		}else {
+			return false;
+		}
 	}
 
 /*============================================================================================================================================================================*/
