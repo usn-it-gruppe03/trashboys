@@ -16,6 +16,13 @@
         print_r($row);
     }*/
 
+    $first_name     = User::get_first_name();
+    $last_name      = User::get_last_name();
+    $email          = User::get_email();
+    $street_name    = User::get_street_name();
+    $street_number  = User::get_street_number();
+    $house_letter   = User::get_house_letter();
+
 ?>
 <!-- Page: Home -->
 <app-page id="page-home" data-visible="true">
