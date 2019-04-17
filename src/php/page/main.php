@@ -214,7 +214,7 @@
                     <div class="row mt-3">
                         <div class="col">
                             <div class="form-group">
-                                <button type="submit" class="btn btn-clay fx-3d-clay">Oppdater innstillinger</button>
+                                <button type="submit" name="submit" class="btn btn-clay fx-3d-clay">Oppdater innstillinger</button>
                             </div>
                         </div>
                     </div>
