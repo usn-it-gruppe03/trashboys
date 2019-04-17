@@ -1,5 +1,6 @@
 <?php
-
+    include_once 'src/php/class/User.php';
+    $user = new User();
     /*$street = User::get_street_name();
     $house_number = User::get_house_number();
     $mysql = DB::mysqli();
