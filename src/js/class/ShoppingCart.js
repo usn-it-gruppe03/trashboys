@@ -1,4 +1,5 @@
 import {ProductItem} from "./ProductItem.js";
+import * as x from '../function/global/functions.js';
 
 
 /**
@@ -15,46 +16,63 @@ export class ShoppingCart extends HTMLElement {
      * */
     constructor(){
         super();
+        this.build();
     }
 
 
 
 
     /**
-     * Attributes.
-     *
-     * @static
-     * @description TODO: Write.
-     *
-     * @returns {object}
+     * Resources
      * */
-    static attributes(){
+    static rsc(){
         return {
-            productList: {
-                id: 'product-list',
-                class: 'product-list',
+            id: {
+                self: 'shopping-cart',
+                productList: 'product-list',
             },
-            shoppingCartDetails: {
-                class: 'shopping-cart-details',
+            class: {
+                div: {
+                    productList: 'product-list',
+                    cartDetails: 'shopping-cart-details',
+                    cartQuantity: 'shopping-cart-quantity',
+                    cartSum: 'shopping-cart-sum',
+                },
+                button: {
+                    order: 'btn btn-green fx-3d-green'
+                },
             },
-            shoppingCartQuantity: {
-                class: 'shopping-cart-quantity',
+            attribute: {},
+            text: {
+                button: {
+                    order: 'Bestill varane',
+                }
             },
-            shoppingCartSum: {
-                class: 'shopping-cart-sum',
+            ajax: {
+                sendOrder: {
+                    file: 'src/php/ajax/register_order.php',
+                },
+            },
+            ev: {
+                name: {
+                    addToCart: 'addToCart',
+                    updateCart: 'updateCart',
+                }
             }
-        };
+        }
     }
 
 
 
 
     /**
-     * Connected Callback.
+     * Connected Callback
      * */
     connectedCallback(){
-        if (this.isConnected)
-            this.build();
+        if (this.isConnected){
+            this.render();
+            x.componentLoadedMessage(this);
+        }
     }
 
 
@@ -65,46 +83,58 @@ export class ShoppingCart extends HTMLElement {
      * */
     build(){
 
-        // * Get legal attributes.
-        const ATTR = ShoppingCart.attributes();
-
         // * Create elements:
-        const PRODUCT_LIST = document.createElement('div');
-        const CART_DETAILS = document.createElement('div');
-        const CART_QUANTITY = document.createElement('div');
-        const CART_SUM = document.createElement('div');
-        const ORDER_BUTTON = document.createElement('button');
+        this._div_productList = x.makeElement('div');
+        this._div_cartDetails = x.makeElement('div');
+        this._div_cartQuantity = x.makeElement('div');
+        this._div_cartSum = x.makeElement('div');
+        this._button_order = x.makeElement('button',ShoppingCart.rsc().text.button.order);
 
+        // * Set ID:
+        this.id = ShoppingCart.rsc().id.self;
+        this._div_productList.id = ShoppingCart.rsc().id.productList;
 
-        // * Construct elements:
-        PRODUCT_LIST.setAttribute('id', ATTR.productList.id);
-        PRODUCT_LIST.classList.add(ATTR.productList.class);
-        let event = ShoppingCart.addToCart(PRODUCT_LIST);
-        PRODUCT_LIST.addEventListener(event.type, event.listener);
+        // * Add class:
+        this._div_productList.classList.add(ShoppingCart.rsc().class.div.productList);
+        this._div_cartDetails.classList.add(ShoppingCart.rsc().class.div.cartDetails);
+        this._div_cartQuantity.classList.add(ShoppingCart.rsc().class.div.cartQuantity);
+        this._div_cartSum.classList.add(ShoppingCart.rsc().class.div.cartSum);
+        this._button_order.setAttribute('class', ShoppingCart.rsc().class.button.order);
 
-        CART_DETAILS.classList.add(ATTR.shoppingCartDetails.class);
-        CART_QUANTITY.classList.add(ATTR.shoppingCartQuantity.class);
-        CART_QUANTITY.innerText = '0';
-        CART_SUM.classList.add(ATTR.shoppingCartSum.class);
-        CART_SUM.innerText = '0.0';
-
-        CART_DETAILS.append(CART_QUANTITY,CART_SUM);
-
-        ORDER_BUTTON.innerText = 'Bestill varane';
-        ORDER_BUTTON.classList.add('btn', 'btn-green', 'fx-3d-green');
-        ORDER_BUTTON.addEventListener(
-            ShoppingCart.ev_orderBtn_onClick().type,
-            ShoppingCart.ev_orderBtn_onClick().listener
+        // * Add event listeners:
+        this.addEventListener(
+            ShoppingCart.ev().addToCart().type,
+            ShoppingCart.ev().addToCart().listener
+        );
+        this.addEventListener(
+            ShoppingCart.ev().updateCart().type,
+            ShoppingCart.ev().updateCart().listener
+        );
+        this._button_order.addEventListener(
+            ShoppingCart.ev().click_orderBtn().type,
+            ShoppingCart.ev().click_orderBtn().listener
         );
 
-
-        // * Append child nodes.
-        this.append(PRODUCT_LIST,CART_DETAILS,ORDER_BUTTON);
+    }
 
 
-        // * Add even listener.
-        event = ShoppingCart.updateCart(PRODUCT_LIST, CART_QUANTITY, CART_SUM);
-        this.addEventListener(event.type, event.listener);
+
+
+    /**
+     * Render
+     * */
+    render(){
+
+        this._div_cartDetails.append(
+            this._div_cartQuantity,
+            this._div_cartSum
+        );
+
+        this.append(
+            this._div_productList,
+            this._div_cartDetails,
+            this._button_order
+        );
 
     }
 
@@ -112,183 +142,140 @@ export class ShoppingCart extends HTMLElement {
 
 
     /**
-     * Event listener: Add to Cart
-     *
-     * @static
-     * @description TODO: Write a description
-     *
-     * @param {HTMLElement} productList - The product list element.
+     * EventListeners
      * */
-    static addToCart(productList){
-        return {
-            // ** Init. event type. **
-            type: 'addToCart',
+    static ev(){
+        return{
+            addToCart: () => {
+                return {
+                    type: ShoppingCart.rsc().ev.name.addToCart,
+                    listener: event => {
 
-            // ** Init. event listener. **
-            listener: event => {
+                        // ! DEBUGGING:
+                        x.eventDispatchMessage(event);
 
-                // * Get legal attributes from ProductItem.
-                let attr = ProductItem.attr();
+                        // * Init. self.
+                        const self = event.target;
 
+                        // * Get data from new product.
+                        const {id,name,category,price,quantity} = event.detail;
 
-                // * Deconstruct event detail object.
-                const {
-                    /**@type{number}*/id,
-                    /**@type{string}*/name,
-                    /**@type{number}*/price,
-                    /**@type{number}*/categoryIndex,
-                    /**@type{number}*/quantity,
-                } = event.detail;
+                        // ? If the incoming product already exists in the cart.
+                        if (ShoppingCart.hasDuplicate(id)) {
 
+                            // * Get existing products.
+                            const productArray = ShoppingCart.getProducts();
 
-                // * Get all product items.
-                const PRODUCT_ITEMS = ShoppingCart.getProductItems(productList);
+                            // * Iterate through each product.
+                            for (let i=0; i<productArray.length; i++){
 
+                                // * Get current product element and its data:
+                                const currentProduct = productArray[i];
+                                const currentProductData = ShoppingCart.getProductData(currentProduct);
 
-                // * Create functions for automation:
-                // This function will return an element if it finds a duplicate.
-                const getDuplicate = (productID, productItemsArray) => {
-                    let duplicateElement = null;
-                    for (let i=0; i<productItemsArray.length; i++){
-                        const attr = productItemsArray[i].getAllAttributes;
-                        if (productID === attr.id){
-                            duplicateElement = productItemsArray[i];
+                                // ? If examined product is the same as the incoming product.
+                                if (currentProductData.id === id) {
+
+                                    // * Overwrite product details:
+                                    // Change quantity.
+                                    ShoppingCart.setProductData(currentProduct).quantity(
+                                        currentProductData.quantity + quantity
+                                    );
+                                    // Change price.
+                                    ShoppingCart.setProductData(currentProduct).price(
+                                        currentProductData.price + price
+                                    );
+
+                                }
+
+                            }
+
+                        } else {
+
+                            // * Create new product item.
+                            self._div_productList.append(
+                                ShoppingCart.element().productItem(
+                                    id,name,price,category,quantity
+                                )
+                            );
+
                         }
-                    }
-                    return duplicateElement;
-                };
-
-                // This function will add a ned product item to the shopping cart.
-                const addNewProductItem = () => {
-                    const PRODUCT_ITEM = document.createElement('product-item');
-                    ShoppingCart.setAttributes(PRODUCT_ITEM, event.detail);
-                    productList.append(PRODUCT_ITEM);
-                };
-
-
-                // * Main logic:
-                // ? If the ShoppingCart has products.
-                if (PRODUCT_ITEMS.length > 0){
-
-                    let duplicateElement = getDuplicate(id, PRODUCT_ITEMS);
-
-                    if (duplicateElement !== null){
-
-                        let attrObject = duplicateElement.getAllAttributes;
-                        attrObject.price += price;
-                        attrObject.quantity += quantity;
-                        ShoppingCart.setAttributes(duplicateElement, attrObject);
-
-                    } else if (duplicateElement === null) {
-
-                        addNewProductItem();
 
                     }
-                    
-                } else {
+                }
+            },
+            updateCart: () => {
+                return {
+                    type: ShoppingCart.rsc().ev.name.updateCart,
+                    listener: event => {
 
-                    addNewProductItem();
+                        // ! DEBUGGING:
+                        x.eventDispatchMessage(event);
+
+                        // * Init. self.
+                        const self = event.target;
+
+                        // * Get cart data.
+                        const {quantity,sum} = ShoppingCart.getCartData();
+
+                        self._div_cartQuantity.innerText = quantity;
+                        self._div_cartSum.innerText = sum.toFixed(2);
+
+                    }
 
                 }
-
-            }
-        }
-    }
-
-
-
-
-    /**
-     * Event listener: Update Cart
-     *
-     * @static
-     * @description TODO: Write.
-     *
-     * @param {HTMLElement} productListElement - Desc.
-     * @param {HTMLElement} quantityElement - Desc.
-     * @param {HTMLElement} sumElement - Desc.
-     * */
-    static updateCart(productListElement, quantityElement, sumElement){
-        return {
-            type: 'updateCart',
-            listener: event => {
-
-                let objectData = ShoppingCart.getCartData(productListElement);
-                quantityElement.innerText = objectData.quantity.toString();
-                sumElement.innerText = objectData.sum.toFixed(2);
-
             },
-        };
-    }
+            click_orderBtn: () => {
+                return {
+                    type: 'click',
+                    listener: event => {
 
+                        // ! DEBUGGING:
+                        x.eventDispatchMessage(event);
 
+                        let jsonArray = [];
+                        const productArray = ShoppingCart.getProducts();
+                        for (let i=0; i<productArray.length; i++){
+                            const data = ShoppingCart.getProductData(productArray[i]);
+                            jsonArray.push({
+                                id: data.id,
+                                quantity: data.quantity
+                            });
+                        }
 
+                        x.ajaxJSON(
+                            jsonArray,
+                            ShoppingCart.rsc().ajax.sendOrder.file,
+                            (responseText) => {
+                                console.table(JSON.parse(responseText));
+                            }
+                        );
 
-    /**
-     * Get Product Items.
-     *
-     * @static
-     * @description TODO: Write.
-     *
-     * @param {HTMLElement} productList - The product list element.
-     * */
-    static getProductItems(productList){
-
-        // * Init. empty array.
-        let products = [];
-
-        // ? If the provided object has child nodes.
-        if (productList.hasChildNodes()){
-
-            // * Convert childNodes to an array.
-            products = Array.from(productList.childNodes);
-
+                    }
+                }
+            },
         }
-
-        // * Return array.
-        return products;
-
     }
 
 
 
 
     /**
-     * Set Attributes.
-     *
-     * @static
-     * @description TODO: Write.
-     *
-     * @param {HTMLElement} productItem - A product item element.
-     * @param {object} dataObject - An object containing
-     * the following properties:
-     * 1. ID.
-     * 2. Name.
-     * 3. Price.
-     * 4. Category Index.
-     * 5. Quantity.
+     * Update Cart
      * */
-    static setAttributes(productItem, dataObject){
+    static updateCart(){
 
-        // * Get all legal attributes.
-        const attr = ProductItem.attr();
+        // * Fetch elements:
+        const shoppingCart = document.querySelector('shopping-cart');
+        const shopButtonBadge = document.getElementById('shop-button-badge');
 
-        // * Deconstruct the object of data.
-        const {
-            /**@type{number}*/id,
-            /**@type{string}*/name,
-            /**@type{number}*/price,
-            /**@type{number}*/categoryIndex,
-            /**@type{number}*/quantity,
-        } = dataObject;
+        // * Create custom event.
+        const ev_updateCart = new CustomEvent(ShoppingCart.rsc().ev.name.updateCart);
 
-        // * Sett all the attributes.
-        productItem.setAttribute(attr.id, id.toString());
-        productItem.setAttribute(attr.name, name);
-        productItem.setAttribute(attr.price, price.toFixed(2));
-        productItem.setAttribute(attr.categoryIndex, categoryIndex.toString());
-        productItem.setAttribute(attr.quantity, quantity.toString());
-        
+        // * Dispatch custom events:
+        shoppingCart.dispatchEvent(ev_updateCart);
+        shopButtonBadge.dispatchEvent(ev_updateCart);
+
     }
 
 
@@ -296,72 +283,39 @@ export class ShoppingCart extends HTMLElement {
 
     /**
      * Get Cart Data
-     *
-     * @static
-     * @description TODO: Write
-     *
-     * @param {HTMLElement} productList - The product list element.
-     *
-     * @returns {object} - An object consisting of the following
-     * properties:
-     * 1. Quantity
-     * 2. Sum
      * */
-    static getCartData(productList){
+    static getCartData(){
 
-        // * Get all product items in the product list.
-        const PRODUCT_ITEMS = Array.from(productList.childNodes);
-
-        // * Get legal attribute names from ProductItem class.
-        const ATTR = ProductItem.attr();
-
-        // * Init. initial variables:
-        let totalQuantity = 0;
-        let totalSum = 0.0;
-
-        // * Shorten function.
-        const get = (node, attributeName) => {return node.getAttribute(attributeName);};
-
-        // * Loop through all product items.
-        for (let i=0; i<PRODUCT_ITEMS.length; i++){
-
-            // Add values through iteration:
-            totalQuantity += parseInt(get(PRODUCT_ITEMS[i],ATTR.quantity));
-            totalSum += parseFloat(get(PRODUCT_ITEMS[i],ATTR.price));
-
-        }
-
-        // * Return object.
-        return {
-            quantity: totalQuantity,
-            sum: totalSum,
+        // * Init. object.
+        const obj = {
+            quantity: 0,
+            sum: 0.0
         };
 
-    }
+        // ? If there are any products in the cart.
+        if (ShoppingCart.hasProducts()){
 
+            // * Get all products in the form of an array.
+            const products = ShoppingCart.getProducts();
 
+            // * Iterate through each product.
+            for (let i=0; i<products.length; i++){
 
+                // Get data from the examined product.
+                const data = ShoppingCart.getProductData(products[i]);
 
-    /**
-     * EventListener: Order Button On Click
-     * */
-    static ev_orderBtn_onClick(){
-        return {
-            type: 'click',
-            listener: event => {
-
-                const productList = document.getElementById('product-list');
-                const test = ShoppingCart.exportCartData(productList);
-
-                const fileURL = '../php/handler/order.php';
-
-                const xhr = new XMLHttpRequest();
-                xhr.open('POST', fileURL, true);
-                xhr.setRequestHeader('Content-Type', 'application/json');
-                xhr.send({test: 'test'});
-                window.location = 'src/php/handler/order.php';
-
+                // Update both quantity and sum.
+                obj.quantity += data.quantity;
+                obj.sum += data.price;
             }
+
+            // * Return an updated object of data.
+            return obj;
+
+        } else {
+
+            // * Return the initial object.
+            return obj;
         }
     }
 
@@ -369,35 +323,118 @@ export class ShoppingCart extends HTMLElement {
 
 
     /**
-     * Export Cart Data
+     * Has products
+     * @returns {boolean}
      * */
-    static exportCartData(productList){
+    static hasProducts(){
 
-        const items = Array.from(productList.childNodes);
-        const ProductLine = (id, quantity) => {
-            return {
-                id: id,
-                quantity: quantity,
+        // * Fetch product list element.
+        const productList = document.getElementById(ShoppingCart.rsc().id.productList);
+
+        // * Return value.
+        return productList.hasChildNodes();
+    }
+
+
+
+
+    /**
+     * Get products
+     * */
+    static getProducts(){
+
+        // * Fetch product list element.
+        const productList = document.getElementById(ShoppingCart.rsc().id.productList);
+
+        // ? If product list has products.
+        if (productList.hasChildNodes()){
+
+            return Array.from(productList.childNodes);
+
+        } else return [];
+    }
+
+
+
+
+    /**
+     * Has duplicate
+     * */
+    static hasDuplicate(productID){
+
+        if (ShoppingCart.hasProducts()){
+
+            // * Fetch products.
+            const products = ShoppingCart.getProducts();
+
+            for (let i=0; i<products.length; i++) {
+
+                let id = ShoppingCart.getProductData(products[i]).id;
+                id = (typeof id === 'string') ? parseInt(id) : id;
+                productID = (typeof productID === 'string') ? parseInt(productID) : productID;
+
+                if (id === productID) return true;
+
             }
-        };
-        const jsonObject = {
-            productList: [],
-        };
 
-        const get = (node, attribute) => {return node.getAttribute(attribute)};
-        const attr = ProductItem.attr();
+            return false;
 
-        for (let i=0; i<items.length; i++){
-            const id = get(items[i], attr.id);
-            const quantity = get(items[i], attr.quantity);
-            jsonObject.productList.push(
-                ProductLine(id, quantity),
-            );
-        }
-
-        return jsonObject;
+        } else return false;
 
     }
 
+
+
+
+    /**
+     * Get product data
+     * @param {HTMLElement} product
+     * @returns {object}
+     * */
+    static getProductData(product){
+        return {
+            id: parseInt(product.getAttribute(ProductItem.rsc().attribute.id)),
+            name: product.getAttribute(ProductItem.rsc().attribute.name),
+            price: parseFloat(product.getAttribute(ProductItem.rsc().attribute.price)),
+            category: product.getAttribute(ProductItem.rsc().attribute.category),
+            quantity: parseFloat(product.getAttribute(ProductItem.rsc().attribute.quantity)),
+        }
+    }
+
+
+
+
+    /**
+     * Set product data
+     * */
+    static setProductData(product){
+        return {
+            id: id => {product.setAttribute(ProductItem.rsc().attribute.id,id)},
+            name: name => {product.setAttribute(ProductItem.rsc().attribute.name,name)},
+            price: price => {product.setAttribute(ProductItem.rsc().attribute.price,price.toFixed(2))},
+            category: category => {product.setAttribute(ProductItem.rsc().attribute.category,category)},
+            quantity: quantity => {product.setAttribute(ProductItem.rsc().attribute.quantity,quantity)}
+        }
+    }
+
+
+
+
+    /**
+     * Elements
+     * */
+    static element(){
+        return {
+            productItem: (id,name,price,category,quantity) => {
+                const elem = x.makeElement('product-item');
+                ShoppingCart.setProductData(elem).id(id);
+                ShoppingCart.setProductData(elem).name(name);
+                ShoppingCart.setProductData(elem).price(price);
+                ShoppingCart.setProductData(elem).category(category);
+                ShoppingCart.setProductData(elem).quantity(quantity);
+                return elem;
+            }
+        }
+    }
 
 }

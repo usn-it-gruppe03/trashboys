@@ -57,16 +57,6 @@ CREATE TABLE `Price_Log` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_danish_ci;
 
 
-DROP TABLE IF EXISTS `Product`;
-CREATE TABLE `Product` (
-    `ID` int(11) NOT NULL AUTO_INCREMENT,
-    `name` varchar(45) NOT NULL,
-    `price` decimal(8,2) NOT NULL,
-
-    PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_danish_ci;
-
-
 DROP TABLE IF EXISTS `Route`;
 CREATE TABLE `Route` (
     `ID` int(11) NOT NULL AUTO_INCREMENT,
@@ -109,6 +99,18 @@ CREATE TABLE `Waste_Category` (
     `name` varchar(45) DEFAULT NULL UNIQUE,
 
     PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_danish_ci;
+
+
+DROP TABLE IF EXISTS `Product`;
+CREATE TABLE `Product` (
+    `ID` int(11) NOT NULL AUTO_INCREMENT,
+    `waste_category_ID` TINYINT NOT NULL,
+    `name` varchar(45) NOT NULL,
+    `price` decimal(8,2) NOT NULL,
+
+    PRIMARY KEY (`ID`),
+    FOREIGN KEY (`waste_category_ID`) REFERENCES `Waste_Category` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_danish_ci;
 
 

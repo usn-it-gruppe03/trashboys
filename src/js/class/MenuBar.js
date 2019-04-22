@@ -22,40 +22,41 @@ export class MenuBar extends HTMLElement {
 
 
     /**
-     * Icons.
-     *
-     * @static
-     * @description TODO: Write
-     *
-     * @returns {object}
+     * Resource.
      * */
-    static icons(){
-        return {
-            home: 'src/media/img/icon/outline-home-24px.svg',
-            shop: 'src/media/img/icon/outline-shopping_cart-24px.svg',
-            settings: 'src/media/img/icon/outline-settings-24px.svg',
-        }
-    }
-
-
-
-
-    /**
-     * Attributes.
-     *
-     * @static
-     * @description TODO: Write
-     *
-     * @returns {object}
-     * */
-    static attr(){
+    static rsc(){
         return {
             id: {
-                home: 'menu-home',
-                shop: 'menu-shop',
-                settings: 'menu-settings',
+                div: {
+                    home: 'menu-home',
+                    shop: 'menu-shop',
+                    settings: 'menu-settings',
+                },
+                i: {
+                    shopBadge: 'shop-button-badge',
+                },
             },
-            class: 'menu-btn'
+            class: {
+                menuButton: 'menu-btn'
+            },
+            attribute: {
+                targetHome: 'data-target-home',
+                targetShop: 'data-target-shop',
+                targetSettings: 'data-target-settings',
+                state: {
+                    value: {
+                        active: 'active',
+                        inactive: 'inactive',
+                    }
+                }
+            },
+            icon: {
+                home: 'src/media/img/icon/outline-home-24px.svg',
+                shop: 'src/media/img/icon/outline-shopping_cart-24px.svg',
+                settings: 'src/media/img/icon/outline-settings-24px.svg',
+            },
+            text: {},
+            ajax: {}
         }
     }
 
@@ -63,30 +64,208 @@ export class MenuBar extends HTMLElement {
 
 
     /**
-     * Fetch pages.
+     * Elements.
+     * */
+    static elements(){
+        return {
+            div: {
+                /**
+                 * Menu Button
+                 * @param {string} id - Element ID
+                 * @param {string} icon - Icon URL
+                 * @param {array} pageArray - An array of HTMLElements.
+                 * @param {string} pageTarget - Element ID of target.
+                 * @param {boolean} active - Boolean for either 'active' og 'inactive' state.
+                 * @returns {HTMLElement}
+                 * */
+                menuButton: (id, icon, pageArray, pageTarget, active) => {
+                    
+                    // * Create menu button:
+                    const div_menuBtn = x.makeElement('div');
+                    div_menuBtn.setAttribute('id', id);
+                    div_menuBtn.classList.add(MenuBar.rsc().class.menuButton);
+                    x.setState(
+                        div_menuBtn,
+                        (active === true) ? 'active' : 'inactive'
+                    );
+                    
+                    // * Create button icon:
+                    const img_icon = x.makeElement('img');
+                    img_icon.setAttribute('src', icon);
+
+                    // * Add event listeners:
+                    MenuBar.applyListenerToMultipleElements(
+                        [div_menuBtn, img_icon],
+                        MenuBar.ev().ev_menuBtn_onClick(
+                            div_menuBtn,
+                            Object.values(MenuBar.rsc().id.div),
+                            pageArray,
+                            pageTarget
+                        )
+                    );
+
+                    // * Append icon to button.
+                    div_menuBtn.append(img_icon);
+
+                    // * Return a menu button.
+                    return div_menuBtn;
+                },
+            }
+        }
+    }
+
+
+
+
+    /**
+     * Observed Attributes.
+     * */
+    static get observedAttributes(){
+        return [
+            MenuBar.rsc().attribute.targetHome,
+            MenuBar.rsc().attribute.targetShop,
+            MenuBar.rsc().attribute.targetSettings,
+        ];
+    }
+
+
+
+
+    /**
+     * Attribute Changed Callback.
+     * */
+    attributeChangedCallback(attributeName, oldValue, newValue){
+        switch (attributeName) {
+            case MenuBar.rsc().attribute.targetHome:
+                this._targetHome = (oldValue !== newValue) ? newValue : oldValue;
+                break;
+            case MenuBar.rsc().attribute.targetShop:
+                this._tagetShop = (oldValue !== newValue) ? newValue : oldValue;
+                break;
+            case MenuBar.rsc().attribute.targetSettings:
+                this._targetSettings = (oldValue !== newValue) ? newValue : oldValue;
+                break;
+        }
+    }
+
+
+
+
+    /**
+     * Harvest Attributes.
+     * */
+    harvestAttributes(){
+
+        if (x.attrDefined(this, MenuBar.rsc().attribute.targetHome))
+            this._targetHome = this.getAttribute(MenuBar.rsc().attribute.targetHome);
+
+        if (x.attrDefined(this, MenuBar.rsc().attribute.targetShop))
+            this._tagetShop = this.getAttribute(MenuBar.rsc().attribute.targetShop);
+
+        if (x.attrDefined(this, MenuBar.rsc().attribute.targetSettings))
+            this._targetSettings = this.getAttribute(MenuBar.rsc().attribute.targetSettings);
+
+    }
+
+
+
+
+    /**
+     * Connected Callback.
+     * */
+    connectedCallback(){
+        if (this.isConnected) {
+            x.componentLoadedMessage(this);
+            this.harvestAttributes();
+            this.build();
+        }
+    }
+
+
+
+
+    /**
+     * EventListeners.
+     * */
+    static ev(){
+        return {
+            /**
+             * Menu Button: On Click
+             * @param {HTMLElement} div_menuBtn
+             * @param {array} menuBtnIDArray - An array og menu button IDs.
+             * @param {array} pageArray
+             * @param {string} pageTarget
+             * */
+            ev_menuBtn_onClick: (div_menuBtn, menuBtnIDArray, pageArray, pageTarget) => {
+                return {
+                    type: 'click',
+                    listener: () => {
+
+                        // * Set state of this button.
+                        x.setState(div_menuBtn, MenuBar.rsc().attribute.state.value.active);
+
+                        // * Iterate through menu buttons and set state.
+                        for (let i=0; i<menuBtnIDArray.length; i++) {
+
+                            // ? If element ID does not match.
+                            if (div_menuBtn.id !== menuBtnIDArray[i])
+                                x.setState(
+                                    document.getElementById(menuBtnIDArray[i]),
+                                    MenuBar.rsc().attribute.state.value.inactive
+                                );
+                        }
+
+                        // * Iterate through pages and set visibility.
+                        for (let j=0; j<pageArray.length; j++){
+
+                            /**@type{HTMLElement}*/
+                            const elem = pageArray[j];
+
+                            // ? If target matches the element ID.
+                            if (elem.id === pageTarget)
+                                x.showNode(elem, true);
+                            else x.showNode(elem, false);
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+
+
+
+
+    /**
+     * Apply Event Listener to Multiple Elements.
+     *
+     * @param {array} htmlElementArray
+     * @param {object} evObject
+     * */
+    static applyListenerToMultipleElements(htmlElementArray, evObject) {
+
+        // * Destruct object.
+        const {type, listener} = evObject;
+
+        // * Iterate through elements and add event listener.
+        for (let i=0; i<htmlElementArray.length; i++)
+        htmlElementArray[i].addEventListener(type, listener);
+
+    }
+
+
+
+
+    /**
+     * Fetch page array.
      *
      * @static
      * @description TODO: Write.
      *
-     * @returns {object}
+     * @returns {array}
      * */
-    static fetchPages(){
-        return {
-            home: document.getElementById('page-home'),
-            shop: document.getElementById('page-shop'),
-            settings: document.getElementById('page-settings')
-        };
-    }
-
-
-
-
-    /**
-     * Connected Callback
-     * */
-    connectedCallback(){
-        if (this.isConnected)
-            this.build();
+    static fetchPageArray(){
+        return Array.from(document.getElementsByTagName('app-page'));
     }
 
 
@@ -99,112 +278,53 @@ export class MenuBar extends HTMLElement {
      * */
     build(){
 
-        // * Create div elements:
-        let home = document.createElement('div');
-        let shop = document.createElement('div');
-        let settings = document.createElement('div');
+        // * Fetch all AppPage elements.
+        const pageArray = MenuBar.fetchPageArray();
 
-        // * Create img elements:
-        let img_home = document.createElement('img');
-        let img_shop = document.createElement('img');
-        let img_settings = document.createElement('img');
+        // * Create Menu Buttons:
+        // Init. home button.
+        this._div_homeBtn = MenuBar.elements().div.menuButton(
+            MenuBar.rsc().id.div.home,
+            MenuBar.rsc().icon.home,
+            pageArray,
+            this._targetHome,
+            true
+        );
 
-        let shop_badge = document.createElement('i');
-        shop_badge.setAttribute('id','shop-button-badge');
-        x.showNode(shop_badge,false);
-        shop_badge.innerText = '0';
-        let event = MenuBar.updateShopIcon(shop_badge);
-        shop_badge.addEventListener(event.type,event.listener);
+        // Init. shop button.
+        this._div_shopBtn = MenuBar.elements().div.menuButton(
+            MenuBar.rsc().id.div.shop,
+            MenuBar.rsc().icon.shop,
+            pageArray,
+            this._tagetShop,
+            false
+        );
 
-        // * Add resources to images:
-        img_home.src = MenuBar.icons().home;
-        img_shop.src = MenuBar.icons().shop;
-        img_settings.src = MenuBar.icons().settings;
+        // Init. settings button.
+        this._div_settingsBtn = MenuBar.elements().div.menuButton(
+            MenuBar.rsc().id.div.settings,
+            MenuBar.rsc().icon.settings,
+            pageArray,
+            this._targetSettings,
+            false
+        );
 
-        // * Set ID and class:
-        home.setAttribute('id', MenuBar.attr().id.home);
-        shop.setAttribute('id', MenuBar.attr().id.shop);
-        settings.setAttribute('id', MenuBar.attr().id.settings);
-        home.setAttribute('class', MenuBar.attr().class);
-        shop.setAttribute('class', MenuBar.attr().class);
-        settings.setAttribute('class', MenuBar.attr().class);
+        // * Create shop badge:
+        const shopBadge = document.createElement('i');
+        shopBadge.id = MenuBar.rsc().id.i.shopBadge;
+        x.showNode(shopBadge,false);
+        shopBadge.innerText = '0';
+        shopBadge.addEventListener(
+            MenuBar.ev_updateShopIcon().type,
+            MenuBar.ev_updateShopIcon().listener
+        );
 
-        // * Add event listeners:
-        event = MenuBar.onClick();
-        home.addEventListener(event.type, event.listener);
-        shop.addEventListener(event.type, event.listener);
-        settings.addEventListener(event.type, event.listener);
-
-        // * Append nodes:
-        home.appendChild(img_home);
-        shop.append(img_shop,shop_badge);
-        settings.appendChild(img_settings);
+        // * Append shop badge to shop menu button.
+        this._div_shopBtn.append(shopBadge);
 
         // * Add child nodes to this object.
-        this.append(home,shop,settings);
+        this.append(this._div_homeBtn, this._div_shopBtn, this._div_settingsBtn);
 
-    }
-
-
-
-
-    /**
-     * On click.
-     * */
-    static onClick(){
-        return {
-            type: 'click',
-            listener: event => {
-
-                // * Get the ID of the clicked object.
-                let id = event.target.getAttribute('id');
-
-                // * Fetch all pages.
-                let pages = MenuBar.fetchPages();
-
-                let attr = MenuBar.attr();
-                const get = (id) => {return document.getElementById(id)};
-
-                // * Examine ID.
-                switch (id) {
-
-                    // ? If the ID belongs to the home button.
-                    case MenuBar.attr().id.home:
-                        x.showNode(pages.home, true);
-                        x.showNode(pages.shop, false);
-                        x.showNode(pages.settings, false);
-                        x.setState(get(attr.id.home), 'active');
-                        x.setState(get(attr.id.shop), 'inactive');
-                        x.setState(get(attr.id.settings), 'inactive');
-                        console.log('Click: Home');
-                        break;
-
-                    // ? If the ID belongs to the shop button.
-                    case MenuBar.attr().id.shop:
-                        x.showNode(pages.home, false);
-                        x.showNode(pages.shop, true);
-                        x.showNode(pages.settings, false);
-                        x.setState(get(attr.id.home), 'inactive');
-                        x.setState(get(attr.id.shop), 'active');
-                        x.setState(get(attr.id.settings), 'inactive');
-                        console.log('Click: Shop');
-                        break;
-
-                    // ? If the ID belongs to the settings button.
-                    case MenuBar.attr().id.settings:
-                        x.showNode(pages.home, false);
-                        x.showNode(pages.shop, false);
-                        x.showNode(pages.settings, true);
-                        x.setState(get(attr.id.home), 'inactive');
-                        x.setState(get(attr.id.shop), 'inactive');
-                        x.setState(get(attr.id.settings), 'active');
-                        console.log('Click: Settings');
-                        break;
-
-                }
-
-            },
-        };
     }
 
 
@@ -215,26 +335,16 @@ export class MenuBar extends HTMLElement {
      *
      * @static
      * @description TODO: Write
-     *
-     * @returns {object}
      * */
-    static updateShopIcon(shopIcon){
+    static ev_updateShopIcon(){
         return {
-            /**@type{string}*/
             type: 'updateCart',
-            /**@type{function}*/
             listener: event => {
 
-                const PRODUCT_LIST = document.getElementById('product-list');
-                const CART_DATA = ShoppingCart.getCartData(PRODUCT_LIST);
-                shopIcon.innerText = CART_DATA.quantity.toString();
-                let cartIsEmpty = parseInt(shopIcon.innerText) < 1;
-
-                if (cartIsEmpty){
-                    x.showNode(shopIcon, false);
-                } else if (!cartIsEmpty) {
-                    x.showNode(shopIcon, true);
-                }
+                const self = event.target;
+                const quantity = ShoppingCart.getCartData().quantity;
+                self.innerText = quantity;
+                x.showNode(self, (quantity > 0));
 
             }
         };

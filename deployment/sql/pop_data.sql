@@ -362,10 +362,11 @@ INSERT INTO `User_Type` (`ID`, `name`) VALUES
 
 INSERT INTO `Waste_Category` (`ID`, `name`) VALUES 
 (1,'Våtorganisk avfall'),
-(2,'Papp / papir / drikkekartong'),
+(2,'Papp- og papiravfall'),
 (3,'Restavfall'),
 (4,'Plastemballasje'),
-(5,'Farleg avfall og småelektronikk');
+(5,'Farleg avfall'),
+(6,'Kombinert');
 
 
 INSERT INTO `Waste_Collection` (`route_ID`, `waste_ID`, `date`) VALUES

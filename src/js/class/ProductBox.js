@@ -1,4 +1,5 @@
 import * as x from '../function/global/functions.js';
+import {ShoppingCart} from "./ShoppingCart.js";
 
 
 /**
@@ -14,28 +15,131 @@ export class ProductBox extends HTMLElement {
      * */
     constructor(){
         super();
+        this.build();
     }
 
 
 
 
     /**
-     * Attribute names
-     *
-     * @description This function will return an object
-     * that contains all expected attribute names for
-     * this class.
-     *
-     * @returns {object}
+     * Resource
      * */
-    static attr(){
+    static rsc(){
         return {
-            id: 'product-id',
-            name: 'data-name',
-            img: 'data-img',
-            price: 'data-price',
-            category: 'data-category',
-        };
+            id: {
+                div: {},
+                p: {},
+                i: {},
+                button: {},
+            },
+            class: {
+                div: {
+                    productImage: 'product-box-img'
+                },
+                p: {
+                    productName: 'product-box-name',
+                    productPrice: 'product-box-price',
+                },
+                i: {
+                    productCategory: 'bullet'
+                },
+                button: {
+                    addToCart: 'btn btn-green fx-3d-green',
+                },
+            },
+            attribute: {
+                productID: 'product-id',
+                productImage: 'product-img',
+                productName: 'product-name',
+                productCategory: 'product-category',
+                productPrice: 'product-price',
+
+            },
+            text: {
+                button: {
+                    addToCart: 'Legg til kurv'
+                }
+            },
+        }
+    }
+
+
+
+
+    /**
+     * Harvest Attributes
+     * */
+    harvestAttributes(){
+
+        // ? If ID attribute is defined.
+        if (x.attrDefined(this, ProductBox.rsc().attribute.productID))
+            this._productID = this.getAttribute(ProductBox.rsc().attribute.productID);
+        else this._productID = ProductBox.fallback().id;
+
+        // ? If image attribute is defined.
+        if (x.attrDefined(this, ProductBox.rsc().attribute.productImage))
+            this._productImage = this.getAttribute(ProductBox.rsc().attribute.productImage);
+        else this._productImage = ProductBox.fallback().img;
+
+        // ? If name attribute is defined.
+        if (x.attrDefined(this, ProductBox.rsc().attribute.productName))
+            this._productName = this.getAttribute(ProductBox.rsc().attribute.productName);
+        else this._productName = ProductBox.fallback().name;
+
+        // ? If category attribute is defined.
+        if (x.attrDefined(this, ProductBox.rsc().attribute.productCategory))
+            this._productCategory = this.getAttribute(ProductBox.rsc().attribute.productCategory);
+        else this._productCategory = ProductBox.fallback().category;
+
+        // ? If price attribute is defined.
+        if (x.attrDefined(this, ProductBox.rsc().attribute.productPrice))
+            this._productPrice = this.getAttribute(ProductBox.rsc().attribute.productPrice);
+        else this._productPrice = ProductBox.fallback().price;
+
+    }
+
+
+
+
+    /**
+     * Observed Attributes
+     * */
+    static get observedAttributes(){
+        return Object.values(ProductBox.rsc().attribute);
+    }
+
+
+
+
+    /**
+     * Attribute Changed Callback
+     * */
+    attributeChangedCallback(attributeName, oldValue, newValue){
+
+        // * Process new input value.
+        switch (attributeName) {
+            case ProductBox.rsc().attribute.productID:
+                this._productID = (oldValue !== newValue) ? newValue : oldValue;
+                break;
+            case ProductBox.rsc().attribute.productImage:
+                this._productImage = (oldValue !== newValue) ? newValue : oldValue;
+                this._productImage = newValue;
+                break;
+            case ProductBox.rsc().attribute.productName:
+                this._productName = (oldValue !== newValue) ? newValue : oldValue;
+                break;
+            case ProductBox.rsc().attribute.productCategory:
+                this._productCategory = (oldValue !== newValue) ? newValue : oldValue;
+                break;
+            case ProductBox.rsc().attribute.productPrice:
+                this._productPrice = (oldValue !== newValue) ? newValue : oldValue;
+                break;
+        }
+
+
+        // * Update object.
+        this.update();
+
     }
 
 
@@ -45,40 +149,10 @@ export class ProductBox extends HTMLElement {
      * Connected callback
      * */
     connectedCallback(){
-        if (this.isConnected)
-            this._updateRendering();
-    }
-
-
-
-
-    /**
-     * Update rendering
-     * */
-    _updateRendering(){
-        this.harvestAttributes();
-        this.build();
-    }
-
-
-
-
-    /**
-     * Fallback
-     *
-     * @description This function will return an object
-     * that contains fallback data that can be used in
-     * case attributes were not correctly defined.
-     *
-     * @returns {object}
-     * */
-    static fallback(){
-        return {
-            id: 0,
-            name: 'Generic Product Name',
-            img: 'src/media/img/demo/bin.jpg',
-            price: 150.0,
-            category: 1,
+        if (this.isConnected){
+            x.componentLoadedMessage(this);
+            this.harvestAttributes();
+            this.render();
         }
     }
 
@@ -86,27 +160,38 @@ export class ProductBox extends HTMLElement {
 
 
     /**
-     * Harvest Attributes
-     *
-     * @description This function will check for data in the
-     * legal attributes defined in this class, and then assign
-     * those values to the object's attributes.
-     *
-     * @see attr
-     * @see fallback
+     * Fallback
      * */
-    harvestAttributes(){
+    static fallback(){
+        return {
+            id: 0,
+            name: 'Generic Product Name',
+            img: 'src/media/img/demo/bin.jpg',
+            price: 150.0,
+            category: 'Example',
+        }
+    }
 
-        // * Get static data:
-        let a = ProductBox.attr();
-        let fb = ProductBox.fallback();
 
-        // * Assign data from attributes to object:
-        this.id = (x.attrDefined(this, a.id)) ? parseInt(this.getAttribute(a.id)) : fb.id;
-        this.name = (x.attrDefined(this, a.name)) ? this.getAttribute(a.name) : fb.name;
-        this.img = (x.attrDefined(this, a.img)) ? this.getAttribute(a.img) : fb.img;
-        this.price = (x.attrDefined(this, a.price)) ? parseFloat(this.getAttribute(a.price)) : fb.price;
-        this.categoryIndex = (x.attrDefined(this, a.category)) ? parseInt(this.getAttribute(a.category)) : fb.category;
+
+
+    /**
+     * Update
+     * */
+    update(){
+
+        // * Set the product image.
+        this._div_productImage.style.backgroundImage = 'url("' + this._productImage + '")';
+
+        // * Set the product name.
+        this._p_productName.innerText = this._productName;
+
+        // * Set the product category.
+        this._i_productCategory.innerText = this._productCategory;
+
+        // * Set the product price.
+        this._p_productPrice.innerText = this._productPrice;
+
     }
 
 
@@ -117,45 +202,34 @@ export class ProductBox extends HTMLElement {
      * */
     build(){
 
-
-        // * Simplify functions:
-        const create = (elementTag) => {return document.createElement(elementTag);};
-
-
-        // * Create elements:
-        const IMG = create('div');
-        const NAME = create('p');
-        const CAT = create('i');
-        const BTN = create('btn');
-        const PRICE = create('p');
-
-
-        // * Construct elements:
+        // * Create Elements:
         // Product image:
-        IMG.style.backgroundImage = 'url("' + this.img + '")';
-        IMG.classList.add('product-box-img');
+        this._div_productImage = x.makeElement('div');
+        this._div_productImage.classList.add(ProductBox.rsc().class.div.productImage);
 
-        // Name:
-        NAME.innerText = this.name;
-        NAME.classList.add('product-box-name');
+        // Product name:
+        this._p_productName = x.makeElement('p');
+        this._p_productName.classList.add(ProductBox.rsc().class.p.productName);
 
-        // Category:
-        CAT.innerText = ProductBox.niceCategory(this.categoryIndex);
-        CAT.classList.add('bullet');
+        // Product category:
+        this._i_productCategory = x.makeElement('i');
+        this._i_productCategory.classList.add(ProductBox.rsc().class.i.productCategory);
 
-        // Button:
-        BTN.innerText = 'Legg til kurv';
-        BTN.classList.add('btn', 'btn-green', 'fx-3d-green');
-        let {type, listener} = ProductBox.btnOnClick(this);
-        BTN.addEventListener(type,listener);
+        // Product price:
+        this._p_productPrice = x.makeElement('p');
+        this._p_productPrice.classList.add(ProductBox.rsc().class.p.productPrice);
 
-        // Price:
-        PRICE.innerText = this.price;
-        PRICE.classList.add('product-box-price');
+        // Product add-to-cart-button:
+        this._button_addToCart = x.makeElement('button');
+        this._button_addToCart.setAttribute('class', ProductBox.rsc().class.button.addToCart);
+        this._button_addToCart.innerText = ProductBox.rsc().text.button.addToCart;
 
 
-        // * Append nodes to object.
-        this.append(IMG,NAME,CAT,PRICE,BTN);
+        // * Add event listener.
+        this._button_addToCart.addEventListener(
+            ProductBox.ev().button_onClick(this).type,
+            ProductBox.ev().button_onClick(this).listener
+        );
 
     }
 
@@ -163,256 +237,74 @@ export class ProductBox extends HTMLElement {
 
 
     /**
-     * Static: Button On Click
-     *
-     * @description This function will return object
-     * that will be used as an event listener.
-     *
-     * @param {ProductBox} object - This object.
-     *
-     * @returns {object}
+     * Append
      * */
-    static btnOnClick(object){
+    render(){
+
+        this.append(
+            this._div_productImage,
+            this._p_productName,
+            this._i_productCategory,
+            this._p_productPrice,
+            this._button_addToCart
+        );
+
+    }
+
+
+
+
+    /**
+     * EventListeners
+     * */
+    static ev() {
         return {
-            // ** Init. event type. **
-            type: 'click',
+            /**
+             * Button On Click.
+             * @param {ProductBox} productBoxObject - This object.
+             * */
+            button_onClick: (productBoxObject) => {
+                return {
+                    type: 'click',
+                    listener: () => {
 
-            // ** Init. event listener. **
-            listener: event => {
+                        // * Create events:
+                        const ev_addToCart = new CustomEvent(
+                            ProductBox.ev().addToCart(productBoxObject).typeArg,
+                            ProductBox.ev().addToCart(productBoxObject).eventInitDict
+                        );
 
-                // * Custom event: Add to Cart:
-                // Create custom event:
-                let {typeArg, eventInitDict} = ProductBox.addToCart(object);
-                const EV_ADD_TO_CART = new CustomEvent(typeArg, eventInitDict);
+                        // * Get elements:
+                        const shoppingCart = document.querySelector('shopping-cart');
 
-                // Get the product list element from DOM.
-                const PRODUCT_LIST = document.getElementById('product-list');
+                        // * Dispatch events:
+                        shoppingCart.dispatchEvent(ev_addToCart);
 
-                // Dispatch the custom event.
-                PRODUCT_LIST.dispatchEvent(EV_ADD_TO_CART);
+                        // * Update cart.
+                        ShoppingCart.updateCart();
 
-
-                // * Custom event: Update Cart:
-                const SHOPPING_CART = document.querySelector('shopping-cart');
-                const SHOP_BUTTON_BADGE = document.getElementById('shop-button-badge');
-                const EV_UPDATE_CART = new CustomEvent('updateCart');
-                SHOPPING_CART.dispatchEvent(EV_UPDATE_CART);
-                SHOP_BUTTON_BADGE.dispatchEvent(EV_UPDATE_CART);
-
+                    }
+                };
+            },
+            /**
+             * Add to Cart.
+             * @param {ProductBox} productBoxObject - This object.
+             * */
+            addToCart: (productBoxObject) => {
+                return {
+                    typeArg: 'addToCart',
+                    eventInitDict: {
+                        detail: {
+                            id: parseInt(productBoxObject._productID),
+                            name: productBoxObject._productName,
+                            category: productBoxObject._productCategory,
+                            price: parseFloat(productBoxObject._productPrice),
+                            quantity: 1,
+                        }
+                    }
+                };
             }
-        };
-    }
-
-
-
-
-    /**
-     * Static: Add to Cart
-     *
-     * @description This function will return an object
-     * that will be used as a custom event. The custom
-     * event will be stored with data from this object.
-     *
-     * @param {ProductBox} object - This object.
-     *
-     * @returns {object}
-     * */
-    static addToCart(object){
-        return {
-            // * Init. event type.
-            typeArg: 'addToCart',
-
-            // * Init. custom event dictionary.
-            eventInitDict: {
-                detail: {
-                    id: object.id,
-                    name: object.name,
-                    price: object.price,
-                    categoryIndex: object.categoryIndex,
-                    quantity: 1,
-                }
-            }
-        };
-    }
-
-
-
-
-    /**
-     * Getter: ID
-     *
-     * @returns {number}
-     * */
-    get id(){
-        return this._id;
-    }
-
-
-
-
-    /**
-     * Setter: ID
-     *
-     * @param {number} id - The ID
-     * */
-    set id(id){
-        this._id = id;
-    }
-
-
-
-
-    /**
-     * Getter: Name
-     *
-     * @returns {string}
-     * */
-    get name() {
-        return this._name;
-    }
-
-
-
-
-    /**
-     * Setter: Name
-     *
-     * @param {string} name  - The name
-     * */
-    set name(name) {
-        this._name = name;
-    }
-
-
-
-
-    /**
-     * Getter: Image
-     *
-     * @returns {string}
-     * */
-    get img() {
-        return this._img;
-    }
-
-
-
-
-    /**
-     * Setter: Image
-     *
-     * @param {string} url  - The image URL
-     * */
-    set img(url) {
-        this._img = url;
-    }
-
-
-
-
-    /**
-     * Getter: Price
-     *
-     * @returns {number}
-     * */
-    get price() {
-        return this._price;
-    }
-
-
-
-
-    /**
-     * Setter: Price
-     *
-     * @param {number} value  - The product value.
-     * */
-    set price(value) {
-        this._price = value;
-    }
-
-
-
-
-    /**
-     * Getter: Category index
-     *
-     * @returns {number}
-     * */
-    get categoryIndex() {
-        return this._categoryIndex;
-    }
-
-
-
-
-    /**
-     * Setter: Category index
-     *
-     * @param {number} index  - The index corresponding with
-     * the legal categories defined in this class.
-     *
-     * @see categories
-     * */
-    set categoryIndex(index) {
-        this._categoryIndex = index;
-    }
-
-
-
-
-    /**
-     * Categories
-     *
-     * @description This function will return an object
-     * that contains all official categoryIndex names.
-     *
-     * @returns {object}
-     * */
-    static categories(){
-        return {
-            1: 'Våtorganisk avfall',
-            2: 'Papp- og papiravfall',
-            3: 'Restavfall',
-            4: 'Plastemballasje',
-            5: 'Farleg avfall',
         }
-    }
-
-
-
-
-    /**
-     * Get niceCategory
-     *
-     * @description This function will return the nice
-     * string version of the niceCategory.
-     *
-     * @param {number} index - The index corresponding to
-     * a niceCategory defined in this class.
-     *
-     * @see categories
-     *
-     * @returns {string}
-     * */
-    static niceCategory(index){
-
-        // Get all categories.
-        let cat = ProductBox.categories();
-
-        // ? Bool: If the categoryIndex exists.
-        let hasProp = cat.hasOwnProperty(index);
-
-        // Init. error message.
-        let msg = 'Kategorien ' + index + ' finnes ikke';
-
-        // ? If the categoryIndex does not exist.
-        if (!hasProp)
-            new Error(msg);
-
-        // Return categoryIndex or an error.
-        return hasProp ? cat[index] : 'udefinert';
-
     }
 
 }

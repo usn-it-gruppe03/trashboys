@@ -1,5 +1,6 @@
 import * as x from '../function/global/functions.js';
 import {ProductBox} from "./ProductBox.js";
+import {ShoppingCart} from "./ShoppingCart.js";
 
 
 /**
@@ -16,54 +17,63 @@ export class ProductItem extends HTMLElement {
      * */
     constructor(){
         super();
+        this.build();
     }
 
 
 
 
     /**
-     * Attributes.
-     *
-     * @static
-     * @description TODO: Write desc.
-     *
-     * @returns {object}
+     * Resource
      * */
-    static attr(){
+    static rsc(){
         return {
-            id: 'product-id',
-            name: 'data-name',
-            price: 'data-price',
-            categoryIndex: 'data-category',
-            quantity: 'data-quantity',
+            id: {},
             class: {
-                quantity: 'product-item-quantity',
-                description: 'product-item-description',
-                name: 'product-item-name',
-                category: 'product-item-category',
-                price: 'product-item-price',
-                delete: 'product-item-delete',
+                div: {
+                    quantity: 'product-item-quantity',
+                    description: 'product-item-description',
+                    name: 'product-item-name',
+                    category: 'product-item-category',
+                    price: 'product-item-price',
+                    delete: 'product-item-delete',
+                },
+                button: {
+                    delete: 'btn btn-clay fx-3d-clay'
+                }
             },
-        };
+            attribute: {
+                id: 'product-id',
+                name: 'product-name',
+                price: 'product-price',
+                category: 'product-category',
+                quantity: 'product-quantity',
+            },
+            text: {
+                button: {
+                    delete: 'Fjern',
+                }
+            },
+            ev: {
+                name: {
+                    delete: 'deleteProductItem'
+                }
+            }
+        }
     }
 
 
 
 
     /**
-     * Fallback.
-     *
-     * @static
-     * @description TODO: Write desc.
-     *
-     * @returns {object}
+     * Fallback
      * */
     static fallback(){
         return {
             id: 0,
             name: 'Generic Product Name',
             price: 2.45,
-            categoryIndex: 1,
+            category: 'Example',
             quantity: 1,
         };
     }
@@ -72,21 +82,10 @@ export class ProductItem extends HTMLElement {
 
 
     /**
-     * Observed Attributes.
-     *
-     * @static
-     * @description TODO: Write desc.
-     *
-     * @returns {object}
+     * Observed Attributes
      * */
     static get observedAttributes(){
-        return [
-            ProductItem.attr().id,
-            ProductItem.attr().name,
-            ProductItem.attr().price,
-            ProductItem.attr().categoryIndex,
-            ProductItem.attr().quantity,
-        ];
+        return Object.values(ProductItem.rsc().attribute);
     }
 
 
@@ -97,39 +96,31 @@ export class ProductItem extends HTMLElement {
      *
      * @description TODO: Write desc.
      * */
-    attributeChangedCallback(attrName, oldValue, newValue){
+    attributeChangedCallback(attributeName, oldValue, newValue){
 
-        // ? If the element has been built.
-        if (this.hasBeenBuilt) {
+        // * Process new input values.
+        switch (attributeName) {
 
-            // * Get all legal attributes.
-            let a = ProductItem.attr();
-
-            // * Switch: Check the attribute name.
-            switch (attrName) {
-
-                // ? If attribute is name:
-                case a.name:
-                    this.nameElement.innerText = newValue;
-                    break;
-
-                // ? If attribute is price:
-                case a.price:
-                    this.priceElement.innerText = newValue;
-                    break;
-
-                // ? If attribute is category:
-                case a.categoryIndex:
-                    this.categoryElement.innerText = ProductBox.niceCategory(newValue);
-                    break;
-
-                // ? If attribute is quantity:
-                case a.quantity:
-                    this.quantityElement.innerText = newValue;
-                    break;
-            }
+            case ProductItem.rsc().attribute.id:
+                this._id = (oldValue !== newValue) ? newValue : oldValue;
+                break;
+            case ProductItem.rsc().attribute.name:
+                this._name = (oldValue !== newValue) ? newValue : oldValue;
+                break;
+            case ProductItem.rsc().attribute.price:
+                this._price = (oldValue !== newValue) ? newValue : oldValue;
+                break;
+            case ProductItem.rsc().attribute.category:
+                this._category = (oldValue !== newValue) ? newValue : oldValue;
+                break;
+            case ProductItem.rsc().attribute.quantity:
+                this._quantity = (oldValue !== newValue) ? newValue : oldValue;
+                break;
 
         }
+
+        // * Update object.
+        this.update();
 
     }
 
@@ -141,8 +132,71 @@ export class ProductItem extends HTMLElement {
      * */
     connectedCallback(){
         if (this.isConnected){
-            this.build();
+            this.harvestAttributes();
+            this.render();
+            x.componentLoadedMessage(this);
         }
+    }
+
+
+
+
+    /**
+     * Disconnected Callback.
+     * */
+    disconnectedCallback(){
+
+        // * Remove Event Listeners:
+        this.removeEventListener(
+            ProductItem.ev().deleteProductItem().typeArg,
+            ProductItem.ev().deleteProductItem().listener
+        );
+        this._button_delete.removeEventListener(
+            ProductItem.ev().button_onClick().type,
+            ProductItem.ev().button_onClick().listener
+        );
+
+        // * Remove object variables:
+        this._div_quantity.remove();
+        this._div_description.remove();
+        this._div_name.remove();
+        this._div_category.remove();
+        this._div_price.remove();
+        this._div_delete.remove();
+        this._button_delete.remove();
+
+        x.componentRemovedMessage(this);
+
+    }
+
+
+
+
+    /**
+     * Harvest Attributes.
+     * */
+    harvestAttributes(){
+
+        // ? If ID attribute has been defined.
+        if (x.attrDefined(this, ProductItem.rsc().attribute.id))
+            this._id = this.getAttribute(ProductItem.rsc().attribute.id);
+
+        // ? If name attribute has been defined.
+        if (x.attrDefined(this, ProductItem.rsc().attribute.name))
+            this._name = this.getAttribute(ProductItem.rsc().attribute.name);
+
+        // ? If price attribute has been defined.
+        if (x.attrDefined(this, ProductItem.rsc().attribute.price))
+            this._price = this.getAttribute(ProductItem.rsc().attribute.price);
+
+        // ? If category attribute has been defined.
+        if (x.attrDefined(this, ProductItem.rsc().attribute.category))
+            this._category = this.getAttribute(ProductItem.rsc().attribute.category);
+
+        // ? If quantity attribute has been defined.
+        if (x.attrDefined(this, ProductItem.rsc().attribute.quantity))
+            this._quantity = this.getAttribute(ProductItem.rsc().attribute.quantity);
+
     }
 
 
@@ -153,68 +207,49 @@ export class ProductItem extends HTMLElement {
      * */
     build(){
 
-        // * Process attributes.
-        this.harvestAttributes();
-
-        // * Get all legal attributes.
-        const attr = ProductItem.attr();
-
-        // * Simplify create function.
-        const create = (tag) => {return document.createElement(tag)};
-
-        this.setAttribute(attr.id, this.id.toString());
-
         // * Create elements:
-        this.quantityElement = create('div');
-        const DESCRIPTION = create('div');
-        this.nameElement = create('div');
-        this.categoryElement = create('div');
-        this.priceElement = create('div');
-        const DELETE = create('div');
-        this.buttonElement = create('button');
+        this._div_quantity = x.makeElement('div');
+        this._div_description = x.makeElement('div');
+        this._div_name = x.makeElement('div');
+        this._div_category = x.makeElement('div');
+        this._div_price = x.makeElement('div');
+        this._div_delete = x.makeElement('div');
+        this._button_delete = x.makeElement('button', ProductItem.rsc().text.button.delete);
 
-        // * Arrange elements:
-        DESCRIPTION.append(this.nameElement,this.categoryElement,this.priceElement);
-        DELETE.append(this.buttonElement);
+        // * Add classes:
+        this._div_description.classList.add(ProductItem.rsc().class.div.description);
+        this._div_name.classList.add(ProductItem.rsc().class.div.name);
+        this._div_category.classList.add(ProductItem.rsc().class.div.category);
+        this._div_price.classList.add(ProductItem.rsc().class.div.price);
+        this._div_delete.classList.add(ProductItem.rsc().class.div.delete);
+        this._div_quantity.classList.add(ProductItem.rsc().class.div.quantity);
+        this._button_delete.setAttribute('class', ProductItem.rsc().class.button.delete);
 
-        // * Construct elements:
-        this.quantityElement.classList.add(attr.class.quantity);
-        this.quantityElement.innerText = this.quantity.toString();
-
-        DESCRIPTION.classList.add(attr.class.description);
-
-        this.nameElement.classList.add(attr.class.name);
-        this.nameElement.innerText = this.name;
-
-        this.categoryElement.classList.add(attr.class.category);
-        this.categoryElement.innerText = ProductBox.niceCategory(this.categoryIndex);
-
-        this.priceElement.classList.add(attr.class.price);
-        this.priceElement.innerText = parseInt(this.price).toFixed(2);
-
-        DELETE.classList.add(attr.class.delete);
-
-        this.buttonElement.classList.add('btn', 'btn-clay', 'fx-3d-clay');
-        this.buttonElement.innerText = 'Fjern';
-        this.buttonElement.addEventListener(
-            ProductItem.btnOnClick(this).type,
-            ProductItem.btnOnClick(this).listener
+        // * Add event listeners:
+        this._button_delete.addEventListener(
+            ProductItem.ev().button_onClick(this).type,
+            ProductItem.ev().button_onClick(this).listener
         );
-
-
-        // * Append child nodes to main node.
-        this.append(this.quantityElement,DESCRIPTION,DELETE);
-
-
-        // * Add event listener.
         this.addEventListener(
-            ProductItem.deleteProductItem(this).type,
-            ProductItem.deleteProductItem(this).listener
+            ProductItem.ev().deleteProductItem().typeArg,
+            ProductItem.ev().deleteProductItem().listener
         );
 
+    }
 
-        // * Set build status.
-        this.hasBeenBuilt = true;
+
+
+
+    /**
+     * Update
+     * */
+    update(){
+
+        // * Update data:
+        this._div_quantity.innerText = this._quantity;
+        this._div_name.innerText = this._name;
+        this._div_category.innerText = this._category;
+        this._div_price.innerText = this._price;
 
     }
 
@@ -222,378 +257,67 @@ export class ProductItem extends HTMLElement {
 
 
     /**
-     * Button on click.
-     *
-     * @static
-     * @description TODO: Write.
-     *
-     * @param {ProductItem} productItem - The object.
+     * Render
      * */
-    static btnOnClick(productItem){
+    render(){
+
+        this._div_description.append(
+            this._div_name,
+            this._div_category,
+            this._div_price
+        );
+
+        this._div_delete.append(this._button_delete);
+
+        this.append(
+            this._div_quantity,
+            this._div_description,
+            this._div_delete
+        );
+
+    }
+
+
+
+
+
+    /**
+     * EventListener
+     * */
+    static ev(){
         return {
-            type: 'click',
-            listener: event => {
+            /**
+             * Button: On Click
+             * @param {ProductItem} productItemObject
+             * */
+            button_onClick: (productItemObject) => {
+                return {
+                    type: 'click',
+                    listener: () => {
 
-                const DELETE_PRODUCT_ITEM = new CustomEvent('deleteProductItem');
-                productItem.dispatchEvent(DELETE_PRODUCT_ITEM);
+                        // * Create event listener.
+                        const ev_deleteProduct = new CustomEvent(ProductItem.rsc().ev.name.delete);
 
-                const SHOPPING_CART = document.querySelector('shopping-cart');
-                const SHOP_BUTTON_BADGE = document.getElementById('shop-button-badge');
-                const UPDATE_CART = new CustomEvent('updateCart');
-                SHOPPING_CART.dispatchEvent(UPDATE_CART);
-                SHOP_BUTTON_BADGE.dispatchEvent(UPDATE_CART);
+                        // * Dispatch event.
+                        productItemObject.dispatchEvent(ev_deleteProduct);
 
+                    },
+                }
             },
-        };
-    }
+            deleteProductItem: () => {
+                return {
+                    typeArg: ProductItem.rsc().ev.name.delete,
+                    listener: event => {
 
+                        // * Remove element from DOM.
+                        event.target.remove();
 
-
-
-    /**
-     * Delete Product Item.
-     *
-     * @static
-     * @description TODO: Write.
-     * */
-    static deleteProductItem(object){
-        return {
-            type: 'deleteProductItem',
-            listener: event => {
-
-                object.buttonElement.removeEventListener(
-                    ProductItem.btnOnClick(object).type,
-                    ProductItem.btnOnClick(object).listener,
-                );
-                object.removeEventListener(
-                    ProductItem.deleteProductItem(object).type,
-                    ProductItem.deleteProductItem(object).listener,
-                );
-                object.remove();
-            }
+                        // * Update shopping cart.
+                        ShoppingCart.updateCart();
+                    }
+                }
+            },
         }
     }
-
-
-
-
-    /**
-     * Harvest Attributes.
-     *
-     * @description TODO: Write.
-     * */
-    harvestAttributes(){
-
-        // * Get all legal attributes.
-        let attr = ProductItem.attr();
-
-        // * Get fallback data.
-        let fb = ProductItem.fallback();
-
-        // * Harvest attributes:
-        this.id = (x.attrDefined(this,attr.id)) ? parseInt(this.getAttribute(attr.id)) : fb.id;
-        this.name = (x.attrDefined(this,attr.name)) ? this.getAttribute(attr.name) : fb.name;
-        this.price = (x.attrDefined(this,attr.price)) ? parseFloat(this.getAttribute(attr.price)) : fb.price;
-        this.categoryIndex = (x.attrDefined(this,attr.categoryIndex)) ? parseInt(this.getAttribute(attr.categoryIndex)) : fb.categoryIndex;
-        this.quantity = (x.attrDefined(this,attr.quantity)) ? parseInt(this.getAttribute(attr.quantity)) : fb.quantity;
-    }
-
-
-
-
-    /**
-     * Get All Attributes.
-     *
-     * @returns {object}
-     * */
-    get getAllAttributes(){
-        this.harvestAttributes();
-        return {
-            id: this.id,
-            name: this.name,
-            price: this.price,
-            categoryIndex: this.categoryIndex,
-            quantity: this.quantity,
-        }
-    }
-
-
-
-
-    /**
-     * Getter: ID
-     *
-     * @returns {number}
-     * */
-    get id(){
-        return this._id;
-    }
-
-
-
-
-    /**
-     * Setter: ID
-     *
-     * @param {number} id - The ID
-     * */
-    set id(id){
-        this._id = id;
-    }
-
-
-
-
-    /**
-     * Getter: Name
-     *
-     * @returns {string}
-     * */
-    get name() {
-        return this._name;
-    }
-
-
-
-
-    /**
-     * Setter: Name
-     *
-     * @param {string} name  - The name
-     * */
-    set name(name) {
-        this._name = name;
-    }
-
-
-
-
-    /**
-     * Getter: Image
-     *
-     * @returns {string}
-     * */
-    get img() {
-        return this._img;
-    }
-
-
-
-
-    /**
-     * Setter: Image
-     *
-     * @param {string} url  - The image URL
-     * */
-    set img(url) {
-        this._img = url;
-    }
-
-
-
-
-    /**
-     * Getter: Price
-     *
-     * @returns {number}
-     * */
-    get price() {
-        return this._price;
-    }
-
-
-
-
-    /**
-     * Setter: Price
-     *
-     * @param {number} value  - The product value.
-     * */
-    set price(value) {
-        this._price = value;
-    }
-
-
-
-
-    /**
-     * Getter: Category index
-     *
-     * @returns {number}
-     * */
-    get categoryIndex() {
-        return this._categoryIndex;
-    }
-
-
-
-
-    /**
-     * Setter: Category index
-     *
-     * @param {number} index  - The index corresponding with
-     * the legal categories defined in this class.
-     *
-     * @see categories
-     * */
-    set categoryIndex(index) {
-        this._categoryIndex = index;
-    }
-
-
-
-
-    /**
-     * Getter: Quantity
-     *
-     * @returns {number}
-     * */
-    get quantity() {
-        return this._quantity;
-    }
-
-
-
-
-    /**
-     * Setter: Quantity
-     *
-     * @param {number} value  - The product value.
-     * */
-    set quantity(value) {
-        this._quantity = value;
-    }
-
-
-
-
-    /**
-     * Getter: Quantity Element.
-     *
-     * @return {HTMLElement}
-     * */
-    get quantityElement(){
-        return this._quantityElement;
-    }
-
-
-
-
-    /**
-     * Setter: Quantity Element.
-     *
-     * @param {HTMLElement} element - An HTML element.
-     * */
-    set quantityElement(element){
-        this._quantityElement = element;
-    }
-
-
-
-
-    /**
-     * Getter: Name Element.
-     *
-     * @return {HTMLElement}
-     * */
-    get nameElement(){
-        return this._nameElement;
-    }
-
-
-
-
-    /**
-     * Setter: Name Element.
-     *
-     * @param {HTMLElement} element - An HTML element.
-     * */
-    set nameElement(element){
-        this._nameElement = element;
-    }
-
-
-
-
-    /**
-     * Getter: Category Element.
-     *
-     * @return {HTMLElement}
-     * */
-    get categoryElement(){
-        return this._categoryElement;
-    }
-
-
-
-
-    /**
-     * Setter: Category Element.
-     *
-     * @param {HTMLElement} element - An HTML element.
-     * */
-    set categoryElement(element){
-        this._categoryElement = element;
-    }
-
-
-
-
-    /**
-     * Getter: Price Element.
-     *
-     * @return {HTMLElement}
-     * */
-    get priceElement(){
-        return this._priceElement;
-    }
-
-
-
-
-    /**
-     * Setter: Price Element.
-     *
-     * @param {HTMLElement} element - An HTML element.
-     * */
-    set priceElement(element){
-        this._priceElement = element;
-    }
-
-
-
-
-    /**
-     * Getter: Button Element.
-     *
-     * @return {HTMLElement}
-     * */
-    get buttonElement(){
-        return this._buttonElement;
-    }
-
-
-
-
-    /**
-     * Setter: Button Element.
-     *
-     * @param {HTMLElement} element - An HTML element.
-     * */
-    set buttonElement(element){
-        this._buttonElement = element;
-    }
-
-
-
-
-    get hasBeenBuilt(){
-        return this._hasBeenBuilt;
-    }
-
-    set hasBeenBuilt(boolean){
-        this._hasBeenBuilt = boolean;
-    }
-
 
 }

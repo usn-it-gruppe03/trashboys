@@ -1,9 +1,13 @@
-<?php
+<?php declare(strict_types=1);
 
-// Import relative root.
-require 'RelativeRoot.php';
 
+/**
+ * Class KeyMaster
+ *
+ * @author Isak K. Hauge
+ */
 class KeyMaster {
+
 
     /**
      * Encrypt.
@@ -17,8 +21,8 @@ class KeyMaster {
 
 
         // Get cipher and key:
-        $cipher = KeyMaster::get_cipher();
-        $key = KeyMaster::get_key();
+        $cipher = self::get_cipher();
+        $key = self::get_key();
 
 
         // Calculate initialization vector length:
@@ -53,13 +57,12 @@ class KeyMaster {
      * @param $data
      * @return string
      */
-    // Declassify data:
     public static function dec(string $data): string {
 
 
         // Get cipher and key:
-        $cipher = KeyMaster::get_cipher();
-        $key = KeyMaster::get_key();
+        $cipher = self::get_cipher();
+        $key = self::get_key();
 
 
         // Decode Base64:
@@ -90,7 +93,7 @@ class KeyMaster {
 
         } else {
 
-            return false;
+            return '';
 
         }
 

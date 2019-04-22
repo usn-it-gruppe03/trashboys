@@ -1,3 +1,7 @@
+import * as x from '../function/global/functions.js';
+import {ProfileBadge} from "./ProfileBadge.js";
+
+
 /**
  * Tab Page
  *
@@ -12,70 +16,20 @@ export class TabPage extends HTMLElement {
      * */
     constructor(){
         super();
-        this.dataCheck();
-        this.populate();
+        this.build();
     }
 
 
 
 
     /**
-     * Element text
-     *
-     * @description This static object contains text that will
-     * be used inside this element.
+     * Connected Callback
      * */
-    static text(){
-        return {
-            header: 'Neste tømmedag',
-            category: 'Kategori:',
-        };
-    }
-
-
-
-
-    /**
-     * Element attributes
-     *
-     * @description This static object contains legal attributes
-     * that will act as constructor parameters.
-     * */
-    static attr(){
-        return {
-            lastDate: 'last-collection-date',
-            nextDate: 'next-collection-date',
-            category: 'waste-category',
-        };
-    }
-
-
-
-
-    /**
-     * Fallback
-     *
-     * @description Dummy data in case attributes are undefined.
-     * */
-    static fallback(){
-        return {
-            date: '2017-10-13',
-            category: 'Partert lik',
-        };
-    }
-
-
-
-
-    /**
-     * Norwegian
-     *
-     * @description Dates in norwegian.
-     * */
-    static norwegian(){
-        return {
-            month: ['Januar','Februar','Mars','April','Mai','Juni','Juli','August','September','Oktober','November','Desember'],
-            weekday: ['Søndag','Mandag','Tirsdag','Onsdag','Torsdag','Fredag','Lørdag'],
+    connectedCallback(){
+        if (this.isConnected){
+            x.componentLoadedMessage(this);
+            this.harvestAttributes();
+            this.update();
         }
     }
 
@@ -83,81 +37,150 @@ export class TabPage extends HTMLElement {
 
 
     /**
-     * Data check
-     *
-     * @description This function process the data gathered through
-     * the HTML attributes.
+     * Observed Attributes
      * */
-    dataCheck(){
+    static get observedAttributes(){
+        return Object.values(
+            TabPage.rsc().attribute
+        );
+    }
 
-        // * Last collection date:
-        // ? If the last collection date attribute is defined.
-        if (this.attrDefined(TabPage.attr().lastDate)){
-            // Get the last collection.
-            this.lastDate = this.getAttribute(TabPage.attr().lastDate);
+
+
+
+    /**
+     * Attribute Change Callback
+     * */
+    attributeChangedCallback(name, oldValue, newValue){
+
+        // * Process new input values.
+        switch (name) {
+            case TabPage.rsc().attribute.category:
+                this._category = (oldValue !== newValue) ? newValue : oldValue;
+                break;
         }
 
-        // * Next collection date:
-        // ? If the next collection date attribute is defined.
-        if (this.attrDefined(TabPage.attr().nextDate)){
-            // Get the next collection date.
-            this.nextDate = this.getAttribute(TabPage.attr().nextDate);
-            // Beautify the next collection date.
-            this.niceDate = TabPage.beautifyDate(this.nextDate);
-        } else this.niceDate = TabPage.beautifyDate(TabPage.fallback().date);
+        // * Update.
+        this.update();
+    }
+
+
+
+
+    /**
+     * Resource
+     * */
+    static rsc(){
+        return {
+            id: {
+                title: 'tab-title',
+                date: 'tab-date',
+                category: 'tab-category'
+            },
+            class: {},
+            attribute: {
+                lastDate: 'last-collection-date',
+                nextDate: 'next-collection-date',
+                category: 'waste-category',
+            },
+            text: {
+                header: 'Neste tømmedag',
+                category: 'Kategori: ',
+            },
+            translation: {
+                norwegian: {
+                    month: ['Januar','Februar','Mars','April','Mai','Juni','Juli','August','September','Oktober','November','Desember'],
+                    weekday: ['Søndag','Måndag','Tysdag','Onsdag','Torsdag','Fredag','Laurdag'],
+                }
+            },
+            fallback: {
+                date: '2017-10-13',
+                category: 'Partert lik',
+            },
+            ajax: {
+                query: (id) => {
+                    return '?id=' + id;
+                },
+                file: 'src/php/ajax/get_collection_date.php',
+            }
+        }
+    }
+
+
+
+
+    /**
+     * Harvest Attributes
+     * */
+    harvestAttributes(){
 
         // * Waste categoryIndex:
         // ? If the waste categoryIndex attribute is defined.
-        if (this.attrDefined(TabPage.attr().category))
-            // Get the waste categoryIndex.
-            this.category = this.getAttribute(TabPage.attr().category);
-        else this.category = TabPage.fallback().category;
+        if (x.attrDefined(this, TabPage.rsc().attribute.category))
+            this._category = this.getAttribute(TabPage.rsc().attribute.category);
+        else this._category = TabPage.fallback().category;
+
     }
 
 
 
 
     /**
-     * Populate
-     *
-     * @description This function populates the element with child
-     * nodes and other content.
+     * Build
      * */
-    populate(){
+    build(){
 
-        // * Init. H2 title element.
-        let head = document.createElement('h2');
-        head.innerText = TabPage.text().header;
-        head.setAttribute('id', 'tab-title');
+        // * Create title element.
+        let title = document.createElement('h2');
+        title.innerText = TabPage.rsc().text.header;
+        title.setAttribute(
+            'id', TabPage.rsc().id.title
+        );
 
-        // * Init. paragraph element.
-        let date = document.createElement('p');
-        date.innerText = this.niceDate;
-        date.setAttribute('id', 'tab-date');
+        // * Create date element.
+        this._p_collectionDate = document.createElement('p');
+        this._p_collectionDate.setAttribute(
+            'id', TabPage.rsc().id.date
+        );
 
-        // * Init. progress bar element.
-        let progress = document.createElement('progress-bar');
+        // * Create progress bar element.
+        this._progressBar = document.createElement('progress-bar');
 
-        // Calculate number of days left.
-        let days = TabPage.daysLeft(this.nextDate);
-
-        // Calculate progress percent.
-        let percent = TabPage.dayPercent(this.lastDate, this.nextDate);
-
-        // Get relative time description.
-        let text = TabPage.relTimeDesc(days);
-
-        // Set attributes.
-        progress.setAttribute('data-text', text);
-        progress.setAttribute('data-percent', percent.toString());
-
-        // * Create paragraph element.
-        let category = document.createElement('p');
-        category.innerText = TabPage.text().category + ' ' + this.category;
-        category.setAttribute('id', 'tab-category');
+        // * Create category element.
+        this._p_category = document.createElement('p');
+        this._p_category.setAttribute('id', 'tab-category');
 
         // * Append child nodes to this object.
-        this.append(head, date, progress, category);
+        this.append(
+            title,
+            this._p_collectionDate,
+            this._progressBar,
+            this._p_category
+        );
+
+        this.getCollectionDate(() => {
+
+            // * Beautify date.
+            this._niceDate = TabPage.beautifyDate(this._collectionDate);
+
+            // * Update collection date.
+            this._p_collectionDate.innerText = this._niceDate;
+
+            // * Update progressbar:
+            // Calculate number of days left.
+            let days = TabPage.daysLeft(this._collectionDate);
+
+            // Calculate progress percent.
+            let percent = TabPage.dayPercent('2019-03-05', this._collectionDate);
+
+            // Get relative time description.
+            let text = TabPage.relTimeDesc(days);
+
+            // Set attributes.
+            this._progressBar.setAttribute('data-text', text);
+            this._progressBar.setAttribute('data-percent', percent.toString());
+
+        });
 
     }
 
@@ -165,21 +188,67 @@ export class TabPage extends HTMLElement {
 
 
     /**
-     * Attribute Defined
-     *
-     * @description This function will return a boolean value in
-     * accordance with the question whether a given attribute
-     * has been defined or not.
-     *
-     * @param {string} attr - The HTML attribute.
-     *
-     * @returns {boolean}
+     * Update
      * */
-    attrDefined(attr){
-        // ? If tis object has the given attribute.
-        if (this.hasAttribute(attr))
-            return this.getAttribute(attr).length > 0;
-        else return false;
+    update(){
+
+        // * Update category.
+        this._p_category.innerText = TabPage.rsc().text.category + this._category;
+
+    }
+
+
+
+
+    /**
+     * Get Collection Date
+     * */
+    getCollectionDate(callback){
+        this.ajax_collectionDate((jsonObject) => {
+
+            switch (this._category) {
+                case 'Våtorganisk avfall':
+                    this._collectionDate = jsonObject[0]['date'];
+                    break;
+                case 'Papp':
+                    this._collectionDate = jsonObject[1]['date'];
+                    break;
+                case 'Restavfall':
+                    this._collectionDate = jsonObject[2]['date'];
+                    break;
+                case 'Plastemballasje':
+                    this._collectionDate = jsonObject[3]['date'];
+                    break;
+                case 'Farleg avfall':
+                    this._collectionDate = jsonObject[4]['date'];
+                    break;
+            }
+
+            callback();
+
+        });
+    }
+
+
+
+
+    /**
+     * AJAX: Get Collection Date
+     * */
+    ajax_collectionDate(callback){
+        const profileBadge = document.querySelector('profile-badge');
+        if (profileBadge !== null) {
+            const id = profileBadge.getAttribute(ProfileBadge.rsc().attribute.id);
+            x.ajaxFetch(
+                TabPage.rsc().ajax.query(id),
+                TabPage.rsc().ajax.file,
+                (rawData) => {
+                    if (x.isJSON(rawData)){
+                        callback(JSON.parse(rawData));
+                    }
+                }
+            );
+        }
     }
 
 
@@ -207,8 +276,8 @@ export class TabPage extends HTMLElement {
         let numOfDay = parseInt(arr_date[2]);
 
         // * Get Norwegian weekday and month:
-        let month = TabPage.norwegian().month[numOfMonth - 1];
-        let weekday = TabPage.norwegian().weekday[new Date(date).getDay()];
+        let month = TabPage.rsc().translation.norwegian.month[numOfMonth - 1];
+        let weekday = TabPage.rsc().translation.norwegian.weekday[new Date(date).getDay()];
 
         // * Return the beautified date.
         return weekday + ' ' + numOfDay + '. ' + month;

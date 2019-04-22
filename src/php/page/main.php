@@ -1,20 +1,7 @@
 <?php
-    include_once 'src/php/class/User.php';
-    $user = new User();
-    /*$street = User::get_street_name();
-    $house_number = User::get_house_number();
-    $mysql = DB::mysqli();
-    $collection_date = null;
 
-    print_r($mysql);
-    echo $street;
-    echo $house_number;
-
-    $sql = 'SET @routeIDtemp = -1; select DISTINCT route_ID INTO  @routeIDtemp from `Address` where `name` = "'.$street.'" AND `house_number` = '.$house_number.'; select `name`, `date` from `Waste_Collection` as WC, `Waste_Category` AS WCAT where route_ID = @routeIDtemp AND WC.waste_ID = WCAT.ID;';
-    $res = $mysql->multi_query($sql) or die($mysql->error);
-    while ($row = $res->fetch_all(MYSQLI_ASSOC)){
-        print_r($row);
-    }*/
+    include 'src/php/function/global/functions.php';
+    echof($_SESSION);
 
     $first_name     = User::get_first_name();
     $last_name      = User::get_last_name();
@@ -33,17 +20,20 @@
                 <div class="p-1 w-100">
                     <profile-badge
                             badge-image="src/media/img/demo/stock_profile_img.png"
-                            badge-name="<?php echo (User::get_full_name());?>"
-                            badge-address="<?php echo (User::get_full_address());?>"></profile-badge>
+                            badge-id="<?php echo $_SESSION['id'] ?>"
+                            badge-name="<?php echo $_SESSION['full_name'] ?>"
+                            badge-address="<?php echo $_SESSION['full_address'] ?>"></profile-badge>
 
-                    <tab-page id="tab-1" last-collection-date="2019-04-01" next-collection-date="2019-04-05" waste-category="Plastemballasje"></tab-page>
-                    <tab-page id="tab-2" last-collection-date="2019-04-01" next-collection-date="2019-04-10" waste-category="Restavfall" data-visible="false"></tab-page>
-                    <tab-page id="tab-3" last-collection-date="2019-04-01" next-collection-date="2019-04-31" waste-category="Våtorganisk avfall" data-visible="false"></tab-page>
-                    <tab-page id="tab-4" last-collection-date="2019-04-01" next-collection-date="2019-04-05" waste-category="Papp" data-visible="false"></tab-page>
-                    <tab-page id="tab-5" last-collection-date="2019-04-01" next-collection-date="2019-05-17" waste-category="Farleg avfall" data-visible="false"></tab-page>
+                    <tab-page id="tab-1" waste-category="Våtorganisk avfall"></tab-page>
+                    <tab-page id="tab-2" waste-category="Papp" data-visible="false"></tab-page>
+                    <tab-page id="tab-3" waste-category="Restavfall" data-visible="false"></tab-page>
+                    <tab-page id="tab-4" waste-category="Plastemballasje" data-visible="false"></tab-page>
+                    <tab-page id="tab-5" waste-category="Farleg avfall" data-visible="false"></tab-page>
                 </div>
 
-                <tab-container data-tab-names="Plast;Rest;Mat;Papp;Farleg" data-tab-targets="tab-1;tab-2;tab-3;tab-4;tab-5"></tab-container>
+                <tab-container
+                        data-tab-names="Mat;Papp;Rest;Plast;Farleg"
+                        data-tab-targets="tab-1;tab-2;tab-3;tab-4;tab-5"></tab-container>
             </div>
         </div>
     </section>
@@ -70,29 +60,7 @@
             </div>
             <div class="card card-white">
                 <h2>Tilgjengelege artiklar</h2>
-                <div class="row">
-
-                    <div class="col text-center flex-column-center-center mt-2">
-                        <product-box product-id="1" data-name="Pose Organisk 5L 40stk" data-img="src/media/img/demo/pose_bio.jpg" data-price="249.99" data-category="1"></product-box>
-                    </div>
-
-                    <div class="col text-center flex-column-center-center mt-2">
-                        <product-box product-id="2" data-name="Boks med hjul" data-img="src/media/img/demo/bin.jpg" data-price="599.99" data-category="2"></product-box>
-                    </div>
-
-                    <div class="col text-center flex-column-center-center mt-2">
-                        <product-box product-id="3" data-name="Pose 10L 60stk" data-img="src/media/img/demo/pose_bio.jpg" data-price="349.99" data-category="3"></product-box>
-                    </div>
-
-                    <div class="col text-center flex-column-center-center mt-2">
-                        <product-box product-id="4" data-name="Pose 90L 40stk" data-img="src/media/img/demo/pose_bio.jpg" data-price="349.99" data-category="4"></product-box>
-                    </div>
-
-                    <div class="col text-center flex-column-center-center mt-2">
-                        <product-box product-id="5" data-name="Spesialboks 10L" data-img="src/media/img/demo/boks_farlig.png" data-price="699.99" data-category="5"></product-box>
-                    </div>
-
-                </div>
+                <product-box-container></product-box-container>
             </div>
             <div class="card card-white mt-2">
                 <h2 class="text-center mb-2">Handlekurv</h2>
@@ -230,7 +198,10 @@
 <!-- Menu: -->
 <section class="pos-fixed-bottom p-0">
     <div class="container">
-        <menu-bar></menu-bar>
+        <menu-bar
+            data-target-home="page-home"
+            data-target-shop="page-shop"
+            data-target-settings="page-settings"></menu-bar>
     </div>
 </section>
 

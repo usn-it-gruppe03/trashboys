@@ -1,49 +1,137 @@
+import * as x from '../function/global/functions.js';
+
+
+/**
+ * ProgressBar
+ *
+ * @author Isak K. Hauge
+ * */
 export class ProgressBar extends HTMLElement {
 
+
+    /**
+     * Constructor
+     * */
     constructor(){
         super();
-        this.check();
-        this.populate();
+        this.build();
     }
 
-    static attr(){
+
+
+
+    /**
+     * Resource
+     * */
+    static rsc(){
         return {
-            percent: 'data-percent',
-            days: 'data-text',
+            id: {},
+            class: {},
+            attribute: {
+                percent: 'data-percent',
+                text: 'data-text',
+            },
+            text: {},
         };
     }
 
-    check(){
 
-        // * Check if attributes are defined:
-        let percentDefined = (this.attrDefined(ProgressBar.attr().percent));
-        let daysDefined = (this.attrDefined(ProgressBar.attr().days));
 
-        // * Set object attributes:
-        this.percent = percentDefined ? this.getAttribute(ProgressBar.attr().percent) : 0;
-        this.text = daysDefined ? this.getAttribute(ProgressBar.attr().days) : 0;
+
+    /**
+     * Connected Callback
+     * */
+    connectedCallback(){
+        if (this.isConnected){
+            x.componentLoadedMessage(this);
+            this.harvestAttributes();
+            this.update();
+        }
     }
 
-    populate(){
 
-        // * Init. elements:
-        let bar = document.createElement('div');
-        let text = document.createElement('p');
+
+
+    /**
+     * Observed Attributes
+     * @static
+     * */
+    static get observedAttributes(){
+        return Object.values(ProgressBar.rsc().attribute);
+    }
+
+
+
+
+    /**
+     * Attribute Changed Callback
+     * */
+    attributeChangedCallback(attributeName, oldValue, newValue){
+
+        // * Process new input value.
+        switch (attributeName) {
+            case ProgressBar.rsc().attribute.percent:
+                this._percent = (oldValue !== newValue) ? newValue : oldValue;
+                break;
+            case ProgressBar.rsc().attribute.text:
+                this._text = (oldValue !== newValue) ? newValue : oldValue;
+                break;
+        }
+
+        // * Update.
+        this.update();
+
+    }
+
+
+
+
+    /**
+     * Harvest Attributes
+     * */
+    harvestAttributes() {
+
+        // ? If percent attribute is defined.
+        if (x.attrDefined(this, ProgressBar.rsc().attribute.percent))
+            this._percent = this.getAttribute(ProgressBar.rsc().attribute.percent);
+        else this._percent = 0;
+
+        // ? If text attribute is defined.
+        if (x.attrDefined(this, ProgressBar.rsc().attribute.text))
+            this._text = this.getAttribute(ProgressBar.rsc().attribute.text);
+        else this._text = 'No data given';
+    }
+
+
+
+
+    /**
+     * Build
+     * */
+    build(){
+
+        // * Create elements:
+        this._div_bar = document.createElement('div');
+        this._p_text = document.createElement('p');
+
+        // * Append.
+        this.append(this._div_bar, this._p_text);
+    }
+
+
+
+
+    /**
+     * Update
+     * */
+    update(){
 
         // * Init. the inner text:
-        text.innerText = this.text;
+        this._p_text.innerText = this._text;
 
         // * Set the progress bar's width.
-        bar.style.width = (this.percent * 100) + '%';
+        this._div_bar.style.width = (this._percent * 100) + '%';
 
-        // * Append nodes to main this object.
-        this.append(bar, text);
-    }
-
-    attrDefined(attr){
-        if (this.hasAttribute(attr))
-            return this.getAttribute(attr).length > 0;
-        else return false;
     }
 
 }

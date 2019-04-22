@@ -9,6 +9,7 @@ import {ShoppingCart} from "../../class/ShoppingCart.js";
 import {ProductItem} from "../../class/ProductItem.js";
 import {ToggleSwitch} from "../../class/ToggleSwitch.js";
 import * as x from "../../function/global/functions.js";
+import {ProductBoxContainer} from "../../class/ProductBoxContainer.js";
 
 
 function window_onLoad() {
@@ -26,27 +27,23 @@ function window_onLoad() {
     customElements.define('shopping-cart', ShoppingCart);
     customElements.define('product-item', ProductItem);
     customElements.define('toggle-switch', ToggleSwitch);
+    customElements.define('product-box-container', ProductBoxContainer);
 
     // TODO: HTML elements (constants).
     const button_orderBags = document.getElementById('order-bags');
-    button_orderBags.onclick = event => {
-        const pageHome = document.getElementById('page-home');
-        const pageShop = document.getElementById('page-shop');
-        const pageSettings = document.getElementById('page-settings');
-        const menuHome = document.getElementById('menu-home');
-        const menuShop = document.getElementById('menu-shop');
-        const menuSettings = document.getElementById('menu-settings');
-        x.showNode(pageHome, false);
-        x.showNode(pageShop, true);
-        x.showNode(pageSettings, false);
-        x.setState(menuHome, 'inactive');
-        x.setState(menuShop, 'active');
-        x.setState(menuSettings, 'inactive');
-    };
+    const menuButton_shop = document.getElementById('menu-shop');
 
     // TODO: Define event listener functions.
+    function click_menuButton_shop(){
+        menuButton_shop.click();
+    }
 
-    // TODO: Invoke event listeners.
+    // TODO: Apply event listeners.
+    button_orderBags.onclick = click_menuButton_shop;
+
+    // TODO: Define functions.
+
+    // TODO: Invoke functions.
 
 }
 
