@@ -9,6 +9,8 @@
     $street_name    = User::get_street_name();
     $street_number  = User::get_street_number();
     $house_letter   = User::get_house_letter();
+    $zip_code       = User::get_zip_code();
+    $postal_location= User::get_postal_location();
 
 ?>
 <!-- Page: Home -->
