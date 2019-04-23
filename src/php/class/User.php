@@ -122,7 +122,7 @@
 			$this->address_ID 	= $rowId["address_ID"]; #Use this for finding the users address.
 			#echo $this->id;
 
-			$sqlCheck3 	= "SELECT `name`, house_number, letter FROM `Address` WHERE ID = '$this->address_ID'";
+			$sqlCheck3 	= "SELECT `name`, house_number, letter, zip_code, postal_location FROM `Address` WHERE ID = '$this->address_ID'";
 			$result3 	= $this->mysqli->query($sqlCheck3) or die($this->mysqli->error);
 			$rowId3 	= $result3->fetch_assoc();
 
@@ -130,6 +130,8 @@
 			$this->street_number 	= $rowId3["house_number"];
 			$this->house_letter 	= $rowId3["letter"];
 			$this->full_address 	= $rowId3["name"] . " " . $rowId3["house_number"] . " " . $rowId3["letter"];
+			$this->zip_code 		= $rowId3["zip_code"];
+			$this->postal_location 	= $rowId3["postal_location"];
 
 			$user_data = $result->fetch_assoc();
 			$count_row = $result->num_rows;
