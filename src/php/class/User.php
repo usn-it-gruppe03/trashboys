@@ -208,13 +208,35 @@
 			$initialStmt -> execute() &&
 			$initialStmt -> store_result() &&
 			$initialStmt -> bind_result($address_id)) {
-		##################################################################################################################################	
+	######################################################################################################################################	
 		 	$initialStmt -> fetch();
 
 			$sql  = "UPDATE `User` SET first_name = ?, last_name = ?, email = ?, address_ID = '$address_id' WHERE ID = ?;";	 	
 			$stmt2 = $this->mysqli->prepare($sql);
 			$stmt2->bind_param('ssss', $fname, $lname, $email, $id);
 			$stmt2->execute();
+
+			$sql_session 	 = "SELECT `name`, house_number, letter, zip_code, postal_location FROM `Address` WHERE ID = '$address_id'";
+			$result_session  = $this->mysqli->query($sql_session) or die($this->mysqli->error);
+			$row_id_session	 = $result_session->fetch_assoc();
+
+			
+			$sql_session2 	 = "SELECT first_name, last_name, email FROM `User` WHERE ID = '$id'";
+			$result_session2 = $this->mysqli->query($sql_session2) or die($this->mysqli->error);
+			$row_id_session2 = $result_session2->fetch_assoc();
+
+			$this->first_name 		= $row_id_session2["first_name"];
+			$this->last_name 		= $row_id_session2["last_name"];
+			$this->email 			= $row_id_session2["email"];
+			$this->full_name 		= $row_id_session2["first_name"] . " " . $row_id_session2["last_name"];
+	######################################################################################################################################
+			$this->street_name 		= $row_id_session["name"];
+			$this->street_number 	= $row_id_session["house_number"];
+			$this->house_letter 	= $row_id_session["letter"];
+			$this->full_address 	= $row_id_session["name"] . " " . $row_id_session["house_number"] . " " . $row_id_session["letter"];
+			$this->zip_code 		= $row_id_session["zip_code"]; 
+			$this->postal_location 	= $row_id_session["postal_location"];
+			$this->update_session_variables($this);
 
 		 	return true;
 		}else {
