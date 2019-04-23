@@ -1,5 +1,6 @@
 import {ProductItem} from "./ProductItem.js";
 import * as x from '../function/global/functions.js';
+import {ProfileBadge} from "./ProfileBadge.js";
 
 
 /**
@@ -233,11 +234,14 @@ export class ShoppingCart extends HTMLElement {
                         // ! DEBUGGING:
                         x.eventDispatchMessage(event);
 
+                        const userID = ShoppingCart.getUserID();
+
                         let jsonArray = [];
                         const productArray = ShoppingCart.getProducts();
                         for (let i=0; i<productArray.length; i++){
                             const data = ShoppingCart.getProductData(productArray[i]);
                             jsonArray.push({
+                                user: userID,
                                 id: data.id,
                                 quantity: data.quantity
                             });
@@ -247,7 +251,7 @@ export class ShoppingCart extends HTMLElement {
                             jsonArray,
                             ShoppingCart.rsc().ajax.sendOrder.file,
                             (responseText) => {
-                                console.table(JSON.parse(responseText));
+                                x.cout(responseText, 'danger');
                             }
                         );
 
@@ -435,6 +439,17 @@ export class ShoppingCart extends HTMLElement {
                 return elem;
             }
         }
+    }
+
+
+
+
+    /**
+     * Get User ID
+     * */
+    static getUserID(){
+        const profileBadge = document.querySelector('profile-badge');
+        return profileBadge.getAttribute(ProfileBadge.rsc().attribute.id);
     }
 
 }
