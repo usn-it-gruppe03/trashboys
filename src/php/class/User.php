@@ -107,7 +107,7 @@
 			$sqlCheck 	= "SELECT ID FROM `User` WHERE ID = '$id'"; 
 			$result 	= $this->mysqli->query($sqlCheck) or die($this->mysqli->error);
 
-			$sqlCheck2 	= "SELECT ID, first_name, last_name, address_ID FROM `User` WHERE ID = '$id'";
+			$sqlCheck2 	= "SELECT ID, first_name, last_name, email, address_ID FROM `User` WHERE ID = '$id'";
 			$result2 	= $this->mysqli->query($sqlCheck2) or die($this->mysqli->error);
 			$rowId 		= $result2->fetch_assoc();
 
