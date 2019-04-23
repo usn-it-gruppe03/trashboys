@@ -248,6 +248,36 @@
 	public static function salt($length) {
 		return bin2hex(random_bytes($length));
 	}
+/*============================================================================================================================================================================*/
+	public function session_variables($obj) {
+		$_SESSION['login'] 			= true; 
+        $_SESSION['id'] 			= $obj->id;
+        $_SESSION['full_name'] 		= $obj->full_name;
+        $_SESSION['full_address'] 	= $obj->full_address;
+	#######################################################
+        $_SESSION['first_name'] 	= $obj->first_name;
+        $_SESSION['last_name'] 		= $obj->last_name;
+        $_SESSION['email'] 			= $obj->email;
+        $_SESSION['street_name'] 	= $obj->street_name;
+        $_SESSION['street_number'] 	= $obj->street_number;
+        $_SESSION['house_letter'] 	= $obj->house_letter;
+        $_SESSION['zip_code']	 	= $obj->zip_code; #endring her
+        $_SESSION['postal_location']= $obj->postal_location; #endring her
+	}
+/*============================================================================================================================================================================*/
+	public function update_session_variables($obj) {
+        $_SESSION['full_name'] 		= $obj->full_name;
+        $_SESSION['full_address'] 	= $obj->full_address;
+	#######################################################
+        $_SESSION['first_name'] 	= $obj->first_name;
+        $_SESSION['last_name'] 		= $obj->last_name;
+        $_SESSION['email'] 			= $obj->email;
+        $_SESSION['street_name'] 	= $obj->street_name;
+        $_SESSION['street_number'] 	= $obj->street_number;
+        $_SESSION['house_letter'] 	= $obj->house_letter;
+        $_SESSION['zip_code']	 	= $obj->zip_code;
+        $_SESSION['postal_location']= $obj->postal_location;
+	}
 /*============================================================================================================================================================================*/	
 	/*** starting the session ***/
 	public static function get_session(){
