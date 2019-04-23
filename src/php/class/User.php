@@ -148,6 +148,8 @@
 	            $_SESSION['street_name'] 	= $this->street_name;
 	            $_SESSION['street_number'] 	= $this->street_number;
 	            $_SESSION['house_letter'] 	= $this->house_letter;
+	            $_SESSION['zip_code']	 	= $this->zip_code;
+	            $_SESSION['postal_location']= $this->postal_location;
 	            return true;
 	        }else {
 				return false;
