@@ -15,6 +15,8 @@
 		private $house_number;
 		private $house_letter;
 		private $full_address;
+		private $zip_code;
+		private $postal_location;
 
 		public function __construct(){
 			$this->mysqli = DB::mysqli();
