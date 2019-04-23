@@ -137,19 +137,7 @@
 			$count_row = $result->num_rows;
 
 			if ($count_row == 1) {
-	            $_SESSION['login'] = true; 
-	            $_SESSION['id'] 			= $this->id;
-	            $_SESSION['full_name'] 		= $this->full_name;
-	            $_SESSION['full_address'] 	= $this->full_address;
-            #######################################################
-	            $_SESSION['first_name'] 	= $this->first_name;
-	            $_SESSION['last_name'] 		= $this->last_name;
-	            $_SESSION['email'] 			= $this->email;
-	            $_SESSION['street_name'] 	= $this->street_name;
-	            $_SESSION['street_number'] 	= $this->street_number;
-	            $_SESSION['house_letter'] 	= $this->house_letter;
-	            $_SESSION['zip_code']	 	= $this->zip_code;
-	            $_SESSION['postal_location']= $this->postal_location;
+	            $this->session_variables($this);
 	            return true;
 	        }else {
 				return false;
