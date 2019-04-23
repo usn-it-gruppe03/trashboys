@@ -169,13 +169,13 @@
                         <div class="col">
                             <div class="form-group">
                                 <label for="zip">Postnummer</label>
-                                <input type="text" id="zip" name="zip" class="input input-flat" placeholder="Postnummer" disabled>
+                                <input type="text" id="zip" name="zip" class="input input-flat" value="<?php echo($zip_code)?>" disabled>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
                                 <label for="area">Poststad</label>
-                                <input type="text" id="area" name="area" class="input input-flat" placeholder="Poststad" disabled>
+                                <input type="text" id="area" name="area" class="input input-flat" value="<?php echo($postal_location)?>" disabled>
                             </div>
                         </div>
                     </div>
