@@ -449,7 +449,9 @@ export class ShoppingCart extends HTMLElement {
      * */
     static getUserID(){
         const profileBadge = document.querySelector('profile-badge');
-        return profileBadge.getAttribute(ProfileBadge.rsc().attribute.id);
+        return parseInt(
+            profileBadge.getAttribute(ProfileBadge.rsc().attribute.id)
+        );
     }
 
 }
