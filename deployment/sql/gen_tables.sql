@@ -101,19 +101,6 @@ CREATE TABLE `Waste_Category` (
     PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_danish_ci;
 
-
-DROP TABLE IF EXISTS `Product`;
-CREATE TABLE `Product` (
-    `ID` int(11) NOT NULL AUTO_INCREMENT,
-    `waste_category_ID` TINYINT NOT NULL,
-    `name` varchar(45) NOT NULL,
-    `price` decimal(8,2) NOT NULL,
-
-    PRIMARY KEY (`ID`),
-    FOREIGN KEY (`waste_category_ID`) REFERENCES `Waste_Category` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_danish_ci;
-
-
 DROP TABLE IF EXISTS `Waste_Collection`;
 CREATE TABLE `Waste_Collection` (
     `ID` int(11) NOT NULL AUTO_INCREMENT,
@@ -125,4 +112,30 @@ CREATE TABLE `Waste_Collection` (
     FOREIGN KEY (`route_ID`) REFERENCES `Route` (`ID`),
     FOREIGN KEY (`waste_ID`) REFERENCES `Waste_Category` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_danish_ci;
+
+DROP TABLE IF EXISTS `Product`;
+CREATE TABLE `Product` (
+    `ID` int(11) NOT NULL AUTO_INCREMENT,
+    `waste_category_ID` INT(11) NOT NULL,
+    `name` varchar(45) NOT NULL,
+    `price` decimal(8,2) NOT NULL,
+
+    PRIMARY KEY (`ID`),
+    FOREIGN KEY (`waste_category_ID`) REFERENCES `Waste_Category` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_danish_ci;
+
+
+DROP TABLE IF EXISTS `Cookies`;
+CREATE TABLE `Cookies` (
+    `ID` int(11) NOT NULL AUTO_INCREMENT,
+    `user_ID` INT(11) NOT NULL,
+    `identifier` varchar(255) NOT NULL,
+    `securitytoken` varchar(255) NOT NULL,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (`ID`),
+    FOREIGN KEY (`user_ID`) REFERENCES `User` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_danish_ci;
+
+SET FOREIGN_KEY_CHECKS = 1;
 
