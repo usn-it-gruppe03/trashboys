@@ -227,4 +227,18 @@ export class ProfileBadge extends HTMLElement {
 
 
 
+
+    /**
+     * Get User ID
+     * @static
+     * */
+    static getUserID(){
+        const profileBadge = document.querySelector('profile-badge');
+        return parseInt(
+            profileBadge.getAttribute(ProfileBadge.rsc().attribute.id)
+        );
+    }
+
+
+
 }

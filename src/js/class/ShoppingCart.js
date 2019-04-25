@@ -234,7 +234,7 @@ export class ShoppingCart extends HTMLElement {
                         // ! DEBUGGING:
                         x.eventDispatchMessage(event);
 
-                        const userID = ShoppingCart.getUserID();
+                        const userID = ProfileBadge.getUserID();
 
                         let jsonArray = [];
                         const productArray = ShoppingCart.getProducts();
@@ -439,19 +439,6 @@ export class ShoppingCart extends HTMLElement {
                 return elem;
             }
         }
-    }
-
-
-
-
-    /**
-     * Get User ID
-     * */
-    static getUserID(){
-        const profileBadge = document.querySelector('profile-badge');
-        return parseInt(
-            profileBadge.getAttribute(ProfileBadge.rsc().attribute.id)
-        );
     }
 
 }

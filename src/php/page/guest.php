@@ -8,12 +8,12 @@
 </section>
 <section>
     <div class="container">
-        <div id="map" class="card card-white"></div>
-    </div>
-</section>
-<section>
-    <div class="container">
         <form action="">
+            <div class="row">
+                <div class="col">
+                    <div id="map" class="card card-white" data-visible="true"></div>
+                </div>
+            </div>
             <div class="row">
                 <div class="col">
                     <div class="form-group">
@@ -40,6 +40,11 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col">
+                    <button class="btn btn-clay">Sjå tømmedatoar</button>
+                </div>
+            </div>
         </form>
     </div>
 </section>
@@ -58,34 +63,132 @@
 </style>
 <script>
 
-    var inLat;
-    var inLng;
-    var inLatLng;
-    var map;
 
+    /*function initMap(){
 
-    navigator.geolocation.getCurrentPosition(function(location) {
-        inLat = location.coords.latitude;
-        inLng = location.coords.longitude;
-    });
+        console.log('Init maps function invoked');
+
+        const spawnElement = document.getElementById('map');
+
+        const object = {
+            map: new google.maps.Map(spawnElement, initialConfig),
+            geocoder: new google.maps.Geocoder,
+            infowindow: new google.maps.InfoWindow,
+            coordinate: {lat: null, lng: null},
+            address: {street: '', number: '', letter: ''},
+        };
+
+        createGoogleMap(spawnElement, object, () => {
+            onReady(object, () => {
+                getCoordinates(object, () => {
+                    geocodeCoordinates(object, () => {
+                        createInfoWindow(object, () => {});
+                    });
+                });
+            });
+        });
+
+    }
+
+    function createGoogleMap(spawnElement, object, callback){
+
+        // Init. map config. object.
+        const initialConfig = {
+            zoom: 16,
+            center: {lat: 59.411844, lng: 9.069492},
+        };
+
+        // Invoke the callback function.
+        callback(object);
+
+    }
+
+    function onReady(object, callback) {
+        google.maps.event.addListenerOnce(map, 'idle', () => {
+            callback(object);
+        });
+    }
+
+    function getCoordinates(object, callback){
+        window.navigator.geolocation.getCurrentPosition( function(location){
+            object.coordinate.lat = location.coords.latitude;
+            object.coordinate.lng = location.coords.longitude;
+            callback(object);
+        });
+    }
+
+    function geocodeCoordinates(object, callback) {
+
+        object.map.setCenter(coordinate);
+
+        object.geocoder.geocode({'location', object.coordinate}, function (result, status) {
+            if (status === 'OK') {
+                if (result[0]){
+
+                    const addressComponents = addressToComponents(result[0].formatted_address);
+
+                    callback(object);
+
+                } else {
+                    window.alert('No results found');
+                }
+            } else {
+                window.alert('Geocoder failed due to: ' + status);
+            }
+        });
+    }
+
+    function createInfoWindow(object){
+
+        const marker = new google.maps.Marker({
+            position: object.coordinate,
+            map: object.map
+        });
+
+        object.infowindow.setContent('<h1>Hello</h1>');
+
+    }
+
+    function addressToComponents(rawAddress){
+
+        const regex = new RegExp('(^.+?)(?=\,{1})');
+        const address = rawAddress.match(regex)[0];
+        const component = address.split(' ');
+
+        return {
+            street: (component.length > 0) ? component[0] : '',
+            number: (component.length > 1) ? component[1] : '',
+            letter: (component.length > 2) ? component[2] : ''
+        }
+
+    }*/
+
 
     function initMap() {
+
+        // * Init. Google Map.
         map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 16,
+            zoom: 1,
             center: {lat: 59.411844, lng: 9.069492}
         });
-        var geocoder = new google.maps.Geocoder;
-        var infowindow = new google.maps.InfoWindow;
 
-        window.addEventListener('load', function() {
+        // * Init. Geo Coder.
+        const geocoder = new google.maps.Geocoder;
+
+        // * Init. Info Window.
+        const infowindow = new google.maps.InfoWindow;
+
+        // * Add event listener.
+        google.maps.event.addListenerOnce(map, 'idle', function(){
             geocodeLatLng(geocoder, map, infowindow);
         });
+
     }
 
     function geocodeLatLng(geocoder, map, infowindow) {
 
-        var latlng = {lat: inLat, lng: inLng};
-        map.setCenter(new google.maps.LatLng(inLat, inLng));
+        var latlng = {lat: 59.411844, lng: 9.069492};
+        map.setCenter(latlng);
 
         geocoder.geocode({'location': latlng}, function(results, status) {
             if (status === 'OK') {
@@ -129,10 +232,5 @@
         input_number.value = houseNumber;
 
     }
-
 </script>
-
-
-<script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC_EHwnT0KkbVII_FK5y7fxazu_WfLTJBU&callback=initMap">
-</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC_EHwnT0KkbVII_FK5y7fxazu_WfLTJBU&callback=initMap"></script>

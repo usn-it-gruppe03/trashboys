@@ -32,7 +32,7 @@
         $fp_camera = "camera 'none';";
         $fp_encrypted_media = "encrypted-media 'none';";
         $fp_fullscreen = "fullscreen 'none';";
-        $fp_geolocation = "geolocation 'self';";
+        $fp_geolocation = "geolocation 'self' https://maps.googleapis.com https://maps.gstatic.com;";
         $fp_gyroscope = "gyroscope 'self';";
         $fp_magnetometer = "magnetometer 'self';";
         $fp_microphone = "microphone 'none';";
