@@ -57,7 +57,11 @@ if (isset($_GET['p'])) {
             break;
 
         case 'admin_dashboard':
-            require_once $page . 'admin_dashboard.php';
+            if ($user -> is_checked_in() && $user -> is_admin()) {
+                require_once $page . 'admin_dashboard.php';
+            }else {
+                require_once $page . '404.php';   
+            }
             break;
 
         default:
