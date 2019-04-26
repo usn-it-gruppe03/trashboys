@@ -279,7 +279,27 @@
         $_SESSION['zip_code']	 	= $obj->zip_code;
         $_SESSION['postal_location']= $obj->postal_location;
 	}
+/*============================================================================================================================================================================*/
+	/**
+	 * Returns true if user is admin, else false
+	 */
+	function is_admin() {
+		$user_id 	= $this->get_sessionId();
+		$sql 		= "SELECT user_type_ID FROM `User` WHERE ID = ? ";
+        $select 	= $this->mysqli->prepare($sql);
 
+        $select 	-> bind_param('s', $user_id);
+        $select 	-> execute();
+        $select 	-> store_result();
+        $select 	-> bind_result($user_type_id);
+        $select 	-> fetch();
+
+        if ($user_type_id === 1) {
+        	return true;
+        }else {
+        	return false;
+        }
+	}
 /*============================================================================================================================================================================*/
 /**
  * Returns true when the user is checked in, else false
