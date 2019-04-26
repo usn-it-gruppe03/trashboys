@@ -280,6 +280,75 @@
         $_SESSION['postal_location']= $obj->postal_location;
 	}
 /*============================================================================================================================================================================*/
+	public function create_cookie() {
+		$identifier     = $this->random_string(32);
+        $securitytoken  = '$this->random_string(32)';
+        $user_id        = $this->get_sessionId();
+        $securitytoken  = hash('sha512', $securitytoken);
+
+        $cookie_sql     = "INSERT INTO Cookies (user_ID, identifier, securitytoken) VALUES (?, ?, ?)";
+        $insert         = $this->mysqli->prepare($cookie_sql);
+        $insert->bind_param('sss', $user_id, $identifier, $securitytoken);
+        $insert->execute();
+        setcookie("identifier",$identifier,time()+(3600*24*365), "/"); //Valid for 1 year
+        setcookie("securitytoken",$securitytoken,time()+(3600*24*365), "/"); //Valid for 1 year
+	}
+/*============================================================================================================================================================================*/
+	public function check_user() {
+	
+		if(isset($_COOKIE['identifier']) && isset($_COOKIE['securitytoken'])) {
+			$identifier 	= $_COOKIE['identifier'];
+			$cookie_token 	= $_COOKIE['securitytoken'];
+			$sql 			= "SELECT user_ID, securitytoken FROM Cookies WHERE identifier = ?";
+			$stmt 			= $this->mysqli->prepare($sql);
+
+			$stmt -> bind_param('s', $identifier);
+			$stmt -> execute();
+			$stmt -> store_result();
+			$stmt -> bind_result($user_id, $securitytoken_row);
+			$stmt -> fetch();
+		
+			if($cookie_token !== $securitytoken_row) {
+				#Obviously, the Security Token is stolen.
+				
+			}else { //Token is correct
+				//Log the user in
+				$_SESSION['id'] = $user_id;
+				//If session gets deleted, re-insert the session variables.
+				$select_from_user = "SELECT first_name, last_name, email, address_ID FROM `User` WHERE ID = ?";
+				$stmt 			  = $this->mysqli->prepare($select_from_user);
+				$stmt -> bind_param('s', $user_id);
+				$stmt -> execute();
+				$stmt -> store_result();
+				$stmt -> bind_result($first_name, $last_name, $email, $address_id);
+				$stmt -> fetch();
+				$full_name = $first_name . ' ' . $last_name;
+				###############################################################################################################################
+				$select_from_address = "SELECT `name`, house_number, letter, zip_code, postal_location FROM `Address` WHERE ID = ?";
+				$stmt2 			  	 = $this->mysqli->prepare($select_from_address);
+				$stmt2 -> bind_param('s', $address_id);
+				$stmt2 -> execute();
+				$stmt2 -> store_result();
+				$stmt2 -> bind_result($street_name, $house_number, $house_letter, $zip_code, $postal_location);
+				$stmt2 -> fetch();
+				$full_address = $street_name . " " . $house_number . " " . $house_letter;
+
+				###############################################################################################################################
+		        $_SESSION['full_name'] 		= $full_name;
+		        $_SESSION['full_address'] 	= $full_address;
+				#######################################################
+		        $_SESSION['first_name'] 	= $first_name;
+		        $_SESSION['last_name'] 		= $last_name;
+		        $_SESSION['email'] 			= $email;
+		        $_SESSION['street_name'] 	= $street_name;
+		        $_SESSION['street_number'] 	= $house_number;
+		        $_SESSION['house_letter'] 	= $house_letter;
+		        $_SESSION['zip_code']	 	= $zip_code;
+		        $_SESSION['postal_location']= $postal_location;
+			}
+		}
+	}
+/*============================================================================================================================================================================*/	
 	/**
 	 * Returns true if user is admin, else false
 	 */
