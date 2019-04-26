@@ -41,7 +41,11 @@ if (isset($_GET['p'])) {
             break;
 
         case 'main':
-            require_once $page . 'main.php';
+            if ($user->is_checked_in()) {
+                require_once $page . 'main.php';
+            }else {
+                require_once $page . '404.php';
+            }
             break;
 
         case 'typo':
