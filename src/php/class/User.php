@@ -441,5 +441,9 @@
 	    $_SESSION['login'] = FALSE;
 		unset($_SESSION);
 	    session_destroy();
+
+	    //Remove Cookies
+		setcookie("identifier","",time()-(3600*24*365), "/"); 
+		setcookie("securitytoken","",time()-(3600*24*365), "/");
     }
 } #END OF CLASS
