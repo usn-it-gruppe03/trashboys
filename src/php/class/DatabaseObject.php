@@ -49,8 +49,10 @@ abstract class DatabaseObject {
      *
      * This function shall commit and push changes done to the object to the database
      * and return a boolean value.
+     *
+     * @return bool
      */
-    abstract function commit(): void;
+    abstract function commit(): bool;
 
 
     /**
