@@ -28,6 +28,7 @@
 			$initialStmt 	= $this->mysqli->prepare($sql);
 			$salt 			= "AfghsdfDFjhkl54w21FGn2gf65bdfzdf";
 			$password 		.= $salt;
+			$password 	 	= hash('sha512', $password);
 
 			if ($initialStmt &&
 				$initialStmt -> bind_param('s', $email) &&
