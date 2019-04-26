@@ -13,6 +13,7 @@
     $house_letter   = User::get_house_letter();
     $zip_code       = User::get_zip_code();
     $postal_location= User::get_postal_location();
+    $user->check_user();
 
 ?>
 <!-- Page: Home -->
