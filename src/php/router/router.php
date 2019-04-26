@@ -13,6 +13,9 @@ $page = RelativeRoot::getURL().'src/php/page/';
 
 require_once $dom . 'head.php';
 require_once $dom . 'header.php';
+require_once 'src/php/class/User.php';
+    
+$user = new User();
 
 if (isset($_GET['p'])) {
 
