@@ -3,6 +3,8 @@
     include 'src/php/function/global/functions.php';
     echof($_SESSION);
 
+    $user = new User();
+
     $first_name     = User::get_first_name();
     $last_name      = User::get_last_name();
     $email          = User::get_email();
