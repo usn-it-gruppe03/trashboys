@@ -279,6 +279,14 @@
         $_SESSION['zip_code']	 	= $obj->zip_code;
         $_SESSION['postal_location']= $obj->postal_location;
 	}
+
+/*============================================================================================================================================================================*/
+/**
+ * Returns true when the user is checked in, else false
+ */
+	function is_checked_in() {
+		return isset($_SESSION['id']);
+	}
 /*============================================================================================================================================================================*/	
 	/*** starting the session ***/
 	public static function get_session(){
