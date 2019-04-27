@@ -1,7 +1,7 @@
 <?php
 	require "DB.php";
 
-	class User {
+	class User extends DatabaseObject {
 		protected $mysqli;
 		private $id;
 		/*Variable for users name*/
@@ -369,6 +369,61 @@
         	return false;
         }
 	}
+/*============================================================================================================================================================================*/
+	/**
+     * Fetch.
+     *
+     * This function shall fetch an entire object from the database.
+     *
+     * @param int $id
+     */
+     function fetch(int $id): void {
+
+     }
+
+/*============================================================================================================================================================================*/
+    /**
+     * Commit.
+     *
+     * This function shall commit and push changes done to the object to the database.
+     */
+     function commit(): void {
+
+     }
+/*============================================================================================================================================================================*/
+
+    /**
+     * Is defined.
+     *
+     * This function shall evaluate whether the object is complete or incomplete.
+     *
+     * @return bool
+     */
+     function isDefined(): bool {
+
+     }
+/*============================================================================================================================================================================*/
+
+    /**
+     * Clear.
+     *
+     * This function shall reset/clear all object attributes.
+     */
+     function clear(): void {
+
+     }
+/*============================================================================================================================================================================*/
+
+    /**
+     * To string.
+     *
+     * This function shall display all object attributes in a string.
+     *
+     * @return string
+     */
+     function toString(): string {
+     	
+     }
 /*============================================================================================================================================================================*/
 /**
  * Returns true when the user is checked in, else false
