@@ -5,7 +5,6 @@ require_once '../function/global/functions.php';
 
 require '../class/Order.php';
 require '../class/Order_Line.php';
-require '../class/Mailer.php';
 
 
 $order = new Order();
