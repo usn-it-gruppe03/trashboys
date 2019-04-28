@@ -9,7 +9,6 @@ require '../class/Order_Line.php';
 
 $order = new Order();
 $orderLine = new Order_Line();
-$mailer = new Mailer();
 $bool = false;
 
 // Set the response header.
