@@ -1,7 +1,7 @@
 <?php
 
     include 'src/php/function/global/functions.php';
-    echof($_SESSION);
+    /*echof($_SESSION);*/
 
     $user = new User();
 
@@ -83,18 +83,18 @@
     <section>
         <div class="container">
             <div class="card card-green mb-2">
-                <h1>Innstillingar</h1>
+                <h1>Kontrollpanel</h1>
             </div>
             <div class="card card-white mb-2">
-                <h2>Påmeldingar</h2>
+                <h2>Innstillingar</h2>
                 <div class="row">
                     <div class="col">
                         <label for="toggle-notification">Aktiver påminningar</label>
                         <toggle-switch id="toggle-notification" data-toggle="on"></toggle-switch>
                     </div>
                     <div class="col">
-                        <label for="toggle-newsletter">Aktiver nyheitsbrev</label>
-                        <toggle-switch id="toggle-newsletter"></toggle-switch>
+                        <label for="toggle-newsletter">Logg ut</label><br>
+                        <button class="btn btn-clay fx-3d-clay">Logg ut</button>
                     </div>
                 </div>
             </div>

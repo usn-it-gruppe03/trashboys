@@ -278,15 +278,6 @@ export class AddressSearch extends HTMLElement {
                         type: 'mousedown',
                         listener: event => {
 
-                            if (!object._logic.mouseDown.input.street && !object._logic.mouseDown.input.number){
-                                AddressSearch.flushOptions(object._div_options_street);
-                                AddressSearch.flushOptions(object._div_options_number);
-                                object._div_options_street.dispatchEvent(new CustomEvent('showOptions'));
-                                object._div_options_number.dispatchEvent(new CustomEvent('showOptions'));
-                            }
-
-
-
                         }
                     }
                 },
