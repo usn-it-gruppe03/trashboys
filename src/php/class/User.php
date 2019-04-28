@@ -1,7 +1,7 @@
 <?php
 	require "DB.php";
 
-	class User {
+	class User extends DatabaseObject {
 		protected $mysqli;
 		private $id;
 		/*Variable for users name*/
@@ -28,6 +28,7 @@
 			$initialStmt 	= $this->mysqli->prepare($sql);
 			$salt 			= "AfghsdfDFjhkl54w21FGn2gf65bdfzdf";
 			$password 		.= $salt;
+			$password 	 	= hash('sha512', $password);
 
 			if ($initialStmt &&
 				$initialStmt -> bind_param('s', $email) &&
@@ -245,7 +246,7 @@
 	}
 
 /*============================================================================================================================================================================*/
-	public static function salt($length) {
+	public static function random_string($length) {
 		return bin2hex(random_bytes($length));
 	}
 /*============================================================================================================================================================================*/
@@ -277,6 +278,158 @@
         $_SESSION['house_letter'] 	= $obj->house_letter;
         $_SESSION['zip_code']	 	= $obj->zip_code;
         $_SESSION['postal_location']= $obj->postal_location;
+	}
+/*============================================================================================================================================================================*/
+	public function create_cookie() {
+		$identifier     = $this->random_string(32);
+        $securitytoken  = '$this->random_string(32)';
+        $user_id        = $this->get_sessionId();
+        $securitytoken  = hash('sha512', $securitytoken);
+
+        $cookie_sql     = "INSERT INTO Cookies (user_ID, identifier, securitytoken) VALUES (?, ?, ?)";
+        $insert         = $this->mysqli->prepare($cookie_sql);
+        $insert->bind_param('sss', $user_id, $identifier, $securitytoken);
+        $insert->execute();
+        setcookie("identifier",$identifier,time()+(3600*24*365), "/"); //Valid for 1 year
+        setcookie("securitytoken",$securitytoken,time()+(3600*24*365), "/"); //Valid for 1 year
+	}
+/*============================================================================================================================================================================*/
+	public function check_user() {
+	
+		if(isset($_COOKIE['identifier']) && isset($_COOKIE['securitytoken'])) {
+			$identifier 	= $_COOKIE['identifier'];
+			$cookie_token 	= $_COOKIE['securitytoken'];
+			$sql 			= "SELECT user_ID, securitytoken FROM Cookies WHERE identifier = ?";
+			$stmt 			= $this->mysqli->prepare($sql);
+
+			$stmt -> bind_param('s', $identifier);
+			$stmt -> execute();
+			$stmt -> store_result();
+			$stmt -> bind_result($user_id, $securitytoken_row);
+			$stmt -> fetch();
+		
+			if($cookie_token !== $securitytoken_row) {
+				#Obviously, the Security Token is stolen.
+				
+			}else { //Token is correct
+				//Log the user in
+				$_SESSION['id'] = $user_id;
+				//If session gets deleted, re-insert the session variables.
+				$select_from_user = "SELECT first_name, last_name, email, address_ID FROM `User` WHERE ID = ?";
+				$stmt 			  = $this->mysqli->prepare($select_from_user);
+				$stmt -> bind_param('s', $user_id);
+				$stmt -> execute();
+				$stmt -> store_result();
+				$stmt -> bind_result($first_name, $last_name, $email, $address_id);
+				$stmt -> fetch();
+				$full_name = $first_name . ' ' . $last_name;
+				###############################################################################################################################
+				$select_from_address = "SELECT `name`, house_number, letter, zip_code, postal_location FROM `Address` WHERE ID = ?";
+				$stmt2 			  	 = $this->mysqli->prepare($select_from_address);
+				$stmt2 -> bind_param('s', $address_id);
+				$stmt2 -> execute();
+				$stmt2 -> store_result();
+				$stmt2 -> bind_result($street_name, $house_number, $house_letter, $zip_code, $postal_location);
+				$stmt2 -> fetch();
+				$full_address = $street_name . " " . $house_number . " " . $house_letter;
+
+				###############################################################################################################################
+		        $_SESSION['full_name'] 		= $full_name;
+		        $_SESSION['full_address'] 	= $full_address;
+				#######################################################
+		        $_SESSION['first_name'] 	= $first_name;
+		        $_SESSION['last_name'] 		= $last_name;
+		        $_SESSION['email'] 			= $email;
+		        $_SESSION['street_name'] 	= $street_name;
+		        $_SESSION['street_number'] 	= $house_number;
+		        $_SESSION['house_letter'] 	= $house_letter;
+		        $_SESSION['zip_code']	 	= $zip_code;
+		        $_SESSION['postal_location']= $postal_location;
+			}
+		}
+	}
+/*============================================================================================================================================================================*/	
+	/**
+	 * Returns true if user is admin, else false
+	 */
+	function is_admin() {
+		$user_id 	= $this->get_sessionId();
+		$sql 		= "SELECT user_type_ID FROM `User` WHERE ID = ? ";
+        $select 	= $this->mysqli->prepare($sql);
+
+        $select 	-> bind_param('s', $user_id);
+        $select 	-> execute();
+        $select 	-> store_result();
+        $select 	-> bind_result($user_type_id);
+        $select 	-> fetch();
+
+        if ($user_type_id === 1) {
+        	return true;
+        }else {
+        	return false;
+        }
+	}
+/*============================================================================================================================================================================*/
+	/**
+     * Fetch.
+     *
+     * This function shall fetch an entire object from the database.
+     *
+     * @param int $id
+     */
+     function fetch(int $id): void {
+
+     }
+
+/*============================================================================================================================================================================*/
+    /**
+     * Commit.
+     *
+     * This function shall commit and push changes done to the object to the database.
+     */
+     function commit(): void {
+
+     }
+/*============================================================================================================================================================================*/
+
+    /**
+     * Is defined.
+     *
+     * This function shall evaluate whether the object is complete or incomplete.
+     *
+     * @return bool
+     */
+     function isDefined(): bool {
+
+     }
+/*============================================================================================================================================================================*/
+
+    /**
+     * Clear.
+     *
+     * This function shall reset/clear all object attributes.
+     */
+     function clear(): void {
+
+     }
+/*============================================================================================================================================================================*/
+
+    /**
+     * To string.
+     *
+     * This function shall display all object attributes in a string.
+     *
+     * @return string
+     */
+     function toString(): string {
+     	
+     }
+/*============================================================================================================================================================================*/
+/**
+ * Returns true when the user is checked in, else false
+ */
+	function is_checked_in() {
+		return isset($_SESSION['id']);
 	}
 /*============================================================================================================================================================================*/	
 	/*** starting the session ***/
@@ -343,5 +496,9 @@
 	    $_SESSION['login'] = FALSE;
 		unset($_SESSION);
 	    session_destroy();
+
+	    //Remove Cookies
+		setcookie("identifier","",time()-(3600*24*365), "/"); 
+		setcookie("securitytoken","",time()-(3600*24*365), "/");
     }
 } #END OF CLASS

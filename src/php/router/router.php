@@ -13,6 +13,9 @@ $page = RelativeRoot::getURL().'src/php/page/';
 
 require_once $dom . 'head.php';
 require_once $dom . 'header.php';
+require_once 'src/php/class/User.php';
+    
+$user = new User();
 
 if (isset($_GET['p'])) {
 
@@ -41,7 +44,12 @@ if (isset($_GET['p'])) {
             break;
 
         case 'main':
-            require_once $page . 'main.php';
+            $user->check_user();
+            if ($user->is_checked_in()) {
+                require_once $page . 'main.php';
+            }else {
+                require_once $page . '404.php';
+            }
             break;
 
         case 'typo':
@@ -53,7 +61,11 @@ if (isset($_GET['p'])) {
             break;
 
         case 'admin_dashboard':
-            require_once $page . 'admin_dashboard.php';
+            if ($user -> is_checked_in() && $user -> is_admin()) {
+                require_once $page . 'admin_dashboard.php';
+            }else {
+                require_once $page . '404.php';   
+            }
             break;
 
         default:

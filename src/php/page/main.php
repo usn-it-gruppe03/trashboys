@@ -3,6 +3,8 @@
     include 'src/php/function/global/functions.php';
     echof($_SESSION);
 
+    $user = new User();
+
     $first_name     = User::get_first_name();
     $last_name      = User::get_last_name();
     $email          = User::get_email();
@@ -11,6 +13,7 @@
     $house_letter   = User::get_house_letter();
     $zip_code       = User::get_zip_code();
     $postal_location= User::get_postal_location();
+    $user->check_user();
 
 ?>
 <!-- Page: Home -->

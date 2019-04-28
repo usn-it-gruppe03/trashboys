@@ -1,3 +1,11 @@
+<?php 
+    $user = new User();
+
+    echo $user -> check_user();
+    if ($user -> is_checked_in()) {
+        header('location: index.php?p=main');
+    }    
+?>
 <section>
     <div class="container">
         <div class="card card-green">
@@ -14,6 +22,11 @@
             </div>
             <div class="form-group">
                 <input id="password" name="password" class="input input-3d" type="password" placeholder="Password">
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" value="remember-me" name="remember_me" value="1" checked> Remember me
+                </label>
             </div>
             <div class="form-group">
                 <button type="submit" name="submit" class="btn btn-green fx-3d-shadow-green w-100">Login</button>

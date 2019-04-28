@@ -11,6 +11,9 @@ if (isset($_POST['submit'])) {
     $login = $user->check_login($email, $password);
     if ($login) {
         //Login Success
+        if(isset($_POST['remember_me'])) {
+            $user->create_cookie();
+        }
         header("location:../../../index.php?p=main");
     }else {
         //Login failed
