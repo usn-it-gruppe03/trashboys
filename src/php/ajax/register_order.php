@@ -3,13 +3,15 @@
 require_once '../class/DB.php';
 require_once '../function/global/functions.php';
 
-include_once '../class/Order.php';
-include '../class/Order_Line.php';
-include_once '../class/User.php';
+require '../class/Order.php';
+require '../class/Order_Line.php';
+require '../class/Mailer.php';
+
 
 $order = new Order();
-$user = new User();
 $orderLine = new Order_Line();
+$mailer = new Mailer();
+$bool = false;
 
 // Set the response header.
 header("Content-type: application/json; charset=utf-8");
@@ -20,33 +22,54 @@ $input = file_get_contents('php://input');
 // Make the JSON to a PHP array
 $orderArr = json_decode($input, true);
 
-$string = '';
-
-
+// Check if the object is defined, if not define it.
 if($order->isDefined()) {
-    for($i = 0; $i < sizeof($orderArr); $i++) {
-        $id = $orderArr[$i]['id'];
-        $quantity = $orderArr[$i]['quantity'];
 
-        //$orderLine->define($order->getPkID(), $id, $quantity);
-        //$orderLine->commit();
+    if($order->commit()) {
+        for($i = 0; $i < sizeof($orderArr); $i++) {
+            $id = $orderArr[$i]['id'];
+            $quantity = $orderArr[$i]['quantity'];
 
-        $string .= 'ID: ' . $id . ' Quantity: ' . $quantity . PHP_EOL;
-        file_put_contents('../test.txt', $string);
-    }
+            $orderLine->define($order->getPkID(), $id, $quantity);
+            if($orderLine->commit()) {
+
+                $bool = true;
+            } else {
+                $bool = false;
+            }
+        }
+
+        if($bool === true) {
+            echo 'TRUE';
+        } else {
+            echo 'FALSE';
+        }
+    } echo 'FALSE';
+
 } else {
-    $order->define($user->get_sessionId());
-    $order->commit();
+    $uId = $orderArr[0]['user'];
+    $order->define($uId);
+    if($order->commit()) {
+        for($i = 0; $i < sizeof($orderArr); $i++) {
+            $id = $orderArr[$i]['id'];
+            $quantity = $orderArr[$i]['quantity'];
 
-    for($i = 0; $i < sizeof($orderArr); $i++) {
-        $id = $orderArr[$i]['id'];
-        $quantity = $orderArr[$i]['quantity'];
-
-        //$orderLine->define($order->getPkID(), $id, $quantity);
-        //$orderLine->commit();
-        $string .= 'ID: ' . $id . ' Quantity: ' . $quantity . PHP_EOL;
-        file_put_contents('../test.txt', $string);
+            $orderLine->define($order->getPkID(), $id, $quantity);
+            if($orderLine->commit()) {
+                $bool = true;
+            } else {
+                $bool = false;
+            }
+        }
+        if($bool === true) {
+            echo 'TRUE';
+        } else {
+            echo 'FALSE';
+        }
+    }else {
+        echo 'FALSE';
     }
+
 }
 
 
