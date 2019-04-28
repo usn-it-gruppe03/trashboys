@@ -1,5 +1,6 @@
 <?php
 	require "DB.php";
+	require_once "DatabaseObject.php";
 
 	class User extends DatabaseObject {
 		protected $mysqli;
