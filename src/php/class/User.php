@@ -283,7 +283,7 @@
 /*============================================================================================================================================================================*/
 	public function create_cookie() {
 		$identifier     = $this->random_string(32);
-        $securitytoken  = '$this->random_string(32)';
+        $securitytoken  = $this->random_string(32);
         $user_id        = $this->get_sessionId();
         $securitytoken  = hash('sha512', $securitytoken);
 
