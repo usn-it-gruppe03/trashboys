@@ -277,9 +277,16 @@ export class AddressSearch extends HTMLElement {
                     return {
                         type: 'mousedown',
                         listener: event => {
-                            x.cout('Cached streets: ' + object._cached_streets.length);
-                            x.cout('Filtered streets: ' + object._filtered_streets.length);
-                            x.cout('Cached addresses: ' + object._cached_addresses.length);
+
+                            if (!object._logic.mouseDown.input.street && !object._logic.mouseDown.input.number){
+                                AddressSearch.flushOptions(object._div_options_street);
+                                AddressSearch.flushOptions(object._div_options_number);
+                                object._div_options_street.dispatchEvent(new CustomEvent('showOptions'));
+                                object._div_options_number.dispatchEvent(new CustomEvent('showOptions'));
+                            }
+
+
+
                         }
                     }
                 },
@@ -324,7 +331,10 @@ export class AddressSearch extends HTMLElement {
                             type: 'mousedown',
                             listener: event => {
                                 object._logic.mouseDown.input.street = true;
-                                object._logic.mouseDown.input.street = false;
+                                object._logic.mouseUp.input.street = false;
+
+                                object._logic.mouseUp.input.number = false;
+                                object._logic.mouseDown.input.number = false;
                             }
                         }
                     },
@@ -334,6 +344,9 @@ export class AddressSearch extends HTMLElement {
                             listener: event => {
                                 object._logic.mouseUp.input.street = true;
                                 object._logic.mouseDown.input.street = false;
+
+                                object._logic.mouseUp.input.number = false;
+                                object._logic.mouseDown.input.number = false;
                             }
                         }
                     },
@@ -409,7 +422,10 @@ export class AddressSearch extends HTMLElement {
                         return {
                             type: 'mousedown',
                             listener: event => {
-                                object._logic.mouseDown.input.street = true;
+                                object._logic.mouseDown.input.number = true;
+                                object._logic.mouseUp.input.number = false;
+
+                                object._logic.mouseUp.input.street = false;
                                 object._logic.mouseDown.input.street = false;
                             }
                         }
@@ -418,7 +434,10 @@ export class AddressSearch extends HTMLElement {
                         return {
                             type: 'mouseup',
                             listener: event => {
-                                object._logic.mouseUp.input.street = true;
+                                object._logic.mouseUp.input.number = true;
+                                object._logic.mouseDown.input.number = date;
+
+                                object._logic.mouseUp.input.street = false;
                                 object._logic.mouseDown.input.street = false;
                             }
                         }

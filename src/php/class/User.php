@@ -3,7 +3,7 @@
 
 	class User extends DatabaseObject {
 		protected $mysqli;
-		private $id;
+		protected $id;
 		/*Variable for users name*/
 		private $full_name;
 		private $first_name;
@@ -387,7 +387,7 @@
      *
      * This function shall commit and push changes done to the object to the database.
      */
-     function commit(): void {
+     function commit(): bool {
 
      }
 /*============================================================================================================================================================================*/
