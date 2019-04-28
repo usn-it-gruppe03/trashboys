@@ -1,58 +1,41 @@
-<section>
-    <div class="container">
-        <div class="card card-green">
-            <h3>Tømmedatoar</h3>
-            <p>Fyll inn din adresse for å sjå<br>tømmedatoar for dei respektive<br>avfallskategoriane.</p>
+<app-page id="page-address">
+    <section>
+        <div class="container">
+            <div class="card card-green">
+                <h3>Tømmedatoar</h3>
+                <p>Fyll inn din adresse for å sjå<br>tømmedatoar for dei respektive<br>avfallskategoriane.</p>
+            </div>
         </div>
-    </div>
-</section>
-<section>
-    <div class="container">
-        <form action="">
+    </section>
+
+    <section id="section-google-map">
+        <div class="container">
             <div class="row">
                 <div class="col">
-                    <div id="map" class="card card-white" data-visible="true">
-                        <p id="map-loading-status" class="m-0">Loading resources ...</p>
-                    </div>
+                    <div id="map" class="card card-white"></div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col">
-                    <div class="form-group">
-                        <input type="text" id="street" name="street" class="input input-3d" placeholder="Gatenavn">
-                        <div id="options-street" class="options" data-visible="false"></div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="form-group">
-                        <input type="text" id="number" name="number" class="input input-3d" placeholder="Husnummer">
-                        <div id="options-number" class="options" data-visible="false"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <div class="form-group">
-                        <input type="text" id="zip" name="zip" class="input input-3d" placeholder="Postnummer" disabled>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="form-group">
-                        <input type="text" id="area" name="area" class="input input-3d" placeholder="Poststed" disabled>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <button class="btn btn-clay">Sjå tømmedatoar</button>
-                </div>
-            </div>
-        </form>
-    </div>
-</section>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <address-search></address-search>
+        </div>
+    </section>
+</app-page>
+
+
+<app-page id="page-collection-details" data-visible="true">
+    <section>
+        <div class="container">
+            <collection-grid></collection-grid>
+        </div>
+    </section>
+</app-page>
 
 
 <!-- JS Event listener for this page only -->
-<script type="module" src="src/js/event/global/addressSearch.js"></script>
+<!--<script type="module" src="src/js/event/global/addressSearch.js"></script>-->
 <script type="module" src="src/js/event/page/guest.js"></script>
 <script src="src/js/event/global/googleMap.js"></script>

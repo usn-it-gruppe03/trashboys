@@ -13,6 +13,8 @@ if (isset($_GET['products'])){
 
     if ($query == 'all'){
 
+
+
         // Instantiate MySQLi object.
         $mysql = DB::mysqli();
 

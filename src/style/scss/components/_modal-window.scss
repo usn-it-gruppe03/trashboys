@@ -1,0 +1,68 @@
+@import
+"../functions/functions",
+"../variables/variables",
+"../mixins/mixins",
+"../commons/commons",
+"../components/card",
+"../typography/typography";
+
+
+%modal-window{
+  @extend %flex-column-center-center;
+  @include all-width(100%);
+  @include all-height(100vh);
+  top: 0;
+  left: 0;
+  position: absolute;
+  background-color: get('darker', $colors);
+  z-index: 9;
+}
+modal-window{@extend %modal-window;}
+
+
+
+
+%modal-box{
+  @extend %component;
+  @extend %flex-row;
+  @include flex-wrap(wrap);
+  @include box-shadow(get('component.shadow.white'));
+  padding:
+    get('component.card.padding.top')
+    get('component.card.padding.right')
+    get('component.card.padding.bottom')
+    get('component.card.padding.left');
+  margin:
+    get('component.card.padding.top')
+    get('component.card.padding.right')
+    get('component.card.padding.bottom')
+    get('component.card.padding.left');
+  border-radius: get('component.border-radius');
+  color: get('component.card.color.white');
+  background-color: get('component.card.background-color.white');
+
+  button + button{
+    margin-left: 1rem;
+  }
+}
+.modal-box{@extend %modal-box;}
+
+
+
+
+%modal-title{
+  @extend %h3;
+  width: 100%;
+}
+.modal-title{@extend %modal-title;}
+
+
+
+
+%modal-content{
+  @extend %p;
+  @extend %flex-column;
+  width: 100%;
+  margin: 2rem 0;
+}
+.modal-content{@extend %modal-content;}

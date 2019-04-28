@@ -55,7 +55,7 @@ export class OrderBox extends HTMLElement {
 
         // * Build div elements:
         const div_card = x.makeElement('div');
-        div_card.setAttribute('class', OrderBox.rsc().class.div.card);
+        div_card.setAttribute('class', OrderBox.rsc().class.div.collectionCard);
         const div_closeBtn = x.makeElement('div');
         div_closeBtn.setAttribute('class', OrderBox.rsc().class.div.closeBtn);
         const div_customerDetails = x.makeElement('div');
@@ -128,7 +128,7 @@ export class OrderBox extends HTMLElement {
             },
             class: {
                 div: {
-                    card: 'card card-white p-1',
+                    collectionCard: 'card card-white p-1',
                     closeBtn: 'w-100 text-right',
                     customerDetails: 'my-2 table-container',
                     productDetails: 'table-container'

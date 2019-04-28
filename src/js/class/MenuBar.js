@@ -208,11 +208,25 @@ export class MenuBar extends HTMLElement {
                         for (let i=0; i<menuBtnIDArray.length; i++) {
 
                             // ? If element ID does not match.
-                            if (div_menuBtn.id !== menuBtnIDArray[i])
+                            if (div_menuBtn.id !== menuBtnIDArray[i]) {
                                 x.setState(
                                     document.getElementById(menuBtnIDArray[i]),
                                     MenuBar.rsc().attribute.state.value.inactive
                                 );
+
+                                // * Get shop button.
+                                const shopBtn = document.getElementById(MenuBar.rsc().id.div.shop);
+
+                                // * Create boolean values:
+                                const shopBtnClicked = (div_menuBtn.id === MenuBar.rsc().id.div.shop);
+                                const shopBtnActive = (x.getState(shopBtn) === MenuBar.rsc().attribute.state.value.active);
+
+                                // ? If shop button is clicked and already active.
+                                if (shopBtnClicked && shopBtnActive){
+                                    // Scroll window to bottom in order to view cart.
+                                    window.scrollTo(0, document.body.scrollHeight);
+                                }
+                            }
                         }
 
                         // * Iterate through pages and set visibility.

@@ -1,5 +1,6 @@
 import * as x from "../function/global/functions.js";
-import {ShoppingCart} from "./ShoppingCart";
+import {ShoppingCart} from "./ShoppingCart.js";
+import {Address} from "./Address.js";
 
 
 /**
@@ -17,8 +18,11 @@ export class AddressSearch extends HTMLElement {
         super();
         this.build();
         this._logic = AddressSearch.booleanLogic();
-        this._cache_streets = [];
-        this._cache_addresses = [];
+        this._cached_streets = [];
+        this._filtered_streets = [];
+        this._cached_addresses = [];
+        this._filtered_addresses = [];
+        this._chosenAddress = null;
     }
 
 
@@ -38,12 +42,8 @@ export class AddressSearch extends HTMLElement {
                 },
                 div: {
                     optionsStreet: 'options-street',
-                    optionsNumber: 'options-street',
+                    optionsNumber: 'options-number',
                 },
-                button: {
-                    findMe: 'find-me-btn',
-                    submit: 'collection-search-btn',
-                }
             },
             class: {
                 div: {
@@ -53,14 +53,8 @@ export class AddressSearch extends HTMLElement {
                     options: 'options',
                 },
                 input: 'input input-3d',
-                button: {
-                    findMe: 'btn btn-clay fx-3d-clay',
-                    submit: 'btn btn-green fx-3d-green',
-                },
             },
-            attribute: {
-                ajaxFile: 'data-ajax-file'
-            },
+            attribute: {},
             text: {
                 placeholder: {
                     street: 'Gatenavn',
@@ -68,10 +62,12 @@ export class AddressSearch extends HTMLElement {
                     zip: 'Postnummer',
                     area: 'Poststed',
                 },
-                button: {
-                    findMe: 'Finn min adresse',
-                    submit: 'Sjå tømmedatoar',
-                },
+            },
+            ev: {
+                type: {
+                    sendAddress: 'sendAddress',
+                    searchDB: 'searchDB',
+                }
             },
             ajax: {
                 searchStreet: {
@@ -86,6 +82,9 @@ export class AddressSearch extends HTMLElement {
                     },
                     file: 'src/php/ajax/search_address.php',
                 }
+            },
+            value: {
+                MIN_CHAR_LENGTH_SEARCH: 2
             },
         }
     }
@@ -107,149 +106,129 @@ export class AddressSearch extends HTMLElement {
 
 
     /**
-     * Getter: Observed Attributes
-     * */
-    static get observedAttributes(){
-        return Object.values(AddressSearch.rsc().attribute);
-    }
-
-
-
-
-    /**
-     * Attribute Changed Callback
-     * */
-    attributeChangedCallback(attributeName, oldValue, newValue){
-        if (attributeName === ShoppingCart.rsc().attribute.ajaxFile){
-            this._ajaxFile = (oldValue !== newValue) ? newValue : oldValue;
-        } else this._ajaxFile = null;
-    }
-
-
-
-
-    /**
      * Build
      * */
     build(){
 
+
         // * Create main components:
-        // Div Element: Google Map.
-        this._div_googleMap = AddressSearch.element().googleMap();
 
         // Input element: Street name.
-        this._input_street = AddressSearch.element().input(
+        this._input_street = AddressSearch.element(this).input(
             AddressSearch.rsc().id.input.street,
             AddressSearch.rsc().text.placeholder.street,
         );
 
         // Div element: Options of street names.
-        this._div_options_street = AddressSearch.element().options(
+        this._div_options_street = AddressSearch.element(this).options(
             AddressSearch.rsc().id.div.optionsStreet,
         );
 
         // Input element: House number.
-        this._input_number = AddressSearch.element().input(
+        this._input_number = AddressSearch.element(this).input(
             AddressSearch.rsc().id.input.number,
             AddressSearch.rsc().text.placeholder.number,
         );
 
         // Div element: Options of house numbers.
-        this._div_options_number = AddressSearch.element().options(
+        this._div_options_number = AddressSearch.element(this).options(
             AddressSearch.rsc().id.div.optionsNumber,
         );
 
         // Input element: ZIP / postal code.
-        this._input_zip = AddressSearch.element().input(
+        this._input_zip = AddressSearch.element(this).input(
             AddressSearch.rsc().id.input.zip,
             AddressSearch.rsc().text.placeholder.zip,
+            true
         );
 
         // Input element: Postal area.
-        this._input_area = AddressSearch.element().input(
+        this._input_area = AddressSearch.element(this).input(
             AddressSearch.rsc().id.input.area,
             AddressSearch.rsc().text.placeholder.area,
+            true
         );
-
-        // Button element: Find location.
-        this._button_findMe = AddressSearch.element().button(
-            AddressSearch.rsc().id.button.findMe,
-            AddressSearch.rsc().text.button.findMe,
-            AddressSearch.rsc().class.button.findMe
-        );
-
-        // Button element: Submit location.
-        this._button_submit = AddressSearch.element().button(
-            AddressSearch.rsc().id.button.submit,
-            AddressSearch.rsc().text.button.submit,
-            AddressSearch.rsc().class.button.submit
-        );
-        this._button_submit.type = 'submit';
-        this._button_submit.name = 'submit';
-
-
 
 
         // * Create columns:
-        // Column: Google Map.
-        const col_googleMap = AddressSearch.element().col([
-            this._button_findMe,
-            this._div_googleMap
-        ]);
 
         // Column: Street name.
-        const col_street = AddressSearch.element().col([
+        const col_street = AddressSearch.element(this).col([
             this._input_street, this._div_options_street
         ]);
 
         // Column: House number.
-        const col_number = AddressSearch.element().col([
+        const col_number = AddressSearch.element(this).col([
             this._input_number, this._div_options_number
         ]);
 
         // Column: ZIP / postal code.
-        const col_zip = AddressSearch.element().col([
+        const col_zip = AddressSearch.element(this).col([
             this._input_zip
         ]);
 
         // Column: postal area.
-        const col_area = AddressSearch.element().col([
+        const col_area = AddressSearch.element(this).col([
             this._input_area
-        ]);
-
-        // Column: Submit button.
-        const col_submit = AddressSearch.element().col([
-            this._button_submit
         ]);
 
 
         // * Create rows:
-        // Row: Google Map.
-        this._div_row_googleMap = AddressSearch.element().row([
-            col_googleMap
-        ]);
 
         // Row: Street name and house number.
-        this._div_row_streetAndHouseNumber = AddressSearch.element().row([
+        this._div_row_streetAndHouseNumber = AddressSearch.element(this).row([
             col_street, col_number
         ]);
 
         // Row: ZIP code and postal area.
-        this._div_row_zipAndPostalArea = AddressSearch.element().row([
+        this._div_row_zipAndPostalArea = AddressSearch.element(this).row([
             col_zip, col_area
         ]);
 
-        // Row: Submit button.
-        this._div_row_submit = AddressSearch.element().row([
-            col_submit
-        ]);
-
-
-        // * Create form element.
-        this._form = x.makeElement('form');
-
 
         // * Add event listeners:
+
+        // Window:
+        window.addEventListener(
+            AddressSearch.ev(this).window.mouseDown().type,
+            AddressSearch.ev(this).window.mouseDown().listener
+        );
+
+        // Street (input):
+        this._input_street.addEventListener(
+            AddressSearch.ev(this).input.street.input().type,
+            AddressSearch.ev(this).input.street.input().listener
+        );
+        this._input_street.addEventListener(
+            AddressSearch.ev(this).input.street.searchDB().type,
+            AddressSearch.ev(this).input.street.searchDB().listener
+        );
+
+        // Options, street (div):
+        this._div_options_street.addEventListener(
+            AddressSearch.ev(this).div.options.showOptions().type,
+            AddressSearch.ev(this).div.options.showOptions().listener
+        );
+        this._div_options_street.addEventListener(
+            AddressSearch.ev(this).div.options_street.populateOptions().type,
+            AddressSearch.ev(this).div.options_street.populateOptions().listener
+        );
+
+        // Number (input):
+        this._input_number.addEventListener(
+            AddressSearch.ev(this).input.number.input().type,
+            AddressSearch.ev(this).input.number.input().listener
+        );
+
+        // Options, number (div):
+        this._div_options_number.addEventListener(
+            AddressSearch.ev(this).div.options.showOptions().type,
+            AddressSearch.ev(this).div.options.showOptions().listener
+        );
+        this._div_options_number.addEventListener(
+            AddressSearch.ev(this).div.options_number.populateOptions().type,
+            AddressSearch.ev(this).div.options_number.populateOptions().listener
+        );
 
 
     }
@@ -260,11 +239,7 @@ export class AddressSearch extends HTMLElement {
     /**
      * Update
      * */
-    update(){
-
-
-
-    }
+    update(){}
 
 
 
@@ -274,14 +249,14 @@ export class AddressSearch extends HTMLElement {
      * */
     render(){
 
-        // ? If the client device is not a mobile.
+        /*// ? If the client device is not a mobile.
         if (!x.clientIsMobile()){
-            this._ro
-        }
+        }*/
 
-        // ? If an AJAX file is defined.
-        if (this._ajaxFile !== null){
-        }
+        this.append(
+            this._div_row_streetAndHouseNumber,
+            this._div_row_zipAndPostalArea,
+        );
 
     }
 
@@ -293,20 +268,22 @@ export class AddressSearch extends HTMLElement {
     /**
      * Event Listeners
      * */
-    static ev(){
+    static ev(object){
         return {
 
             // * Window:
             window: {
-                mouseDown: object => {
+                mouseDown: () => {
                     return {
                         type: 'mousedown',
                         listener: event => {
-
+                            x.cout('Cached streets: ' + object._cached_streets.length);
+                            x.cout('Filtered streets: ' + object._filtered_streets.length);
+                            x.cout('Cached addresses: ' + object._cached_addresses.length);
                         }
                     }
                 },
-                mouseUp: object => {
+                mouseUp: () => {
                     return {
                         type: 'mouseup',
                         listener: event => {
@@ -316,11 +293,33 @@ export class AddressSearch extends HTMLElement {
                 },
             },
 
+            self: {
+                sendAddress: () => {
+                    return {
+                        type: AddressSearch.rsc().ev.type.sendAddress,
+                        listener: event => {
+
+                        }
+                    }
+                },
+            },
+
+            collectionGrid: addressID => {
+                return {
+                    typeArg: AddressSearch.rsc().ev.type.sendAddress,
+                    eventInitDict: {
+                        detail: {
+                            addressID: addressID,
+                        }
+                    }
+                }
+            },
+
             // * Input Elements:
             input: {
                 // Street Name:
                 street: {
-                    mouseDown: object => {
+                    mouseDown: () => {
                         return {
                             type: 'mousedown',
                             listener: event => {
@@ -329,7 +328,7 @@ export class AddressSearch extends HTMLElement {
                             }
                         }
                     },
-                    mouseUp: object => {
+                    mouseUp: () => {
                         return {
                             type: 'mouseup',
                             listener: event => {
@@ -338,18 +337,75 @@ export class AddressSearch extends HTMLElement {
                             }
                         }
                     },
-                    input: object => {
+                    input: () => {
                         return {
                             type: 'input',
                             listener: event => {
+                                const self = event.target;
 
+                                x.cout('Street input charlen: ' + self.value.length);
+
+                                // ? If the input value character length is equal to the given value.
+                                if (self.value.length === AddressSearch.rsc().value.MIN_CHAR_LENGTH_SEARCH) {
+
+                                    // * Dispatch a "search DB" event.
+                                    self.dispatchEvent(new CustomEvent('searchDB'));
+
+                                // ? If the input value character length is more than the given value.
+                                } else if (self.value.length > AddressSearch.rsc().value.MIN_CHAR_LENGTH_SEARCH) {
+
+                                    // ? If there are no cached addresses.
+                                    if (object._cached_streets.length === 0 && object._cached_addresses.length === 0){
+
+                                        // * Dispatch a "search DB" event.
+                                        self.dispatchEvent(new CustomEvent('searchDB'));
+                                    }
+
+                                    // * Dispatch a "populate options" event.
+                                    object._div_options_street.dispatchEvent(new CustomEvent('populateOptions'));
+
+                                // ? If the input value character length is zero.
+                                } else if (self.value.length === 0) {
+
+                                    // * Flush option elements.
+                                    AddressSearch.flushOptions(object._div_options_street);
+
+                                    // * Reset all cache arrays:
+                                    object._cached_streets.length = 0;
+                                    object._cached_addresses.length = 0;
+                                }
+
+                                // * Dispatch a "show options" event.
+                                object._div_options_street.dispatchEvent(new CustomEvent('showOptions'));
+                            }
+                        }
+                    },
+                    searchDB: () => {
+                        return {
+                            type: AddressSearch.rsc().ev.type.searchDB,
+                            listener: event => {
+                                const self = event.target;
+
+                                // Clear cache.
+                                object._cached_streets.length = 0;
+                                object._filtered_streets.length = 0;
+
+                                // Search new streets.
+                                AddressSearch.ajax().getStreets(self.value, (jsonObject) => {
+                                    for (let i=0; i<jsonObject.length; i++){
+                                        object._cached_streets.push(jsonObject[i]['name']);
+                                    }
+
+                                    object._div_options_street.dispatchEvent(new CustomEvent('populateOptions'));
+
+                                });
                             }
                         }
                     },
                 },
                 // House Number:
                 number: {
-                    mouseDown: object => {
+                    mouseDown: () => {
                         return {
                             type: 'mousedown',
                             listener: event => {
@@ -358,7 +414,7 @@ export class AddressSearch extends HTMLElement {
                             }
                         }
                     },
-                    mouseUp: object => {
+                    mouseUp: () => {
                         return {
                             type: 'mouseup',
                             listener: event => {
@@ -367,11 +423,24 @@ export class AddressSearch extends HTMLElement {
                             }
                         }
                     },
-                    input: object => {
+                    input: () => {
                         return {
                             type: 'input',
                             listener: event => {
 
+                                const self = event.target;
+
+                                // * Populate house number options.
+                                object._div_options_number.dispatchEvent(new CustomEvent('populateOptions'));
+
+                            }
+                        }
+                    },
+                    searchDB: () => {
+                        return {
+                            type: AddressSearch.rsc().ev.type.searchDB,
+                            listener: event => {
+                                const self = event.target;
                             }
                         }
                     },
@@ -380,23 +449,263 @@ export class AddressSearch extends HTMLElement {
 
             // * Div Elements:
             div: {
-                options_street: {},
-                options_number: {},
-                option: {},
-            },
+                options_street: {
+                    populateOptions: () => {
+                        return {
+                            type: 'populateOptions',
+                            listener: event => {
 
-            // * Button Elements:
-            button: {
-                findMe: () => {
-                    return {
-                        type: 'click',
-                        listener: event => {
+                                // * Init. essential reference.
+                                const self = event.target;
 
+                                // * Flush any existing child nodes.
+                                AddressSearch.flushOptions(self);
+
+                                // * Filter the cached street names in accordance with the input value.
+                                AddressSearch.filterArray(object._input_street.value, object._cached_streets, (array) => {
+
+                                    // Iterate through each array line.
+                                    for (let i=0; i<array.length; i++){
+
+                                        // * Append matching street name options.
+                                        self.append(
+                                            AddressSearch.element(object).option(array[i], array[i])
+                                        );
+                                    }
+                                });
+
+                                // * Dispatch the "show options" event.
+                                object._div_options_street.dispatchEvent(new CustomEvent('showOptions'));
+                            }
+                        }
+                    },
+                },
+                options_number: {
+                    populateOptions: () => {
+                        return {
+                            type: 'populateOptions',
+                            listener: event => {
+
+                                // * Init. essential reference.
+                                const self = event.target;
+
+                                // * Flush any existing child nodes.
+                                AddressSearch.flushOptions(self);
+
+                                // ? If any addresses are stored in the cache table.
+                                if (object._cached_addresses.length > 0){
+
+                                    AddressSearch.filterAddressHouseNumber(
+                                        object._input_number.value,
+                                        object._cached_addresses,
+                                        (array) => {
+
+                                            for (let i=0; i<array.length; i++){
+
+                                                // * Append options.
+                                                self.append(
+                                                    AddressSearch.element(object).option(
+                                                        array[i].id.toString(),
+                                                        array[i].number + ' ' + array[i].letter
+                                                    )
+                                                );
+
+                                            }
+
+                                        }
+                                    );
+                                }
+
+                                // * Dispatch the "show options" event.
+                                object._div_options_number.dispatchEvent(new CustomEvent('showOptions'));
+                            }
+                        }
+                    },
+                },
+                options: {
+                    showOptions: () => {
+                        return {
+                            type: 'showOptions',
+                            listener: event => {
+                                const self = event.target;
+                                x.showNode(self, self.hasChildNodes());
+                            }
+                        }
+                    },
+                    hideOptions: () => {
+                        return {
+                            type: 'hideOptions',
+                            listener: event => {
+                                const self = event.target;
+                                x.showNode(self, false);
+                            }
                         }
                     }
                 },
-                submit: {},
+                option: {
+                    click: () => {
+                        return {
+                            type: 'click',
+                            listener: event => {
+
+                                // * Init. essential references:
+                                const self = event.target;
+                                const parent = self.parentElement;
+                                const dataValue = x.getDataValue(self);
+                                const innerText = self.innerText;
+
+                                // * Flush options.
+                                AddressSearch.flushOptions(parent);
+
+                                // * Dispatch the "show options" event.
+                                object._div_options_street.dispatchEvent(new CustomEvent('showOptions'));
+                                object._div_options_number.dispatchEvent(new CustomEvent('showOptions'));
+
+                                // * Set the selected value.
+                                x.setSelectedValue(parent, dataValue);
+
+                                // ? If it is a street name option.
+                                if (parent.id === AddressSearch.rsc().id.div.optionsStreet){
+
+                                    // * Set the value of the input element.
+                                    object._input_street.value = dataValue;
+
+                                    // * Search for addresses that matches with the chosen street name.
+                                    AddressSearch.ajax().getAddress(dataValue, (jsonObject) => {
+
+                                        // * Reset the address cache array.
+                                        object._cached_addresses.length = 0;
+
+                                        // * Iterate through each JSON object.
+                                        for (let i=0; i<jsonObject.length; i++){
+
+                                            // * Push a new Address object to the cache table.
+                                            object._cached_addresses.push(
+                                                new Address(
+                                                    jsonObject[i]['ID'],
+                                                    jsonObject[i]['name'],
+                                                    jsonObject[i]['house_number'],
+                                                    jsonObject[i]['letter'],
+                                                    jsonObject[i]['zip_code'],
+                                                    jsonObject[i]['postal_location'],
+                                                )
+                                            );
+                                        }
+
+                                        // * Populate house number options.
+                                        object._div_options_number.dispatchEvent(new CustomEvent('populateOptions'));
+
+                                    });
+
+                                // ? If it is a house number option.
+                                } else if (parent.id === AddressSearch.rsc().id.div.optionsNumber){
+
+                                    // * Set the value of the input element.
+                                    object._input_number.value = innerText;
+
+                                    AddressSearch.getCachedAddress(
+                                        parseInt(x.getSelectedValue(parent)),
+                                        object._cached_addresses,
+                                        (address) => {
+
+                                            x.setSelectedValue(object, address.id);
+
+                                            object._input_zip.value = address.zip;
+                                            object._input_area.value = address.area;
+                                        }
+                                    );
+
+                                }
+                            }
+                        }
+                    }
+                },
             },
+        }
+    }
+
+
+
+
+    /**
+     * Filter array
+     *
+     * @param {string} searchValue - The search value.
+     * @param {array} array - An array.
+     * @param {function} callback - The callback function.
+     * */
+    static filterArray(searchValue, array, callback){
+        let filteredArray = [];
+        const rex = new RegExp(('(^' + searchValue.toLowerCase() + ')'));
+        for (let i=0; i<array.length; i++){
+            if (array[i].toLowerCase().match(rex)){
+                filteredArray.push(array[i]);
+            }
+        }
+        callback(filteredArray);
+    }
+
+
+
+
+    /**
+     * Get Cached Address
+     *
+     * @param {number} id - The Address ID.
+     * @param {array} array - The cached address array.
+     * @param {function} callback - The callback function.
+     * */
+    static getCachedAddress(id, array, callback){
+        for (let i=0; i<array.length; i++){
+            if (id === array[i].id){
+                callback(array[i]);
+            }
+        }
+    }
+
+
+
+
+    /**
+     * Filter
+     * */
+    static filterAddressHouseNumber(houseNumber, array, callback){
+
+        let returnArray = [];
+
+        const numArray = houseNumber.split(' ');
+
+        for (let i=0; i<array.length; i++){
+
+            if (parseInt(numArray[0]) === array[i].number || houseNumber.length === 0){
+
+                if (numArray.length > 1 && typeof array[i].letter === 'string'){
+
+                    if (numArray[1] === array[i].letter){
+
+                        returnArray.push(array[i]);
+                    }
+
+                } else {
+
+                    returnArray.push(array[i]);
+
+                }
+            }
+        }
+
+        callback(returnArray);
+    }
+
+
+
+
+    /**
+     * Flush Options
+     * */
+    static flushOptions(node){
+        while(node.hasChildNodes()){
+            node.firstChild.remove();
         }
     }
 
@@ -406,7 +715,7 @@ export class AddressSearch extends HTMLElement {
     /**
      * Element
      * */
-    static element(){
+    static element(object){
         return {
             /**
              * Create a row
@@ -447,7 +756,8 @@ export class AddressSearch extends HTMLElement {
                 elem.type = 'text';
                 elem.placeholder = placeholder;
                 elem.setAttribute('class', AddressSearch.rsc().class.input);
-                elem.setAttribute((disabled === true) ? 'disabled' : '', '');
+                if (disabled === true)
+                    elem.setAttribute('disabled','');
                 return elem;
             },
             /**
@@ -460,6 +770,7 @@ export class AddressSearch extends HTMLElement {
                 elem.id = id;
                 elem.setAttribute('class', AddressSearch.rsc().class.div.options);
                 x.showNode(elem, false);
+                x.setScroll(elem,'y',true);
                 return elem;
             },
             /**
@@ -472,34 +783,48 @@ export class AddressSearch extends HTMLElement {
                 const elem = x.makeElement('div');
                 x.setDataValue(elem,value);
                 elem.innerText = text;
-                return elem;
-            },
-            /**
-             * Create button element.
-             * @param {string} id - Element ID.
-             * @param {string} text - Button text.
-             * @param {string} className - The CSS class name(s).
-             * @returns {HTMLElement}
-             * */
-            button: (id, text, className) => {
-                const elem = x.makeElement('button',text);
-                elem.id = id;
-                elem.setAttribute('class', className);
-                return elem;
-            },
-            /**
-            * Create a Google Map.
-            * @returns {HTMLElement}
-            * */
-            googleMap: () => {
-                const elem = x.makeElement('div');
-                elem.id = 'google-map';
-                elem.setAttribute('class', 'card cart-white');
-                x.showNode(elem, false);
+                elem.addEventListener(
+                    AddressSearch.ev(object).div.option.click().type,
+                    AddressSearch.ev(object).div.option.click().listener
+                );
                 return elem;
             },
         }
 
+    }
+
+
+
+
+    /**
+     * AJAX Functions
+     * */
+    static ajax(){
+        return {
+            getStreets: (searchValue, callback) => {
+                x.ajaxFetch(
+                    AddressSearch.rsc().ajax.searchStreet.query(searchValue),
+                    AddressSearch.rsc().ajax.searchStreet.file,
+                    (rawData) => {
+                        if (x.isJSON(rawData)){
+                            callback(JSON.parse(rawData));
+                        }
+                    }
+
+                );
+            },
+            getAddress: (searchValue, callback) => {
+                x.ajaxFetch(
+                    AddressSearch.rsc().ajax.searchAddress.query(searchValue),
+                    AddressSearch.rsc().ajax.searchAddress.file,
+                    (rawData) => {
+                        if (x.isJSON(rawData)){
+                            callback(JSON.parse(rawData));
+                        }
+                    }
+                );
+            },
+        };
     }
 
 

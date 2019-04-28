@@ -151,7 +151,7 @@ export function ajaxFetch(searchValue, phpFileURL, callback){
     };
 
     // Open connection to PHP file.
-    AJAX.open("GET", phpFileURL + searchValue, true);
+    AJAX.open('GET', phpFileURL + searchValue, true);
 
     // Send data through GET API.
     AJAX.send();
@@ -259,6 +259,21 @@ export function showNode(node, boolean) {
  * */
 export function setState(node, state) {
     node.setAttribute('data-state', state);
+}
+
+
+/**
+ * Get state.
+ *
+ * @description This function will get the state of an HTML element
+ * given in the parameters.
+ *
+ * @param {HTMLElement} node - HTML element.
+ *
+ * @return {string}
+ * */
+export function getState(node) {
+    return node.getAttribute('data-state');
 }
 
 

@@ -25,9 +25,16 @@ export class GoogleMap extends HTMLElement {
     static rsc(){
         return {
             id: {},
-            class: {},
+            class: {
+                googleMap: 'card card-white',
+                p: {
+                    loadingStatus: 'm-0',
+                },
+            },
             attribute: {
-
+                googleMap: {
+                    target: 'data-target',
+                },
                 script: {
                     async: 'async',
                     defer: 'defer',
@@ -35,10 +42,16 @@ export class GoogleMap extends HTMLElement {
             },
             link: {
                 script: {
-                    googleMapAPI: 'https://maps.googleapis.com/maps/api/js?key=AIzaSyC_EHwnT0KkbVII_FK5y7fxazu_WfLTJBU&callback=initMap',
+                    googleMapAPI: functionName => {
+                        return 'https://maps.googleapis.com/maps/api/js?key=AIzaSyC_EHwnT0KkbVII_FK5y7fxazu_WfLTJBU&callback=' + functionName;
+                    },
                 },
             },
-            text: {}
+            text: {
+                p: {
+                    loadingStatus: 'Lastar data frå Google Maps ...',
+                },
+            }
         }
     }
 
@@ -50,7 +63,7 @@ export class GoogleMap extends HTMLElement {
      * @static
      * */
     static get observedAttributes(){
-
+        return Object.values(GoogleMap.rsc().attribute.googleMap);
     }
 
 
@@ -59,8 +72,10 @@ export class GoogleMap extends HTMLElement {
     /**
      * Attribute Changes Callback
      * */
-    attributeChangedCallback(){
-
+    attributeChangedCallback(attributeName, oldValue, newValue){
+        if (attributeName === GoogleMap.rsc().attribute.googleMap.target) {
+            this._target = (oldValue !== newValue) ? newValue : oldValue;
+        }
     }
 
 
@@ -69,7 +84,15 @@ export class GoogleMap extends HTMLElement {
     /**
      * Build
      * */
-    build(){}
+    build(){
+
+        this._coordinates = {lat: null, lng: null};
+
+        this.setAttribute('class', GoogleMap.rsc().class.googleMap);
+
+        this._p_loadingStatus = GoogleMap.element().p.loadingStatus(GoogleMap.rsc().text.p.loadingStatus);
+
+    }
 
 
 
@@ -94,7 +117,31 @@ export class GoogleMap extends HTMLElement {
      * Element
      * @static
      * */
-    static element(){}
+    static element(){
+        return {
+            p: {
+                loadingStatus: (text) => {
+                    const elem = x.makeElement('p');
+                    elem.setAttribute('class', GoogleMap.rsc().class.p.loadingStatus);
+                    elem.innerText = text;
+                    return elem;
+                },
+            },
+            script: {
+                googleMaps: () => {
+                    const elem = x.makeElement('script');
+                    elem.setAttribute(GoogleMap.rsc().attribute.script.async,'');
+                    elem.setAttribute(GoogleMap.rsc().attribute.script.defer,'');
+                    elem.src = GoogleMap.rsc().link.script.googleMapAPI('initMap');
+                },
+                initMap: (content) => {
+                    const elem = x.makeElement('script');
+                    elem.innerHTML = content;
+                    return elem;
+                },
+            },
+        }
+    }
 
 
 
@@ -104,5 +151,47 @@ export class GoogleMap extends HTMLElement {
      * @static
      * */
     static ev(){}
+
+
+
+
+    /**
+     * Get Coordinates
+     * */
+    static getCoordinates(obj, callback){
+        window.navigator.geolocation.getCurrentPosition( location => {
+            obj._coordinates.lat = location.coords.latitude;
+            obj._coordinates.lng = location.coords.longitude;
+            callback();
+        });
+    }
+
+
+
+
+    /**
+     * Create Google Map
+     * */
+    createGoogleMap(){
+
+
+    }
+
+
+
+
+    /**
+     * Function
+     * */
+    static function(){
+
+        function initMap(){
+            const a = document.getElementsByTagName('google-maps')[0];
+            a.createGoogleMap();
+        }
+
+        return initMap.toString();
+
+    }
 
 }

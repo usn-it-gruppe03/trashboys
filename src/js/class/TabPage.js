@@ -376,7 +376,7 @@ export class TabPage extends HTMLElement {
                 return 'i går';
             else
                 // * Return value.
-                return Math.abs(Math.ceil(daysLeft)) + ' dager siden';
+                return Math.abs(Math.ceil(daysLeft)) + ' dagar siden';
 
         // ? If waste collection date is today.
         } else if (today) {
@@ -390,10 +390,10 @@ export class TabPage extends HTMLElement {
             // ? If waste collection is tomorrow.
             if ( Math.floor(daysLeft) === 0)
                 // * Return value.
-                return 'i morgen';
+                return 'i morgon';
             else
                 // * Return value.
-                return Math.abs(Math.ceil(daysLeft)) + ' dager til';
+                return Math.abs(Math.ceil(daysLeft)) + ' dagar til';
 
         }
 

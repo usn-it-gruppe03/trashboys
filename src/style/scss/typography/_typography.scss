@@ -8,7 +8,7 @@
 
 
 // Heading 1
-h1{
+%h1{
   font-family: #{get('font.h1.family')};
   font-size: get('font.h1.size');
   font-weight: get('font.h1.weight');
@@ -19,12 +19,13 @@ h1{
   text-align: get('font.h1.text-align');
   color: get('font.h1.color');
 }
+h1{@extend %h1}
 
 
 
 
 // Heading 2
-h2{
+%h2{
   font-family: #{get('font.h2.family')};
   font-size: get('font.h2.size');
   font-weight: get('font.h2.weight');
@@ -35,12 +36,13 @@ h2{
   text-align: get('font.h2.text-align');
   color: get('font.h2.color');
 }
+h2{@extend %h2}
 
 
 
 
 // Heading 3
-h3{
+%h3{
   font-family: #{get('font.h3.family')};
   font-size: get('font.h3.size');
   font-weight: get('font.h3.weight');
@@ -51,12 +53,13 @@ h3{
   text-align: get('font.h3.text-align');
   color: get('font.h3.color');
 }
+h3{@extend %h3}
 
 
 
 
 // Heading 4
-h4{
+%h4{
   font-family: #{get('font.h4.family')};
   font-size: get('font.h4.size');
   font-weight: get('font.h4.weight');
@@ -67,12 +70,13 @@ h4{
   text-align: get('font.h4.text-align');
   color: get('font.h4.color');
 }
+h4{@extend %h4}
 
 
 
 
 // Heading 5
-h5{
+%h5{
   font-family: #{get('font.h5.family')};
   font-size: get('font.h5.size');
   font-weight: get('font.h5.weight');
@@ -83,12 +87,13 @@ h5{
   text-align: get('font.h5.text-align');
   color: get('font.h5.color');
 }
+h5{@extend %h5}
 
 
 
 
 // Heading 6
-h6{
+%h6{
   font-family: #{get('font.h6.family')};
   font-size: get('font.h6.size');
   font-weight: get('font.h6.weight');
@@ -99,12 +104,13 @@ h6{
   text-align: get('font.h6.text-align');
   color: get('font.h6.color');
 }
+h6{@extend %h6}
 
 
 
 
 // Paragraph
-p{
+%p{
   font-family: #{get('font.p.family')};
   font-size: get('font.p.size');
   font-weight: get('font.p.weight');
@@ -115,3 +121,4 @@ p{
   text-align: get('font.p.text-align');
   color: get('font.p.color');
 }
+p{@extend %p}
