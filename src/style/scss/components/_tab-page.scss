@@ -8,19 +8,40 @@ tab-page{
   @extend %flex-column-center-center;
   width: 100%;
 
-  #tab-title{
+  .tab-title{
     font-size: 1.6rem;
     margin: 0;
     color: get('dark', $colors);
   }
 
-  #tab-date{
+  .tab-date{
     font-size: 1.4rem;
     margin: 0 0 1rem 0;
   }
 
-  #tab-category{
-    font-size: 1.4rem;
-    margin: 1rem 0 0 0;
+  .tab-days-left{
+    font-size: get('font.h4.size');
+    margin-bottom: 1rem;
   }
+
+  .tab-category-container{
+    @extend %flex-row;
+    @include flex-wrap(nowrap);
+    @include justify-content(center);
+    //width: 100%;
+    margin: 1rem 0;
+
+    .waste-icon{
+      width: 3rem;
+      height: 4rem;
+      margin-right: 1rem;
+    }
+
+    .tab-category{
+      font-size: 1.4rem;
+      margin: 1rem 0 0 0;
+    }
+
+  }
+
 }

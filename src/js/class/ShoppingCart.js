@@ -1,6 +1,7 @@
 import {ProductItem} from "./ProductItem.js";
 import * as x from '../function/global/functions.js';
 import {ProfileBadge} from "./ProfileBadge.js";
+import {ModalWindow} from "./ModalWindow.js";
 
 
 /**
@@ -52,6 +53,16 @@ export class ShoppingCart extends HTMLElement {
             ajax: {
                 sendOrder: {
                     file: 'src/php/ajax/register_order.php',
+                },
+                orderDetail: {
+                    customer: {
+                        query: {},
+                        file: 'src/php/ajax/get_order_customer.php',
+                    },
+                    product: {
+                        query: {},
+                        file: 'src/php/ajax/get_order_product.php',
+                    }
                 },
             },
             ev: {
@@ -236,6 +247,14 @@ export class ShoppingCart extends HTMLElement {
 
                         const userID = ProfileBadge.getUserID();
 
+                        /*const modal = new ModalWindow(
+                            document.getElementById('page-shop'),
+                            'Ordre',
+                            [x.makeElement('p','Sender ordre ...')],
+                            [],
+                            false
+                        );*/
+
                         let jsonArray = [];
                         const productArray = ShoppingCart.getProducts();
                         for (let i=0; i<productArray.length; i++){
@@ -251,7 +270,22 @@ export class ShoppingCart extends HTMLElement {
                             jsonArray,
                             ShoppingCart.rsc().ajax.sendOrder.file,
                             (responseText) => {
+
                                 x.cout(responseText, 'danger');
+
+                                // ? If response returns as true
+                                if (responseText.toLowerCase().match(/true;/g)){
+
+                                    x.cout('Success', 'success');
+                                    const orderID = parseInt(responseText.split(';')[1]);
+
+
+                                } else if (responseText.toLowerCase() === 'false'){
+
+                                    x.cout('Fail', 'danger');
+
+                                }
+
                             }
                         );
 
@@ -437,7 +471,10 @@ export class ShoppingCart extends HTMLElement {
                 ShoppingCart.setProductData(elem).category(category);
                 ShoppingCart.setProductData(elem).quantity(quantity);
                 return elem;
-            }
+            },
+            orderModal: (title, contentArray, buttonArray, jsonArray) => {
+
+            },
         }
     }
 

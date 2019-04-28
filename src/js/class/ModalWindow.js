@@ -9,14 +9,23 @@ export class ModalWindow {
     /**
      * Constructor
      *
+     * @param {HTMLElement} parentNode - The node in which to append.
      * @param {string} title - The window title.
-     * @param {HTMLElement} content - The content.
-     * @param {array} buttons - An array of button elements.
+     * @param {array} contentArray - The content.
+     * @param {array} buttonArray - An array of button elements.
+     * @param {boolean} addCloseButton - Whether the modal shall have a close button.
      * */
-    constructor(title,content,buttons){
+    constructor(parentNode,title,contentArray,buttonArray,addCloseButton){
+
+        this._parentNode = parentNode;
         this._title = title;
-        this._content = content;
-        this._buttons = buttons;
+        this._contentArray = contentArray;
+        this._buttonArray = (buttonArray.length > 0) ? buttonArray : null;
+        this._addCloseButton = addCloseButton;
+
+        this.build(() => {
+            this.render();
+        });
     }
 
 
@@ -44,7 +53,7 @@ export class ModalWindow {
     /**
      * Build
      * */
-    build(){
+    build(callback){
 
         // * Create elements:
         this._modalWindow = x.makeElement('modal-window');
@@ -61,7 +70,10 @@ export class ModalWindow {
 
         // * Add content:
         this._div_modalTitle.innerText = this._title;
-        this._div_modalContent.append(this._content);
+
+        for (let i=0; i<this._contentArray.length; i++){
+            this._div_modalContent.append(this._contentArray[0]);
+        }
 
 
         // * Append nodes:
@@ -71,8 +83,17 @@ export class ModalWindow {
         );
 
         // Add buttons.
-        for (let i=0; i<this._buttons.length; i++){
-            this._div_modalBox.append(this._buttons[i]);
+        if (this._buttonArray !== null){
+            for (let i=0; i<this._buttonArray.length; i++){
+                this._div_modalBox.append(this._buttonArray[i]);
+            }
+        }
+
+        // ? If close button is enabled.
+        if (this._addCloseButton){
+            this._div_modalBox.append(
+                ModalWindow.element(this).button.close()
+            );
         }
 
         // Overwrite connected callback.
@@ -82,7 +103,10 @@ export class ModalWindow {
             }
         };
 
+        // Append nodes.
         this._modalWindow.append(this._div_modalBox);
+
+        callback();
 
     }
 
@@ -93,8 +117,63 @@ export class ModalWindow {
      * Render
      * */
     render(){
-        const body = document.querySelector('body');
-        body.append(this._modalWindow);
+        this._parentNode.append(this._modalWindow);
+    }
+
+
+
+
+    /**
+     * Element
+     * */
+    static element(object){
+        return {
+            button: {
+                close: () => {
+                    const elem = x.makeElement('button', 'Lukk');
+                    elem.setAttribute('class', 'btn btn-clay fx-3d-clay');
+                    elem.addEventListener(
+                        ModalWindow.ev(object).button.close.click().type,
+                        ModalWindow.ev(object).button.close.click().listener
+                    );
+                    return elem;
+                }
+            }
+        }
+    }
+
+
+
+
+    /**
+     * EventListener
+     * */
+    static ev(object){
+        return {
+            button: {
+                close: {
+                    click: () => {
+                        return {
+                            type: 'click',
+                            listener: event => {
+                                x.deleteElement(object);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+
+
+    /**
+     * Get Element
+     * @return {HTMLElement}
+     * */
+    get getElement(){
+        return this._modalWindow;
     }
 
 }

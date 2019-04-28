@@ -25,6 +25,8 @@
 
 
 // ** Text color **
+
+// Custom colors:
 .text-green{
   color: get('green', $colors) !important;
 }
@@ -69,6 +71,26 @@
 }
 .text-black{
   color: black;
+}
+
+// Bootstrap Colors:
+.text-primary{
+  color: get('color.primary', $bootstrap) !important;
+}
+.text-secondary{
+  color: get('color.secondary', $bootstrap) !important;
+}
+.text-success{
+  color: get('color.success', $bootstrap) !important;
+}
+.text-danger{
+  color: get('color.danger', $bootstrap) !important;
+}
+.text-warning{
+  color: get('color.warning', $bootstrap) !important;
+}
+.text-info{
+  color: get('color.info', $bootstrap) !important;
 }
 
 

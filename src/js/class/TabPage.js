@@ -28,8 +28,7 @@ export class TabPage extends HTMLElement {
     connectedCallback(){
         if (this.isConnected){
             x.componentLoadedMessage(this);
-            this.harvestAttributes();
-            this.update();
+            this.render();
         }
     }
 
@@ -54,14 +53,13 @@ export class TabPage extends HTMLElement {
     attributeChangedCallback(name, oldValue, newValue){
 
         // * Process new input values.
-        switch (name) {
-            case TabPage.rsc().attribute.category:
-                this._category = (oldValue !== newValue) ? newValue : oldValue;
-                break;
+        if (name === TabPage.rsc().attribute.category){
+            this._category = (oldValue !== newValue) ? newValue : oldValue;
+
+            // * Update.
+            this.update();
         }
 
-        // * Update.
-        this.update();
     }
 
 
@@ -102,24 +100,15 @@ export class TabPage extends HTMLElement {
                     return '?id=' + id;
                 },
                 file: 'src/php/ajax/get_collection_date.php',
+            },
+            icon: {
+                organic:    {id: 1, url: 'src/media/img/icon/waste/organic.svg'},
+                paper:      {id: 2, url: 'src/media/img/icon/waste/paper.svg'},
+                residual:   {id: 3, url: 'src/media/img/icon/waste/residual.svg'},
+                plastic:    {id: 4, url: 'src/media/img/icon/waste/plastic.svg'},
+                hazardous:  {id: 5, url: 'src/media/img/icon/waste/hazardous.svg'},
             }
         }
-    }
-
-
-
-
-    /**
-     * Harvest Attributes
-     * */
-    harvestAttributes(){
-
-        // * Waste categoryIndex:
-        // ? If the waste categoryIndex attribute is defined.
-        if (x.attrDefined(this, TabPage.rsc().attribute.category))
-            this._category = this.getAttribute(TabPage.rsc().attribute.category);
-        else this._category = TabPage.fallback().category;
-
     }
 
 
@@ -131,32 +120,46 @@ export class TabPage extends HTMLElement {
     build(){
 
         // * Create title element.
-        let title = document.createElement('h2');
-        title.innerText = TabPage.rsc().text.header;
-        title.setAttribute(
-            'id', TabPage.rsc().id.title
+        this._title = x.makeElement('h2');
+        this._title.innerText = TabPage.rsc().text.header;
+        this._title.setAttribute(
+            'class', TabPage.rsc().id.title
         );
 
         // * Create date element.
-        this._p_collectionDate = document.createElement('p');
+        this._p_collectionDate = x.makeElement('p');
         this._p_collectionDate.setAttribute(
-            'id', TabPage.rsc().id.date
+            'class', TabPage.rsc().id.date
         );
 
-        // * Create progress bar element.
-        this._progressBar = document.createElement('progress-bar');
+        // * Days left element.
+        this._daysLeft = x.makeElement('div');
+        this._daysLeft.setAttribute('class', 'tab-days-left');
+
+        // * Create category container.
+        this._categoryContainer = x.makeElement('div');
+        this._categoryContainer.setAttribute('class', 'tab-category-container');
+
+        // * Create waste category icon.
+        this._wasteIcon = x.makeElement('img');
+        this._wasteIcon.setAttribute('class', 'waste-icon');
 
         // * Create category element.
-        this._p_category = document.createElement('p');
-        this._p_category.setAttribute('id', 'tab-category');
+        this._p_category = x.makeElement('div');
+        this._p_category.setAttribute('class', 'tab-category');
 
-        // * Append child nodes to this object.
-        this.append(
-            title,
-            this._p_collectionDate,
-            this._progressBar,
-            this._p_category
-        );
+        // * Append nodes:
+        this._categoryContainer.append(this._wasteIcon, this._p_category);
+
+    }
+
+
+
+
+    /**
+     * Update
+     * */
+    update(){
 
         this.getCollectionDate(() => {
 
@@ -177,10 +180,18 @@ export class TabPage extends HTMLElement {
             let text = TabPage.relTimeDesc(days);
 
             // Set attributes.
-            this._progressBar.setAttribute('data-text', text);
-            this._progressBar.setAttribute('data-percent', percent.toString());
+            this._daysLeft.innerText = text;
+            if (days < 1){
+                this._daysLeft.classList.add('text-danger');
+            } else if (days > 1 && days <= 3) {
+                this._daysLeft.classList.add('text-warning');
+            } else this._daysLeft.classList.add('text-green');
 
         });
+
+        // * Update category.
+        x.cout(this._category);
+        this._p_category.innerText = this._category;
 
     }
 
@@ -188,12 +199,16 @@ export class TabPage extends HTMLElement {
 
 
     /**
-     * Update
+     * Render
      * */
-    update(){
+    render(){
 
-        // * Update category.
-        this._p_category.innerText = TabPage.rsc().text.category + this._category;
+        this.append(
+            this._categoryContainer,
+            this._title,
+            this._p_collectionDate,
+            this._daysLeft,
+        );
 
     }
 
@@ -209,18 +224,23 @@ export class TabPage extends HTMLElement {
             switch (this._category) {
                 case 'Våtorganisk avfall':
                     this._collectionDate = jsonObject[0]['date'];
+                    this._wasteIcon.src = TabPage.rsc().icon.organic.url;
                     break;
                 case 'Papp':
                     this._collectionDate = jsonObject[1]['date'];
+                    this._wasteIcon.src = TabPage.rsc().icon.paper.url;
                     break;
                 case 'Restavfall':
                     this._collectionDate = jsonObject[2]['date'];
+                    this._wasteIcon.src = TabPage.rsc().icon.residual.url;
                     break;
                 case 'Plastemballasje':
                     this._collectionDate = jsonObject[3]['date'];
+                    this._wasteIcon.src = TabPage.rsc().icon.paper.url;
                     break;
                 case 'Farleg avfall':
                     this._collectionDate = jsonObject[4]['date'];
+                    this._wasteIcon.src = TabPage.rsc().icon.hazardous.url;
                     break;
             }
 
@@ -397,6 +417,22 @@ export class TabPage extends HTMLElement {
 
         }
 
+    }
+
+
+
+
+    /**
+     * Get Icon
+     * */
+    static iconFromWasteCatID(id){
+        const icon = Object.values(TabPage.rsc().icon);
+        for (let i=0; i<icon.length; i++){
+            if (icon[i]['id'] === id){
+                return icon[i]['url'];
+            }
+        }
+        return TabPage.rsc().icon.residual.url;
     }
 
 }

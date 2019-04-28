@@ -15,7 +15,7 @@ if (isset($_GET['id'])){
     $mysql = DB::mysqli();
 
     // Init. SQL queries:
-    $sql = 'SELECT WCAT.`name`, WC.`date` ';
+    $sql = 'SELECT WCAT.`name`, WC.`date`, WCAT.`ID` ';
     $sql .= 'FROM `User` AS U, `Address` AS A, `Waste_Collection` AS WC, `Waste_Category` AS WCAT ';
     $sql .= 'WHERE U.`ID` = ? AND U.`address_ID` = A.`ID` AND A.`route_ID` = WC.`route_ID` AND WC.`waste_ID` = WCAT.`ID`;';
 

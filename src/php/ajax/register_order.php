@@ -38,7 +38,7 @@ if($order->isDefined()) {
         }
 
         if($bool === true) {
-            echo 'TRUE';
+            echo 'TRUE:'.$order->getPkID();
         } else {
             echo 'FALSE';
         }
@@ -60,25 +60,12 @@ if($order->isDefined()) {
             }
         }
         if($bool === true) {
-            echo 'TRUE';
+            echo 'TRUE;'.$order->getPkID();
         } else {
             echo 'FALSE';
         }
     }else {
         echo 'FALSE';
     }
-
-}
-
-
-
-// DEBUGGING
-if (is_json($input)){
-
-    echo $input;
-
-} else {
-
-    echo 'Input string is not of JSON type.';
 
 }

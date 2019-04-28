@@ -467,6 +467,16 @@ export function removeChildren(htmlElement, callback) {
 
 
 /**
+ * Delete element
+ * */
+export function deleteElement(node){
+    const newNode = node.cloneNode(true);
+    node.parentElement.replaceChild(newNode,node);
+    newNode.remove();
+}
+
+
+/**
  * Component Loaded Message
  *
  * @description This function will output a standardized
