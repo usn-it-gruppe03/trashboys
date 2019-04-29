@@ -94,7 +94,7 @@
                     </div>
                     <div class="col">
                         <label for="toggle-newsletter">Logg ut</label><br>
-                        <button class="btn btn-clay fx-3d-clay"><a href="src/php/handler/logout.php">Logout</a></button>
+                        <a href="src/php/handler/logout.php"><button class="btn btn-clay fx-3d-clay">Logout</button></a>
                     </div>
                 </div>
             </div>
