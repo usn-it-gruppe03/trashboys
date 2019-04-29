@@ -11,7 +11,7 @@ include_once("DatabaseObject.php");
 class Order_Line extends DatabaseObject
 {
 
-    private $order_ID, $product_ID, $quantity, $price, $productName;
+    private $order_ID, $product_ID, $quantity, $price, $productName, $string;
 
     /**
      * Order_Line constructor.
@@ -85,6 +85,8 @@ class Order_Line extends DatabaseObject
         $mysql->close();
     }
 
+
+
     /**
      * Commit.
      *
@@ -144,6 +146,10 @@ class Order_Line extends DatabaseObject
         $this->setType(self::UNDEFINED);
     }
 
+    public function orderContent(): string {
+
+    }
+
     /**
      * To string.
      *
@@ -153,8 +159,20 @@ class Order_Line extends DatabaseObject
      */
     public function toString(): string
     {
+        $string = '
+                  <tr>
+                    <td>'.$this->getProductName().'</td>
+                    <td>'.$this->getQuantity().'</td>
+                    <td>'.$this->getPrice().'</td>
+                    <td>'.$this->getPrice()*$this->getQuantity().'</td>
+                  </tr>
+                 ';
 
         return $string;
+    }
+
+    public static function productInsert($string) {
+
     }
 
     /**
@@ -236,6 +254,23 @@ class Order_Line extends DatabaseObject
     {
         return $this->productName;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getString()
+    {
+        return $this->string;
+    }
+
+    /**
+     * @param mixed $string
+     */
+    public function setString($string): void
+    {
+        $this->string = $string;
+    }
+
 
 
 }

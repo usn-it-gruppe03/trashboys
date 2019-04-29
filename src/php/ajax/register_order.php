@@ -3,13 +3,16 @@
 require_once '../class/DB.php';
 require_once '../function/global/functions.php';
 
+include_once '../class/Mailer.php';
 require '../class/Order.php';
 require '../class/Order_Line.php';
 
 
 $order = new Order();
 $orderLine = new Order_Line();
+$mailer = new Mailer();
 $bool = false;
+$orderContent = (string)'';
 
 // Set the response header.
 header("Content-type: application/json; charset=utf-8");
@@ -30,7 +33,6 @@ if($order->isDefined()) {
 
             $orderLine->define($order->getPkID(), $id, $quantity);
             if($orderLine->commit()) {
-
                 $bool = true;
             } else {
                 $bool = false;
@@ -39,6 +41,8 @@ if($order->isDefined()) {
 
         if($bool === true) {
             echo 'TRUE:'.$order->getPkID();
+            $emailContent = Mailer::order_email_content($orderContent);
+            $mailer->sendMail($emailContent, 1, 'ovesimonwernersson@gmail.com' );
         } else {
             echo 'FALSE';
         }
@@ -54,6 +58,7 @@ if($order->isDefined()) {
 
             $orderLine->define($order->getPkID(), $id, $quantity);
             if($orderLine->commit()) {
+                $orderContent .= $orderLine->toString();
                 $bool = true;
             } else {
                 $bool = false;
@@ -61,6 +66,11 @@ if($order->isDefined()) {
         }
         if($bool === true) {
             echo 'TRUE;'.$order->getPkID();
+            $order->setEmail();
+            $email = $order->getEmail();
+            $emailContent = Mailer::order_email_content($orderContent);
+            $mailer->sendMail($emailContent, 1, $email);
+
         } else {
             echo 'FALSE';
         }
