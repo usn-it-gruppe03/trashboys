@@ -136,7 +136,7 @@
                         <div class="col">
                             <div class="form-group">
                                 <label for="pass">Skriv inn eit passord</label>
-                                <input type="password" id="pass" name="pass" class="input input-flat" placeholder="Passord" autocomplete="new-password" required>
+                                <input type="password" id="pass" name="pass" class="input input-flat" placeholder="Passord" autocomplete="new-password">
                                 <i class="bullet" id="char">Minst 8 teikn</i>
                                 <i class="bullet" id="num">Minst 1 tal</i>
                                 <i class="bullet" id="special">Minst 1 spesialteikn</i>
@@ -146,7 +146,7 @@
                         <div class="col">
                             <div class="form-group">
                                 <label for="pass-confirm">Bekreft passordet ditt</label>
-                                <input type="password" id="pass-confirm" name="pass-confirm" class="input input-flat" placeholder="Bekreft password" autocomplete="new-password" required>
+                                <input type="password" id="pass-confirm" name="pass-confirm" class="input input-flat" placeholder="Bekreft password" autocomplete="new-password">
                             </div>
                         </div>
                     </div>

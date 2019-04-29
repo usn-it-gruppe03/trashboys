@@ -115,16 +115,16 @@ export class ShoppingCart extends HTMLElement {
 
         // * Add event listeners:
         this.addEventListener(
-            ShoppingCart.ev().addToCart().type,
-            ShoppingCart.ev().addToCart().listener
+            ShoppingCart.ev(this).addToCart().type,
+            ShoppingCart.ev(this).addToCart().listener
         );
         this.addEventListener(
-            ShoppingCart.ev().updateCart().type,
-            ShoppingCart.ev().updateCart().listener
+            ShoppingCart.ev(this).updateCart().type,
+            ShoppingCart.ev(this).updateCart().listener
         );
         this._button_order.addEventListener(
-            ShoppingCart.ev().click_orderBtn().type,
-            ShoppingCart.ev().click_orderBtn().listener
+            ShoppingCart.ev(this).click_orderBtn().type,
+            ShoppingCart.ev(this).click_orderBtn().listener
         );
 
     }
@@ -156,7 +156,7 @@ export class ShoppingCart extends HTMLElement {
     /**
      * EventListeners
      * */
-    static ev(){
+    static ev(object){
         return{
             addToCart: () => {
                 return {
@@ -266,28 +266,31 @@ export class ShoppingCart extends HTMLElement {
                             });
                         }
 
-                        x.ajaxJSON(
-                            jsonArray,
-                            ShoppingCart.rsc().ajax.sendOrder.file,
-                            (responseText) => {
+                        x.removeChildren(object._div_productList, () => {
+                            ShoppingCart.updateCart();
+                            x.ajaxJSON(
+                                jsonArray,
+                                ShoppingCart.rsc().ajax.sendOrder.file,
+                                (responseText) => {
 
-                                x.cout(responseText, 'danger');
+                                    x.cout(responseText, 'danger');
 
-                                // ? If response returns as true
-                                if (responseText.toLowerCase().match(/true;/g)){
+                                    // ? If response returns as true
+                                    if (responseText.toLowerCase().match(/true;/g)){
 
-                                    x.cout('Success', 'success');
-                                    const orderID = parseInt(responseText.split(';')[1]);
+                                        x.cout('Success', 'success');
+                                        const orderID = parseInt(responseText.split(';')[1]);
 
 
-                                } else if (responseText.toLowerCase() === 'false'){
+                                    } else if (responseText.toLowerCase() === 'false'){
 
-                                    x.cout('Fail', 'danger');
+                                        x.cout('Fail', 'danger');
+
+                                    }
 
                                 }
-
-                            }
-                        );
+                            );
+                        });
 
                     }
                 }
