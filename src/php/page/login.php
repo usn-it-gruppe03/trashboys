@@ -1,11 +1,3 @@
-<?php 
-#    $user = new User();
-#
-#    echo $user -> check_user();
-#    if ($user -> is_checked_in()) {
-#        header('location: index.php?p=main');
-#    }    
-?>
 <section>
     <div class="container">
         <div class="card card-green">
