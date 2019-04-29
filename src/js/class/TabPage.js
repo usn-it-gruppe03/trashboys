@@ -236,7 +236,7 @@ export class TabPage extends HTMLElement {
                     break;
                 case 'Plastemballasje':
                     this._collectionDate = jsonObject[3]['date'];
-                    this._wasteIcon.src = TabPage.rsc().icon.paper.url;
+                    this._wasteIcon.src = TabPage.rsc().icon.plastic.url;
                     break;
                 case 'Farleg avfall':
                     this._collectionDate = jsonObject[4]['date'];

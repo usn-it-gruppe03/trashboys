@@ -347,8 +347,6 @@ export class AddressSearch extends HTMLElement {
                             listener: event => {
                                 const self = event.target;
 
-                                x.cout('Street input charlen: ' + self.value.length);
-
                                 // ? If the input value character length is equal to the given value.
                                 if (self.value.length === AddressSearch.rsc().value.MIN_CHAR_LENGTH_SEARCH) {
 
@@ -376,6 +374,7 @@ export class AddressSearch extends HTMLElement {
 
                                     // * Reset all cache arrays:
                                     object._cached_streets.length = 0;
+                                    object._filtered_streets.length = 0;
                                     object._cached_addresses.length = 0;
                                 }
 
@@ -393,6 +392,7 @@ export class AddressSearch extends HTMLElement {
                                 // Clear cache.
                                 object._cached_streets.length = 0;
                                 object._filtered_streets.length = 0;
+                                object._cached_addresses.length = 0;
 
                                 // Search new streets.
                                 AddressSearch.ajax().getStreets(self.value, (jsonObject) => {
