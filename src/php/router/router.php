@@ -44,7 +44,7 @@ if (isset($_GET['p'])) {
             break;
 
         case 'main':
-            #$user->check_user();
+            $user->check_user();
             if ($user->is_checked_in()) {
                 require_once $page . 'main.php';
             }else {
