@@ -24,6 +24,14 @@
 		}
 /*============================================================================================================================================================================*/
 		/*** for registration process ***/
+		/**
+	     * reg_user.
+	     *
+	     * This function shall register a user and add him/her to the database.
+	     *
+	     * @param $houseletter, @param $password, @param $email
+	     * @param $firstname, @param $lastname, @param $streetname, @param $streetnumber
+     	*/
 		public function reg_user($firstname, $lastname, $streetname, $streetnumber, $houseletter, $password, $email){
 			$sql 			= "SELECT ID FROM `User` WHERE email=?";
 			$initialStmt 	= $this->mysqli->prepare($sql);
@@ -91,6 +99,14 @@
 		}
 /*============================================================================================================================================================================*/		
 	/*** for login process ***/
+	/**
+	*
+	* check_login
+	*
+	* This function checks user login and checks the database for corresponding data
+	*
+	* @param $email, @param $password
+	*/
     public function check_login($email, $password){
     	$salt 		= "AfghsdfDFjhkl54w21FGn2gf65bdfzdf";
     	$saltedPw 	= $password . $salt;
@@ -149,6 +165,16 @@
 		}
 	}
 /*============================================================================================================================================================================*/
+	/*** for update process ***/
+	/**
+	*
+	* update
+	*
+	* This function will update users data.
+	*
+	* @param $fname, @param $lname, @param $street, @param $number 
+	* @param $houseletter, @param $email, @param $id, @param $password, @param $password_again
+	*/
 	public function update($fname, $lname, $street, $number, $houseletter, $email, $id, $password, $password_again) {
 
 		$sql_address_id 	= "SELECT `ID` FROM `Address` WHERE `name` = ? AND `house_number` = ? AND `letter` = ?;";
@@ -247,10 +273,28 @@
 	}
 
 /*============================================================================================================================================================================*/
+	/*** generate random string ***/
+	/**
+	*
+	* random_string
+	*
+	* This function generates a random string for cookie data && salt
+	*
+	* @param $length
+	*/
 	public static function random_string($length) {
 		return bin2hex(random_bytes($length));
 	}
 /*============================================================================================================================================================================*/
+	/*** for session data ***/
+	/**
+	*
+	* session_variables
+	*
+	* This function adds the specific users data into session variables for further use
+	*
+	* @param $obj
+	*/
 	public function session_variables($obj) {
 		$_SESSION['login'] 			= true; 
         $_SESSION['id'] 			= $obj->id;
@@ -267,6 +311,15 @@
         $_SESSION['postal_location']= $obj->postal_location; #endring her
 	}
 /*============================================================================================================================================================================*/
+	/*** for session data ***/
+	/**
+	*
+	* update_session_variables
+	*
+	* This function updates the specific users data into session variables for further use
+	*
+	* @param $obj
+	*/
 	public function update_session_variables($obj) {
         $_SESSION['full_name'] 		= $obj->full_name;
         $_SESSION['full_address'] 	= $obj->full_address;
@@ -281,6 +334,14 @@
         $_SESSION['postal_location']= $obj->postal_location;
 	}
 /*============================================================================================================================================================================*/
+	/*** for creating cookies ***/
+	/**
+	*
+	* create_cookie
+	*
+	* This function creates cookies to be used for an auto login purpose
+	*
+	*/
 	public function create_cookie() {
 		$identifier     = $this->random_string(32);
         $securitytoken  = $this->random_string(32);
@@ -295,6 +356,14 @@
         setcookie("securitytoken",$securitytoken,time()+(3600*24*365), "/"); //Valid for 1 year
 	}
 /*============================================================================================================================================================================*/
+	/*** check user login ***/
+	/**
+	*
+	* check_user
+	*
+	* This function checks if the users cookies matches the database cookies and populates session variables while logging the user back in.
+	*
+	*/
 	public function check_user() {
 	
 		if(isset($_COOKIE['identifier']) && isset($_COOKIE['securitytoken'])) {
@@ -350,9 +419,14 @@
 		}
 	}
 /*============================================================================================================================================================================*/	
+	/*** Checks if admin ***/
 	/**
-	 * Returns true if user is admin, else false
-	 */
+	*
+	* is_admin
+	*
+	* Returns true if user is admin, else false
+	*
+	*/
 	function is_admin() {
 		$user_id 	= $this->get_sessionId();
 		$sql 		= "SELECT user_type_ID FROM `User` WHERE ID = ? ";
@@ -478,21 +552,29 @@
 	    return $_SESSION['house_letter'];
 	}
 /*============================================================================================================================================================================*/
-	/*** starting the session ***/
-	public static function get_zip_code(){ #endring her
+	/*** Get user in current sessions zipcode ***/
+	public static function get_zip_code(){
 	    return $_SESSION['zip_code'];
 	}
 /*============================================================================================================================================================================*/
-	/*** starting the session ***/
-	public static function get_postal_location(){ #endring her
+	/*** Get user in current sessions postal location ***/
+	public static function get_postal_location(){
 	    return $_SESSION['postal_location'];
 	}
 /*============================================================================================================================================================================*/
-	/*** starting the session ***/
+	/*** Get user in current sessions id ***/
 	public static function get_sessionId(){
 	    return $_SESSION['id'];
 	}
 /*============================================================================================================================================================================*/
+	/*** for user logout ***/
+	/**
+	*
+	* user_logout
+	*
+	* This function logs the user out
+	*
+	*/
 	public function user_logout() {
 	    $_SESSION['login'] = FALSE;
 		unset($_SESSION);
