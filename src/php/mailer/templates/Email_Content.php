@@ -1099,4 +1099,10 @@ class Email_Content
         return $string;
     }
 
+    public static function reg_user($name) {
+        $string = 'Hei! <b>' . $name . '</b><br>
+                    Velkommen som brukar hos Boskartoteket!';
+        return $string;
+    }
+
 }
