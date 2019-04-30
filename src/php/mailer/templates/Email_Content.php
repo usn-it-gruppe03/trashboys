@@ -1025,7 +1025,7 @@ class Email_Content
                                                         <tr>
                                                             <td class="esd-block-text" align="center">
                                                                 <p>
-                                                                    <font color="#aaaaaa"><b>LINKTILHJEMMESIDE</b></font>
+                                                                    <font color="#aaaaaa"><b><a href="boskartoteket.no">Ta meg til boskartoteket.no</a></b></font>
                                                                 </p>
                                                             </td>
                                                         </tr>
@@ -1091,8 +1091,7 @@ class Email_Content
         return $content;
     }
 
-    public static function reg_not_email($name, $address, $array) {
-        //$outArray = echof($array);
+    public static function reg_not_email($name, $address, $array){
         $string = 'Hei! <b>'.$name.'</b>
                   <br> I morgon hentes bos på din adresse: <b>'.$address. '</b>
                   <br> Det blir henta: <b>' . $array . '</b>';
