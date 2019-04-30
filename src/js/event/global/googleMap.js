@@ -264,6 +264,7 @@ function initSearch(street, number, letter){
 
         // ? If only one address was retrieved.
         if (jsonObject.length === 1){
+            collectionGrid.setAttribute('address-id', jsonObject[0]['ID']);
             deleteElement(googleMapSection);
             collectionGrid.scrollIntoView();
         }
