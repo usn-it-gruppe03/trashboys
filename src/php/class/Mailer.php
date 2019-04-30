@@ -91,7 +91,7 @@ class Mailer
     */
     private function initMail(): void{
         try {
-            $this->mail->SMTPDebug = 2;
+            $this->mail->SMTPDebug = 0;
             $this->mail->isSMTP();
             $this->mail->Host = 'smtp.gmail.com';
             $this->mail->SMTPAuth = true;
