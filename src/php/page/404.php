@@ -1,3 +1,4 @@
+<?php http_response_code(404); ?>
 <section class="h-100 flex-column-center-center">
     <div class="container">
         <div class="card card-white py-4">

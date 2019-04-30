@@ -256,6 +256,11 @@ function initSearch(street, number, letter){
     const collectionGrid = document.querySelector('collection-grid');
 
     searchAddress(street, number, letter, (jsonObject) => {
+        
+        console.log('Test start');
+        console.log('Length: ' + jsonObject.length);
+        console.table(jsonObject);
+        console.log('Test end');
 
         // ? If only one address was retrieved.
         if (jsonObject.length === 1){

@@ -223,8 +223,10 @@ export class MenuBar extends HTMLElement {
 
                                 // ? If shop button is clicked and already active.
                                 if (shopBtnClicked && shopBtnActive){
-                                    // Scroll window to bottom in order to view cart.
-                                    window.scrollTo(0, document.body.scrollHeight);
+
+                                    const shoppingCart = document.querySelector('shopping-cart');
+                                    shoppingCart.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+
                                 }
                             }
                         }

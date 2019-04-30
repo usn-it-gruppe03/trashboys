@@ -48,7 +48,7 @@ if (isset($_GET['p'])) {
             if ($user->is_checked_in()) {
                 require_once $page . 'main.php';
             }else {
-                require_once $page . '404.php';
+                require_once $page . 'access_denied.php';
             }
             break;
 
@@ -64,7 +64,7 @@ if (isset($_GET['p'])) {
             if ($user -> is_checked_in() && $user -> is_admin()) {
                 require_once $page . 'admin_dashboard.php';
             }else {
-                require_once $page . '404.php';   
+                require_once $page . 'access_denied.php';
             }
             break;
 
