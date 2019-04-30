@@ -477,10 +477,16 @@ export class AddressSearch extends HTMLElement {
                                     // Iterate through each array line.
                                     for (let i=0; i<array.length; i++){
 
-                                        // * Append matching street name options.
-                                        self.append(
-                                            AddressSearch.element(object).option(array[i], array[i])
-                                        );
+                                        // ? If street options element has any duplicate values.
+                                        if (!AddressSearch.hasDuplicateOption(self, array[i])) {
+
+                                            // * Append matching street name options.
+                                            self.append(
+                                                AddressSearch.element(object).option(array[i], array[i])
+                                            );
+
+                                        }
+
                                     }
                                 });
 
@@ -512,13 +518,17 @@ export class AddressSearch extends HTMLElement {
 
                                             for (let i=0; i<array.length; i++){
 
-                                                // * Append options.
-                                                self.append(
-                                                    AddressSearch.element(object).option(
-                                                        array[i].id.toString(),
-                                                        array[i].number + ' ' + array[i].letter
-                                                    )
-                                                );
+                                                // ? If house number options element has any duplicate values.
+                                                if (!AddressSearch.hasDuplicateOption(self, array[i].id.toString())){
+
+                                                    // * Append options.
+                                                    self.append(
+                                                        AddressSearch.element(object).option(
+                                                            array[i].id.toString(),
+                                                            array[i].number + ' ' + array[i].letter
+                                                        )
+                                                    );
+                                                }
 
                                             }
 
@@ -653,6 +663,24 @@ export class AddressSearch extends HTMLElement {
             }
         }
         callback(filteredArray);
+    }
+
+
+
+
+    /**
+     * Check duplicate children
+     *
+     * @param {HTMLElement} optionsElement - The options element.
+     * @param {string} value - The string value of the option element.
+     * */
+    static hasDuplicateOption(optionsElement, value){
+        const optionsArray = Array.from(optionsElement.children);
+        for (let i=0; i<optionsArray.length; i++){
+            if (x.getDataValue(optionsArray[i]) === value)
+                return true;
+        }
+        return false;
     }
 
 

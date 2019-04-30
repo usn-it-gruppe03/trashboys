@@ -51,12 +51,14 @@ toggle-switch{
 // State: OFF
 toggle-switch,
 toggle-switch[data-toggle="off"],
-toggle-switch[data-toggle="OFF"]{
+toggle-switch[data-toggle="OFF"],
+toggle-switch[data-toggle="0"]{
   background-color: get('component.toggle-switch.background-color.off');
 }
 // State: ON
 toggle-switch[data-toggle="on"],
-toggle-switch[data-toggle="ON"]{
+toggle-switch[data-toggle="ON"],
+toggle-switch[data-toggle="1"]{
   background-color: get('component.toggle-switch.background-color.on');
 }
 
@@ -68,13 +70,15 @@ toggle-switch[data-toggle="ON"]{
 // State: OFF
 toggle-switch > .toggle-switch-button,
 toggle-switch[data-toggle="off"] > .toggle-switch-button,
-toggle-switch[data-toggle="OFF"] > .toggle-switch-button{
+toggle-switch[data-toggle="OFF"] > .toggle-switch-button,
+toggle-switch[data-toggle="0"] > .toggle-switch-button{
   @include transform(translateX(-($width/4)));
   @include transition(get('component.toggle-switch.transition'));
 }
 // State: ON
 toggle-switch[data-toggle="on"] > .toggle-switch-button,
-toggle-switch[data-toggle="ON"] > .toggle-switch-button{
+toggle-switch[data-toggle="ON"] > .toggle-switch-button,
+toggle-switch[data-toggle="1"] > .toggle-switch-button{
   @include transform(translateX(($width/4)));
   @include transition(get('component.toggle-switch.transition'));
 }

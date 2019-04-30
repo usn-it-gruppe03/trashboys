@@ -32,16 +32,46 @@ function window_onLoad() {
     // TODO: HTML elements (constants).
     const button_orderBags = document.getElementById('order-bags');
     const menuButton_shop = document.getElementById('menu-shop');
+    const input_checkbox_sub = document.getElementById('toggle-notification');
+    const profileBadge = document.querySelector('profile-badge');
 
     // TODO: Define event listener functions.
     function click_menuButton_shop(){
         menuButton_shop.click();
     }
+    function click_toggle(event){
+        const self = event.target;
+        const toggle = parseInt(self.getAttribute('data-toggle'));
+        const id = parseInt(profileBadge.getAttribute('badge-id'));
+
+        updateToggle(id,toggle,(bool) => {
+            let value = '';
+            if (toggle === 1)
+                value = 'on';
+            else if (toggle === 0)
+                value = 'off';
+            x.cout('Toggle changed to ' + value + ': ' + bool.toString());
+        });
+    }
 
     // TODO: Apply event listeners.
     button_orderBags.onclick = click_menuButton_shop;
+    input_checkbox_sub.onclick = click_toggle;
 
     // TODO: Define functions.
+    function updateToggle(id,toggle,callback){
+        const query = (id,toggle) => {return '?id='+id+'&sub='+toggle};
+        const file = 'src/php/ajax/set_subscription.php';
+        x.ajaxFetch(
+            query(id,toggle),
+            file,
+            (rawData) => {
+                if (rawData === 'true'){
+                    callback(true);
+                } else callback(false);
+            }
+        );
+    }
 
     // TODO: Invoke functions.
 
