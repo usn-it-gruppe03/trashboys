@@ -44,8 +44,8 @@ export class ToggleSwitch extends HTMLElement {
      * */
     static values(){
         return {
-            ON: 'on',
-            OFF: 'off',
+            ON: 1,
+            OFF: 0,
         }
     }
 
@@ -71,7 +71,7 @@ export class ToggleSwitch extends HTMLElement {
         switch (attrName) {
             case ToggleSwitch.attributes().toggle:
                 if (oldValue !== newValue){
-                    if (typeof newValue === "string"){
+                    if (typeof newValue === "number"){
                         if (newValue === ToggleSwitch.values().ON)
                             this.toggle = true;
                         else if (newValue === ToggleSwitch.values().OFF)

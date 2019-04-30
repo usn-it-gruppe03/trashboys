@@ -91,7 +91,7 @@
                 <div class="row">
                     <div class="col">
                         <label for="toggle-notification">Aktiver påminningar</label>
-                        <toggle-switch id="toggle-notification" data-toggle="on"></toggle-switch>
+                        <toggle-switch id="toggle-notification" data-toggle="1"></toggle-switch>
                     </div>
                     <div class="col">
                         <label for="toggle-newsletter">Logg ut</label><br>

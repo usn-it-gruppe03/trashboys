@@ -17,14 +17,11 @@ if (isset($_GET['id'],$_GET['sub'])){
 
     // Init. SQL queries:
     $sql = 'UPDATE `User` ';
-    $sql .= 'SET `subscription` = ? ';
-    $sql .= 'WHERE `ID` = ?;';
+    $sql .= 'SET `subscription` = '.$sub.' ';
+    $sql .= 'WHERE `ID` = '.$id.';';
 
     // Prepare statement.
     $stmt = $mysql->prepare($sql);
-
-    // Bind parameter.
-    $stmt->bind_param('ii',$sub, $id);
 
     // ? If execution was successful.
     if ($stmt->execute()){

@@ -41,14 +41,14 @@ function window_onLoad() {
     }
     function click_toggle(event){
         const self = event.target;
-        const toggle = parseInt(self.getAttribute('data-toggle'));
+        const toggle = input_checkbox_sub.getAttribute('data-toggle');
         const id = parseInt(profileBadge.getAttribute('badge-id'));
 
         updateToggle(id,toggle,(bool) => {
             let value = '';
-            if (toggle === 1)
+            if (toggle === '1')
                 value = 'on';
-            else if (toggle === 0)
+            else if (toggle === '0')
                 value = 'off';
             x.cout('Toggle changed to ' + value + ': ' + bool.toString());
         });
@@ -62,13 +62,16 @@ function window_onLoad() {
     function updateToggle(id,toggle,callback){
         const query = (id,toggle) => {return '?id='+id+'&sub='+toggle};
         const file = 'src/php/ajax/set_subscription.php';
+        x.cout(file + query(id,toggle));
         x.ajaxFetch(
             query(id,toggle),
             file,
             (rawData) => {
                 if (rawData === 'true'){
                     callback(true);
-                } else callback(false);
+                } else if (rawData === 'false')
+                    callback(false);
+                else callback(rawData);
             }
         );
     }
