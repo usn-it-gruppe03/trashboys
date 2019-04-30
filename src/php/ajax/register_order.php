@@ -1,11 +1,14 @@
 <?php
+session_start();
 
 require_once '../class/DB.php';
 require_once '../function/global/functions.php';
 
 include_once '../class/Mailer.php';
+include_once '../class/User.php';
 require '../class/Order.php';
 require '../class/Order_Line.php';
+require '../mailer/templates/Email_Content.php';
 
 
 $order = new Order();
@@ -66,9 +69,9 @@ if($order->isDefined()) {
         }
         if($bool === true) {
             echo 'TRUE;'.$order->getPkID();
-            $order->setEmail();
-            $email = $order->getEmail();
-            $emailContent = Mailer::order_email_content($orderContent);
+            $email = User::get_email();
+            $fullName = User::get_full_name();
+            $emailContent = Email_Content::reg_order_email($orderContent, $fullName, $order->getPkID(), User::get_full_address(), date("d/m-Y"));
             $mailer->sendMail($emailContent, 1, $email);
 
         } else {

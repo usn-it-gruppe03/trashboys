@@ -9,7 +9,7 @@
 class Order extends DatabaseObject
 {
 
-    protected $pk_ID, $user_ID, $time, $email;
+    protected $pk_ID, $user_ID, $time;
 
     /**
      * Order constructor.
@@ -158,7 +158,7 @@ class Order extends DatabaseObject
     {
         $mysql = DB::mysqli();
 
-        $sql = "SELECT MAX(ID+1) AS ID FROM `Order` WHERE user_ID = ?;";
+        $sql = "SELECT MAX(ID+1)AS ID FROM `Order` WHERE user_ID = ?;";
 
         $stmt = $mysql->prepare($sql);
         $stmt->bind_param('i', $this->user_ID);
@@ -168,7 +168,7 @@ class Order extends DatabaseObject
             if($res->num_rows > 0)  {
                 $row = $res->fetch_assoc();
                 $this->pk_ID = $row['ID'];
-                $mysql->close();
+
             }else {
                 echo 'No rows to fetch!';
                 $mysql->close();
@@ -218,50 +218,5 @@ class Order extends DatabaseObject
     {
         return $this->user_ID;
     }
-
-    /**
-     * @return mixed
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     *
-     */
-    public function setEmail(): void
-    {
-        $mysql = DB::mysqli();
-        $sql = "SELECT email FROM `User` WHERE ID = ?;";
-
-        $stmt = $mysql->prepare($sql);
-        $uId = $this->getUserID();
-        $stmt->bind_param('i', $uId);
-        if($stmt->execute()) {
-            $res = $stmt->get_result();
-
-            if($res->num_rows === 1)  {
-                $row = $res->fetch_assoc();
-                $this->email = $row['email'];
-                $mysql->close();
-            }else {
-                echo 'No rows to fetch!';
-                $mysql->close();
-            }
-        } else {
-            echo 'Could not execute';
-        }
-
-
-    }
-
-
-
-
-
-
-
-
 
 }

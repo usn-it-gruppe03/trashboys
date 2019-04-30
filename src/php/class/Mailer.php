@@ -74,16 +74,13 @@ class Mailer
                 }
                 $this->mail->Body = $template;
 
-                $this->mail->send();
+               if($this->mail->send()) {
+                   $this->mail->clearAddresses();
+               }
 
             }catch (\Exception $e) {
                 echo 'Could not be sent ' . $this->mail->ErrorInfo;
             }
-    }
-
-
-    private function insertInformation($template): string {
-        return $template;
     }
 
     /**
@@ -127,48 +124,5 @@ class Mailer
         }
 
     }
-    public static function order_email_content($string):string {
-        $content = '
-            <!DOCTYPE html>
-            <html>
-            <head>
-            <style>
-            table {
-              font-family: arial, sans-serif;
-              border-collapse: collapse;
-              width: 100%;
-            }
-            
-            td, th {
-              border: 1px solid #dddddd;
-              text-align: left;
-              padding: 8px;
-            }
-            
-            tr:nth-child(even) {
-              background-color: #dddddd;
-            }
-            </style>
-            </head>
-            <body>
-            <table>
-            <tr>
-                <th>Produkt namn</th>
-                <th>Mengd</th>
-                <th>Pris</th>
-                <th>Sum</th>
-            </tr>
-            
-            '.
-            $string
-            .
-            '
-            </table>
-            </body>
-            </html>
-        ';
-        return $content;
-    }
-
 }
 
