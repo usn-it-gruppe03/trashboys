@@ -50,31 +50,31 @@
 				if ($id == 0) {
 
 					$connect = $this->mysqli;
-					//bind the value of the 1st IN parameter to the session variable @id
+					//bind the value of the 1st IN parameter to the session variable @email
 					$stmt = $connect->prepare("SET @email = ?");
 					$stmt->bind_param('s', $email);
 					$stmt->execute();
-					// bind the value of the 2nd IN parameter to the session variable @id
+					// bind the value of the 2nd IN parameter to the session variable @password
 					$stmt = $connect->prepare("SET @password = ?");
 					$stmt->bind_param('s', $password);
 					$stmt->execute();
-					// bind the value of the 3rd IN parameter to the session variable @id
+					// bind the value of the 3rd IN parameter to the session variable @firstname
 					$stmt = $connect->prepare("SET @firstname = ?");
 					$stmt->bind_param('s', $firstname);
 					$stmt->execute();
-					// bind the value of the 4th IN parameter to the session variable @id
+					// bind the value of the 4th IN parameter to the session variable @lastname
 					$stmt = $connect->prepare("SET @lastname = ?");
 					$stmt->bind_param('s', $lastname);
 					$stmt->execute();
-					// bind the value of the 5th IN parameter to the session variable @id
+					// bind the value of the 5th IN parameter to the session variable @streetname
 					$stmt = $connect->prepare("SET @streetname = ?");
 					$stmt->bind_param('s', $streetname);
 					$stmt->execute();
-					// bind the value of the 6th IN parameter to the session variable @id
+					// bind the value of the 6th IN parameter to the session variable @streetnumber
 					$stmt = $connect->prepare("SET @streetnumber = ?");
 					$stmt->bind_param('s', $streetnumber);
 					$stmt->execute();
-					// bind the value of the 7th IN parameter to the session variable @id
+					// bind the value of the 7th IN parameter to the session variable @houseletter
 					$stmt = $connect->prepare("SET @houseletter = ?");
 					$stmt->bind_param('s', $houseletter);
 					$stmt->execute();
