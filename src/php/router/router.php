@@ -46,7 +46,11 @@ if (isset($_GET['p'])) {
         case 'main':
             $user->check_user();
             if ($user->is_checked_in()) {
-                require_once $page . 'main.php';
+                if ($user -> is_admin()) {
+                    require_once $page . 'admin_dashboard.php';
+                }else {
+                    require_once $page . 'main.php';
+                }
             }else {
                 require_once $page . 'access_denied.php';
             }
@@ -61,11 +65,7 @@ if (isset($_GET['p'])) {
             break;
 
         case 'admin_dashboard':
-            if ($user -> is_checked_in() && $user -> is_admin()) {
-                require_once $page . 'admin_dashboard.php';
-            }else {
-                require_once $page . 'access_denied.php';
-            }
+            require_once $page . 'admin_dashboard.php';
             break;
 
         default:

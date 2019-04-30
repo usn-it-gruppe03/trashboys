@@ -10,6 +10,7 @@
 		private $first_name;
 		private $last_name;
 		private $email;
+		private $slider_value;
 		/*Variables for user address*/
 		private $address_ID;
 		private $street_name;
@@ -565,6 +566,11 @@
 	/*** Get user in current sessions id ***/
 	public static function get_sessionId(){
 	    return $_SESSION['id'];
+	}
+/*============================================================================================================================================================================*/
+	/*** Subscription slider value ***/
+	public static function get_slider_value(){
+	    return $_SESSION['slider_value'] = 1;
 	}
 /*============================================================================================================================================================================*/
 	/*** for user logout ***/
