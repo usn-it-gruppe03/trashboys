@@ -1,4 +1,4 @@
-# MyTrash
+# Boskartoteket
 **Web application for the public renovation service in the municipality of Bø, Norway.**
 
 ## Project description
